@@ -6,6 +6,11 @@ homepage
     margin:0;padding:0;
 }
 
+a {
+    color:#000;
+    text-decoration:none;
+}
+
 body {
     font-family: sans-serif;
 }
@@ -36,7 +41,6 @@ ul.clients li a {
     background:#fbe749;
     display:block;
     position:relative;
-    text-decoration:none;
 }
 
 ul.clients li a p {
@@ -51,4 +55,38 @@ ul.clients li a p {
 ul.clients li#add a {
     background:#fff;
     color:#000;
+}
+
+/*******
+navbar
+********/
+nav {
+    position:fixed;
+    bottom:0;
+    border-top:1px solid #919191;
+}
+nav ul li {
+    float:left;
+    list-style:none;
+}
+nav ul a {
+    display:block;
+    background:#fbe749;
+    height:50px;
+    width:80px;
+    background-repeat:no-repeat;
+    background-size: 40px Auto;
+    background-position:50% 50%;
+}
+#measure {
+    background-image:url('/static/img/tape_measure.png');
+}
+#workout {
+    background-image:url('/static/img/clip.png');
+}
+#progress {
+    background-image:url('/static/img/graph.png');
+}
+#goals {
+    background-image:url('/static/img/trophy.png');
 }
