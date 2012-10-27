@@ -18,9 +18,9 @@ db = SQLAlchemy(app)
 def home():
     return render_template("home.html")
 
-@app.route("/dave")
-def dave():
-    return render_template("dave.html")
+@app.route("/client/<id>")
+def client(id):
+    return render_template("client.html", id=id)
 
 @app.route("/dave")
 def dave():
@@ -28,7 +28,6 @@ def dave():
 
 
 # class Client(db.Model):
-#     pass
 #     id = db.Column(db.Integer, primary_key=True)
 #     firstname = db.Column(db.String(100), unique=True)
 #     lastname = db.Column(db.String(100), unique=True)
@@ -41,7 +40,6 @@ def dave():
 #         return '<Client %r>' % self.firstname
 
 # class Workout(db.Model):
-#     pass
 #     id = db.Column(db.Integer, primary_key=True)
 #     name = db.Column(db.String(100), unique=True)
 
