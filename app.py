@@ -14,9 +14,18 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
 db = SQLAlchemy(app)
 
-@app.route('/')
-def hello():
-    return 'Hello World!'
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+@app.route("/dave")
+def dave():
+    return render_template("dave.html")
+
+@app.route("/dave")
+def dave():
+    return render_template("dave.html")
+
 
 # class Client(db.Model):
 #     pass
@@ -49,4 +58,4 @@ def hello():
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)

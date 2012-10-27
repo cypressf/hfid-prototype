@@ -1,0 +1,54 @@
+/*******
+homepage
+********/
+
+* {
+    margin:0;padding:0;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+ul.clients {
+}
+
+ul.clients li {
+    float:left;
+    list-style:none;
+    text-align:center;
+}
+
+ul.clients li#add {
+    font-size:110px;
+    line-height:1;
+}
+
+ul.clients li img {
+    width:130px;
+    height:130px;
+}
+
+ul.clients li a {
+    width:130px;
+    height:130px;
+    margin:10px;
+    background:#fbe749;
+    display:block;
+    position:relative;
+    text-decoration:none;
+}
+
+ul.clients li a p {
+    color:#fff;
+    background:rgba(0,0,0,.5);
+    position:absolute;
+    width:100%;
+    padding:0.5em 0;
+    bottom:0;
+}
+
+ul.clients li#add a {
+    background:#fff;
+    color:#000;
+}
