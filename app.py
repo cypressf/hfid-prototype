@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from urlparse import urlparse, urljoin
+import uuid
 from sqlalchemy.sql.expression import func, select
 import os
 import random
@@ -27,30 +28,33 @@ def dave():
     return render_template("dave.html")
 
 
-# class Client(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     firstname = db.Column(db.String(100), unique=True)
-#     lastname = db.Column(db.String(100), unique=True)
+class Client(db.Model):
+    __tablename__ = 'Client'
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(100), unique=True)
+    lastname = db.Column(db.String(100), unique=True)
 
-#     def __init__(self, firstname, lastname):
-#         self.firstname = firstname
-#         self.lastname = lastname
+    def __init__(self, firstname, lastname):
+        self.firstname = firstname
+        self.lastname = lastname
 
-#     def __repr__(self):
-#         return '<Client %r>' % self.firstname
+    def __repr__(self):
+        return '<Client %r>' % self.firstname
 
-# class Workout(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), unique=True)
+class Workout(db.Model):
+    __tablename__='Workout'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+    owner = db.relationship('Client')
 
-#     def __init__(self, name):
-#         self.name = name
+    def __init__(self, name):
+        self.name = name
 
-#     def __repr__(self):
-#         return '<Workout %r>' % self.name
+    def __repr__(self):
+        return '<Workout %r>' % self.name
 
-# class Measurement(db.Model):
-#     pass
+class Run(Workout):
+    _
 
 
 if __name__ == '__main__':
