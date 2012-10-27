@@ -75,9 +75,18 @@ nav ul a {
     height:50px;
     width:80px;
     background-repeat:no-repeat;
-    background-size: 40px Auto;
-    background-position:50% 50%;
+    background-size: 30px Auto;
+    background-position:50% 0%;
+    text-align:center;
+    position:relative;
 }
+
+nav ul p {
+    position:absolute;
+    width:100%;
+    bottom:0;
+}
+
 #measure {
     background-image:url('/static/img/tape_measure.png');
 }
