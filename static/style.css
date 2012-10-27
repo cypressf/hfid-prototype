@@ -75,16 +75,18 @@ nav ul a {
     height:50px;
     width:80px;
     background-repeat:no-repeat;
-    background-size: 30px Auto;
+    background-size: auto 35px;
     background-position:50% 0%;
     text-align:center;
     position:relative;
 }
 
 nav ul p {
+    font-size:0.7em;
     position:absolute;
     width:100%;
     bottom:0;
+    padding:0.2em 0;
 }
 
 #measure {
