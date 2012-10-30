@@ -12,11 +12,20 @@ import string
 # Globals
 #################
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
+try:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
+except Exception, e:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://gtfomqcakbtbjc:PqNH-Ltth50qTb6V63gkUJt7uV@ec2-107-21-107-221.compute-1.amazonaws.com:5432/d2n3c81nka07du'
 db = SQLAlchemy(app)
 
 @app.route("/")
 def home():
+    Dave = Client('Dave','Poop')
+    print Dave
+    myrun = Run('myfirstrun')
+    print myrun
+    db.session.add(myrun)
+    db.session.commit()
     return render_template("home.html")
 
 @app.route("/client/<id>")
@@ -41,11 +50,7 @@ class Client(db.Model):
     def __repr__(self):
         return '<Client %r>' % self.firstname
 
-class Workout(db.Model):
-    __tablename__='Workout'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True)
-    owner = db.relationship('Client')
+class Workout(object):
 
     def __init__(self, name):
         self.name = name
@@ -53,8 +58,15 @@ class Workout(db.Model):
     def __repr__(self):
         return '<Workout %r>' % self.name
 
-class Run(Workout):
-    _
+class Run(Workout, db.Model):
+    __tablename__ = 'Run'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+    owner_id = db.Column(db.Integer, db.ForeignKey('Client.id'))
+    owner = db.relationship('Client')
+
+    def __repr__(self):
+        return '<Run %r>' % self.name
 
 
 if __name__ == '__main__':
