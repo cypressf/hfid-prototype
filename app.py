@@ -28,7 +28,7 @@ def home():
     print Dave
     db.session.add(Dave)
     db.session.commit()
-    myrun = Run('myfirstrun',Dave)
+    myrun = Time_Length_Workout('myfirstrun',Dave)
     print myrun
     db.session.add(myrun)
     db.session.commit()
@@ -45,14 +45,14 @@ def dave():
 
 class Client(db.Model):
     __tablename__ = 'clients'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(256), primary_key=True)
     firstname = db.Column(db.String(100), unique=True)
     lastname = db.Column(db.String(100), unique=True)
 
     def __init__(self, firstname, lastname):
         self.firstname = firstname
         self.lastname = lastname
-        self.id = random.randint(0,2**31)
+        self.id = uuid.uuid4().hex
 
     def __repr__(self):
         return '<Client %r>' % self.firstname
@@ -62,7 +62,7 @@ class Workout(object):
     def __init__(self, name,owner):
         self.name = name
         self.owner_id = owner.id
-        self.id = random.randint(0,2**31)
+        self.id = uuid.uuid4().hex
 
     def __repr__(self):
         return '<Workout %r>' % self.name
@@ -73,7 +73,7 @@ class Time_Length_Workout(Workout, db.Model):
     and time. This workout does not implement sets and reps
     """
     __tablename__ = 'time_length_workout'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(256), primary_key=True)
     name = db.Column(db.String(100), unique=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     time = db.Column(postgresql.FLOAT)
