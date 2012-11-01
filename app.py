@@ -17,19 +17,12 @@ try:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
 except Exception, e:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://gtfomqcakbtbjc:PqNH-Ltth50qTb6V63gkUJt7uV@ec2-107-21-107-221.compute-1.amazonaws.com:5432/d2n3c81nka07du'
-    db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 metadata = MetaData()
-db.create_all()
 
 @app.route("/")
 def home():    
     clients = Client.query.all()
-    # print clients
-    # Dave = Client("Dave", "Poop")
-    # db.session.add(Dave)
-    # a_workout = Rep_Set_Workout("Barbell Squats", Dave)
-    # another_workout = Time_Length_Workout("Running", Dave)
-    # db.session.commit()
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
@@ -40,7 +33,8 @@ def client(id):
 @app.route("/client/<id>/workouts")
 def view_all_workouts(id):
     selected_client = Client.query.filter_by(id=id).first()
-    return "fuck off"
+    workouts  = selected_client.workouts()
+    return render_template("workouts.html",workouts=workouts)
 
 class Client(db.Model):
     __tablename__ = 'clients'
@@ -61,45 +55,47 @@ class Client(db.Model):
         this_client_id = self.id
         all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=this_client_id).all()
         all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id).all()
-        workouts = all_time_length_workouts.append(all_rep_set_workouts)
+        all_workouts = []
+        all_workouts = all_time_length_workouts + all_rep_set_workouts
+        return all_workouts
 
-
-class Workout(object):
-
-    def __init__(self, name,owner):
-        self.name = name
-        self.owner_id = owner.id
-
-    def __repr__(self):
-        return '<Workout %r>' % self.name
-
-class Time_Length_Workout(Workout, db.Model):
+class Time_Length_Workout(db.Model):
     """
     represents a workout that is measured through distance
     and time. This workout does not implement sets and reps
     """
     __tablename__ = 'time_length_workout'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True)
+    name = db.Column(db.String(100))
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     time = db.Column(postgresql.FLOAT)
     length = db.Column(postgresql.INTERVAL)
+    date = db.Column(db.DateTime)
+
+    def __init__(self, name,owner):
+        self.name = name
+        self.owner_id = owner.id
 
     def __repr__(self):
         return '<Run %r>' % self.name
 
-class Rep_Set_Workout(Workout, db.Model):
+class Rep_Set_Workout(db.Model):
     """
     represents a workout that is measured through sets and reps.
     Does not incorporate distance or time.
     """
     __tablename__ = 'rep_set_workout'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True)
+    name = db.Column(db.String(100))
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     sets = db.Column(postgresql.ARRAY(Integer))
     reps = db.Column(postgresql.ARRAY(Integer))
     weights = db.Column(postgresql.ARRAY(postgresql.FLOAT))
+    date = db.Column(db.DateTime)
+
+    def __init__(self, name,owner):
+        self.name = name
+        self.owner_id = owner.id
 
     def __repr__(self):
         return '<rep_set_workout` %r>' % self.name
