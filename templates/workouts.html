@@ -2,9 +2,12 @@
 
 {% block content %}
 <header>
-<a href="/" class="ios-arrow-left">all clients</a> <h1>{{ client.firstname }}'s workouts</h1>
+<a href="/" class="ios-arrow-left ios-button">all clients</a> <h1>{{ client.firstname }}'s workouts</h1>
+{% if edit %}
+    <a href="/client/{{ client.id }}/workouts/" id="done" class="ios-button">Done</a>
+{% endif %}
 </header>
-
+{{ edit }}
 <ul class="workouts">
     {% for w in workouts %}
     <li>
