@@ -37,7 +37,7 @@ def client(id):
 def view_all_workouts(id):
     selected_client = Client.query.filter_by(id=id).first()
     client_workouts  = selected_client.workouts()
-    return render_template("workouts.html",workouts=workouts,all_workouts=all_workouts)
+    return render_template("workouts.html",workouts=client_workouts,all_workouts=all_workouts)
 
 
 @app.route("/client/<id>/add_workout")
