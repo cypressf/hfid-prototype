@@ -28,13 +28,12 @@ def home():
 
 @app.route("/client/<id>")
 def client(id):
-    client = Client.query.filter_by(id=id).first() #grab the list of clients by id
+    client = Client.query.filter_by(id=id).first()
     return render_template("client.html", client=client)
 
 @app.route("/client/<id>/workouts")
 def view_all_workouts(id):
-    selected_client_query = Client.query.filter_by(id=id) #grab the list of clients by id
-    selected_client = selected_client_query.first
+    selected_client = Client.query.filter_by(id=id).first()
     return selected_client.workouts()
 
 class Client(db.Model):
