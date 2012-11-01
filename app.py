@@ -24,38 +24,37 @@ metadata = MetaData()
 
 @app.route("/")
 def home():
-    Dave = Client('Dave','Poop')
-    print Dave
-    db.session.add(Dave)
+    
+    clients = Client.query.all()
     db.session.commit()
-    myrun = Time_Length_Workout('myfirstrun',Dave)
-    print myrun
-    db.session.add(myrun)
-    db.session.commit()
-    return render_template("home.html")
+    print clients
+    return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
 def client(id):
-    return render_template("client.html", id=id)
-
-@app.route("/dave")
-def dave():
-    return render_template("dave.html")
-
+    selected_client_query = Client.query.filter_by(id=id) #grab the list of clients by id
+    selected_client = selected_client_query.first() #there should be only one client. Grab the the first anyway.
+    return render_template("client.html", client=selected_client)
 
 class Client(db.Model):
     __tablename__ = 'clients'
     id = db.Column(db.String(256), primary_key=True)
-    firstname = db.Column(db.String(100), unique=True)
-    lastname = db.Column(db.String(100), unique=True)
+    firstname = db.Column(db.String(100))
+    lastname = db.Column(db.String(100))
+    client_picture_uri = db.Column(db.String(256))
 
-    def __init__(self, firstname, lastname):
+    def __init__(self, firstname, lastname, client_picture_uri='img/profile-photo.jpg'):
         self.firstname = firstname
         self.lastname = lastname
         self.id = uuid.uuid4().hex
+        self.client_picture_uri = client_picture_uri
 
     def __repr__(self):
         return '<Client %r>' % self.firstname
+
+    def workouts(self):
+        this_client_id = self.id
+        all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=)
 
 class Workout(object):
 
