@@ -5,6 +5,13 @@
 <a href="/" class="ios-arrow-left">all clients</a> <h1>{{ client.firstname }}'s workouts</h1>
 </header>
 
+{{ workouts }}
+<ul>
+{% for w in workouts %}
+<li>{{w.name}}</li>
+{% endfor %}
+</ul>
+
 <nav>
     <ul>
         <li><a href="" id="measure"><p>Measure</p></a></li>
