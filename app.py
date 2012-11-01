@@ -42,6 +42,11 @@ def view_all_workouts(id):
     selected_client = Client.query.filter_by(id=id).first()
     return "fuck off"
 
+@app.route("/client/<id>/add_workout")
+def add_workout(id):
+    client = Client.query.filter_by(id=id).first()
+    return render_template("add_workout.html", client=client)
+
 class Client(db.Model):
     __tablename__ = 'clients'
     id = db.Column(db.Integer, primary_key=True)
