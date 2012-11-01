@@ -53,8 +53,8 @@ class Client(db.Model):
 
     def workouts(self):
         this_client_id = self.id
-        all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=this_client_id)
-        all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id)
+        all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=this_client_id).all()
+        all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id).all()
         workouts = all_time_length_workouts.append(all_rep_set_workouts)
 
 
@@ -87,7 +87,7 @@ class Rep_Set_Workout(Workout, db.Model):
     represents a workout that is measured through sets and reps.
     Does not incorporate distance or time.
     """
-    __tablename__ = 'WeightLifting'
+    __tablename__ = 'rep_set_workout'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
@@ -96,7 +96,7 @@ class Rep_Set_Workout(Workout, db.Model):
     weights = db.Column(postgresql.ARRAY(postgresql.FLOAT))
 
     def __repr__(self):
-        return '<WeightLifting %r>' % self.name
+        return '<rep_set_workout` %r>' % self.name
 
 
 if __name__ == '__main__':
