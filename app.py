@@ -96,7 +96,7 @@ class Rep_Set_Workout(Workout, db.Model):
     weights = db.Column(postgresql.ARRAY(postgresql.FLOAT))
 
     def __repr__(self):
-        return '<rep_set_workout %r>' % self.name
+        return '<rep_set_workout` %r>' % self.name
 
 
 if __name__ == '__main__':
