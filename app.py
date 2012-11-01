@@ -7,7 +7,7 @@ from sqlalchemy import *
 import os
 import random
 import string
-import datetime
+from datetime import date, datetime
 
 #################
 # Globals
@@ -24,8 +24,15 @@ metadata = MetaData()
 @app.route("/")
 def home():    
     clients = Client.query.all()
-    newguy = Client.query.filter_by(id=8)
-
+    # newguy = Client.query.filter_by(id=6).first()
+    # for i in range(5):
+    #     w1 = Rep_Set_Workout("weight %d" % (i), newguy)
+    #     # w2 = Time_Length_Workout("run %d" % (i), newguy)
+    #     w1.date = random_date();
+    #     # w2.date = random_date();
+    #     print "%s occured on %s" % (w1.name,w1.date)
+    #     db.session.add(w1)
+    #     db.session.commit()
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
@@ -37,7 +44,7 @@ def client(id):
 def view_all_workouts(id):
     selected_client = Client.query.filter_by(id=id).first()
     client_workouts  = selected_client.workouts()
-    return render_template("workouts.html",workouts=client_workouts,all_workouts=all_workouts)
+    return render_template("workouts.html",workouts=client_workouts,all_workouts=all_workouts,client_id = selected_client.id)
 
 
 @app.route("/client/<id>/add_workout")
@@ -115,8 +122,8 @@ class Client(db.Model):
         all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id).all()
         all_workouts = []
         all_workouts = all_time_length_workouts + all_rep_set_workouts
-        #return sorted(all_workouts, key=lambda x: datetime.datetime.strptime(x.date, '%m/%d/%Y'))
-        return all_workouts
+        return sorted(all_workouts, key=lambda x: x.date)
+        
 
 
 class Time_Length_Workout(db.Model):
@@ -180,7 +187,11 @@ class Measurement(db.Model):
     def __repr__(self):
         return '<Measurement %r>' % self.name
 
-
+def random_date():
+    start_date = date.today().replace(day=1, month=1).toordinal()
+    end_date = date.today().toordinal()
+    random_day = date.fromordinal(random.randint(start_date, end_date))
+    return random_day
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.

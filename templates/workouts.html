@@ -4,6 +4,23 @@
         {% for workout in workouts %}
         <li>
             <p class="workout_name">{{ workout.name }}</p>
+            <form onsubmit="add_workout()" id="{{ workout.name }}" method="POST">
+                <input type="hidden" value="{{ client_id }}" />
+                <!-- action="/api/client/{{client_id}}/add_workout" -->
+                <input type="button" name="add_set" value="+" />
+                <div id="set0">
+                <input type="tel" name="reps"  />
+                <input type="tel" name="weight" />
+                </div>
+                <div id="set1">
+                <input type="tel" name="reps"  />
+                <input type="tel" name="weight" />
+                </div>
+                <div id="set2">
+                <input type="tel" name="reps"  />
+                <input type="tel" name="weight" />
+                </div>
+            </form>
         </li>
         {% endfor %}
     </ul>
