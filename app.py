@@ -24,6 +24,11 @@ metadata = MetaData()
 def home():    
     clients = Client.query.all()
     print clients
+    Dave = Client("Dave", "Poop")
+    db.session.add(Dave)
+    a_workout = Rep_Set_Workout("Barbell Squats", Dave)
+    another_workout = Time_Length_Workout("Running", Dave)
+    db.session.commit()
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
