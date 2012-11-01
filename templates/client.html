@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>client id : {{ client.id }}</h1>
+<header>
+<a href="/" class="ios-arrow-left">all clients</a> <h1>{{ client.firstname }}</h1>
+</header>
+
+<ul id="add_somthing">
+<li><a href="{{ request.path }}/add_workout">Add a workout</a></li>
+<li><a href="add_measurement">Add a measurement</a></li>
+</ul>
+
 <nav>
     <ul>
         <li><a href="" id="measure"><p>Measure</p></a></li>
