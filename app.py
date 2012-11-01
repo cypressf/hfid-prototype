@@ -1,14 +1,12 @@
 from flask import Flask, request, redirect, render_template, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from urlparse import urlparse, urljoin
-import uuid
 from sqlalchemy.sql.expression import func, select
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import *
 import os
 import random
 import string
-import uuid
 
 
 #################
@@ -23,28 +21,24 @@ db = SQLAlchemy(app)
 metadata = MetaData()
 
 @app.route("/")
-def home():
-    
+def home():    
     clients = Client.query.all()
-    db.session.commit()
     print clients
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
 def client(id):
-    selected_client_query = Client.query.filter_by(id=id) #grab the list of clients by id
-    selected_client = selected_client_query.first() #there should be only one client. Grab the the first anyway.
-    return render_template("client.html", client=selected_client)
+    client = Client.query.filter_by(id=id).first()
+    return render_template("client.html", client=client)
 
 @app.route("/client/<id>/workouts")
 def view_all_workouts(id):
-    selected_client_query = Client.query.filter_by(id=id) #grab the list of clients by id
-    selected_client = selected_client_query.first()
+    selected_client = Client.query.filter_by(id=id).first()
     return selected_client.workouts()
 
 class Client(db.Model):
     __tablename__ = 'clients'
-    id = db.Column(db.String(256), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(100))
     lastname = db.Column(db.String(100))
     client_picture_uri = db.Column(db.String(256))
@@ -52,7 +46,6 @@ class Client(db.Model):
     def __init__(self, firstname, lastname, client_picture_uri='img/profile-photo.jpg'):
         self.firstname = firstname
         self.lastname = lastname
-        self.id = uuid.uuid4().hex
         self.client_picture_uri = client_picture_uri
 
     def __repr__(self):
@@ -70,7 +63,6 @@ class Workout(object):
     def __init__(self, name,owner):
         self.name = name
         self.owner_id = owner.id
-        self.id = uuid.uuid4().hex
 
     def __repr__(self):
         return '<Workout %r>' % self.name
@@ -81,7 +73,7 @@ class Time_Length_Workout(Workout, db.Model):
     and time. This workout does not implement sets and reps
     """
     __tablename__ = 'time_length_workout'
-    id = db.Column(db.String(256), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     time = db.Column(postgresql.FLOAT)
@@ -95,7 +87,7 @@ class Rep_Set_Workout(Workout, db.Model):
     represents a workout that is measured through sets and reps.
     Does not incorporate distance or time.
     """
-    __tablename__ = 'WeightLifting'
+    __tablename__ = 'rep_set_workout'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
