@@ -40,12 +40,6 @@ def client(id):
     client = Client.query.filter_by(id=id).first()
     return render_template("client.html", client=client)
 
-@app.route("/client/<id>/workouts")
-def view_all_workouts(id):
-    selected_client = Client.query.filter_by(id=id).first()
-    client_workouts  = selected_client.workouts()
-    return render_template("workouts.html",workouts=client_workouts,all_workouts=all_workouts,client = selected_client)
-
 @app.route("/client/<id>/workouts/<edit>")
 def workouts(id, edit):
     if edit == "edit":
