@@ -5,11 +5,19 @@
 <a href="/" class="ios-arrow-left">all clients</a> <h1>{{ client.firstname }}'s workouts</h1>
 </header>
 
-{{ workouts }}
-<ul>
-{% for w in workouts %}
-<li>{{w.name}}</li>
-{% endfor %}
+<ul class="workouts">
+    {% for w in workouts %}
+    <li>
+        <p class="workout_name">{{ w.name }}</p>
+    </li>
+    {% endfor %}
+</ul>
+<ul class="all-workouts">
+    {% for w in all_workouts %}
+    <li>
+        <p class="workout_name">{{ w }}</p>
+    </li>
+    {% endfor %}
 </ul>
 
 <nav>
