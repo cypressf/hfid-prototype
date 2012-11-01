@@ -1,14 +1,12 @@
 from flask import Flask, request, redirect, render_template, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from urlparse import urlparse, urljoin
-import uuid
 from sqlalchemy.sql.expression import func, select
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import *
 import os
 import random
 import string
-import uuid
 
 
 #################
@@ -41,7 +39,7 @@ def view_all_workouts(id):
 
 class Client(db.Model):
     __tablename__ = 'clients'
-    id = db.Column(db.String(256), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(100))
     lastname = db.Column(db.String(100))
     client_picture_uri = db.Column(db.String(256))
@@ -49,7 +47,6 @@ class Client(db.Model):
     def __init__(self, firstname, lastname, client_picture_uri='img/profile-photo.jpg'):
         self.firstname = firstname
         self.lastname = lastname
-        self.id = uuid.uuid4().hex
         self.client_picture_uri = client_picture_uri
 
     def __repr__(self):
@@ -67,7 +64,6 @@ class Workout(object):
     def __init__(self, name,owner):
         self.name = name
         self.owner_id = owner.id
-        self.id = uuid.uuid4().hex
 
     def __repr__(self):
         return '<Workout %r>' % self.name
@@ -78,7 +74,7 @@ class Time_Length_Workout(Workout, db.Model):
     and time. This workout does not implement sets and reps
     """
     __tablename__ = 'time_length_workout'
-    id = db.Column(db.String(256), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     time = db.Column(postgresql.FLOAT)
