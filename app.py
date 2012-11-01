@@ -36,6 +36,12 @@ def client(id):
     selected_client = selected_client_query.first() #there should be only one client. Grab the the first anyway.
     return render_template("client.html", client=selected_client)
 
+@app.route("/client/<id>/workouts")
+def view_all_workouts(id):
+    selected_client_query = Client.query.filter_by(id=id) #grab the list of clients by id
+    selected_client = selected_client_query.first
+    return selected_client.workouts()
+
 class Client(db.Model):
     __tablename__ = 'clients'
     id = db.Column(db.String(256), primary_key=True)
@@ -54,7 +60,10 @@ class Client(db.Model):
 
     def workouts(self):
         this_client_id = self.id
-        all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=)
+        all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=this_client_id)
+        all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id)
+        workouts = all_time_length_workouts.append(all_rep_set_workouts)
+
 
 class Workout(object):
 
@@ -77,12 +86,11 @@ class Time_Length_Workout(Workout, db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     time = db.Column(postgresql.FLOAT)
     length = db.Column(postgresql.INTERVAL)
-    # owner = db.relationship('Client')
 
     def __repr__(self):
         return '<Run %r>' % self.name
 
-class WeightLifting(Workout, db.Model):
+class Rep_Set_Workout(Workout, db.Model):
     """
     represents a workout that is measured through sets and reps.
     Does not incorporate distance or time.
@@ -94,9 +102,6 @@ class WeightLifting(Workout, db.Model):
     sets = db.Column(postgresql.ARRAY(Integer))
     reps = db.Column(postgresql.ARRAY(Integer))
     weights = db.Column(postgresql.ARRAY(postgresql.FLOAT))
-    # owner = db.relationship('Client')
-
-
 
     def __repr__(self):
         return '<WeightLifting %r>' % self.name
