@@ -36,9 +36,9 @@ def client(id):
 @app.route("/client/<id>/workouts/<edit>")
 def workouts(id, edit):
     if edit == "edit":
-        edit = False
-    else:
         edit = True
+    else:
+        edit = False
 
     client = Client.query.filter_by(id=id).first()
     workouts  = client.workouts()
