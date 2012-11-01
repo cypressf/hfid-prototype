@@ -115,7 +115,8 @@ class Client(db.Model):
         all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id).all()
         all_workouts = []
         all_workouts = all_time_length_workouts + all_rep_set_workouts
-        return sorted(all_workouts, key=lambda x: datetime.datetime.strptime(x.date, '%m/%d/%Y'))
+        #return sorted(all_workouts, key=lambda x: datetime.datetime.strptime(x.date, '%m/%d/%Y'))
+        return all_workouts
 
 
 class Time_Length_Workout(db.Model):
