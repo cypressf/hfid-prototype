@@ -30,17 +30,17 @@ def client(id):
     client = Client.query.filter_by(id=id).first()
     return render_template("client.html", client=client)
 
-@app.route("/client/<id>/workouts")
-def view_all_workouts(id):
-    selected_client = Client.query.filter_by(id=id).first()
-    workouts  = selected_client.workouts()
-    return render_template("workouts.html",workouts=workouts)
+@app.route("/client/<id>/workouts/<edit>")
+def workouts(id, edit):
+    if edit == "edit":
+        edit = False
+    else:
+        edit = True
 
-
-@app.route("/client/<id>/add_workout")
-def add_workout(id):
     client = Client.query.filter_by(id=id).first()
-    return render_template("add_workout.html", client=client)
+    workouts  = client.workouts()
+    return render_template("workouts.html",client=client, workouts=workouts, edit=edit)
+
 
 # api
 @app.route("/api/client/<id>/add_workout", methods=['POST'])
