@@ -12,6 +12,7 @@ import datetime
 #################
 # Globals
 #################
+all_workouts = ['Arm Pullover','Chest Fly','Chest Press','Crossover Chest Fly','Decline Chest Fly','Decline Chest Press','Decline Push Up','Incline Chest Fly','Incline Chest Press','Kneeling Single-Arm Chest Fly','Parallel Grip Chest Press','Reverse Grip Chest Press','Reverse Grip Decline Chest Press','Reverse Grip Incline Chest Press','Single Arm Chest Fly','Single Arm Chest Press','Wide Chest Press','Abdominal Crunch','Cable Abdominal Crunch','Cross-body Pull Over Crunch','Incline Sit-Up','Kneeling Torso Twist','Reverse Fly','Shoulder Abduction','Shoulder Shrug','Supine Cross-Body Shoulder ','Forearm Curl','Incline Biceps Curl','Kneeling Biceps Curl','Kneeling Lateral Biceps Curl','Kneeling Reverse Biceps Curl','Lateral Biceps Curl','Preacher Concentration Curl','Preacher Curl','Preacher Reverse Curl','Prone Biceps Curl','Reverse Forearm Curl','Seated Biceps Curl','Seated Concentration Curl','Seated Reverse Biceps Curl','Supine Biceps Curl','Supine Concentration Curl','Supine Reverse Biceps Curl','High Crossover Lat Row','High Lat Row','Kneeling Lat Row','Lat Fly','Lat Pull-Down','Lat Row','Low Back Extension','Low Crossover Lat Row','Parallel Grip Kneeling Lat Row','Parallel Grip Lat Pull-Down','Parallel Grip Lat Row','Pull Up','Reverse Grip Kneeling Lat Row','Reverse Grip Lat Pull-Down','Reverse Grip Lat Row','Reverse Grip Pull Up','Single Arm Lat Row','Single Arm Pull Up','Surfer Lat Pull','Buns-Up Leg Press','Calf Raise','Cardio Pull','Decline Lunge','Hamstring Curl','Hip Abduction','Hip Adduction','Hip Extension','Incline Lunge','Lateral Lunge','Leg Extension','Leg Thrust','Lying Hip Adduction','Plyometric Split Squat','Plyometric Squat','Rowing Machine','Single Leg Calf Raise','Single Leg Side Squat','Skiing','Split Squat','Sprint Squat','Squat','Standing Split Squat','Toes In Squat','Toes Out Squat','Swimmer','Upright Row','Close Grip Chest Press','Kneeling Reverse Triceps Kickback','Kneeling Triceps Kickback','Lateral Triceps Extension','Overhead Triceps Press','Reverse Grip Overhead Triceps','Reverse Grip Triceps Pressdown','Triceps Dip','Triceps Pressdown']
 app = Flask(__name__)
 try:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
@@ -23,6 +24,8 @@ metadata = MetaData()
 @app.route("/")
 def home():    
     clients = Client.query.all()
+    newguy = Client.query.filter_by(id=8)
+
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
@@ -33,8 +36,8 @@ def client(id):
 @app.route("/client/<id>/workouts")
 def view_all_workouts(id):
     selected_client = Client.query.filter_by(id=id).first()
-    workouts  = selected_client.workouts()
-    return render_template("workouts.html",workouts=workouts)
+    client_workouts  = selected_client.workouts()
+    return render_template("workouts.html",workouts=workouts,all_workouts=all_workouts)
 
 
 @app.route("/client/<id>/add_workout")
@@ -112,7 +115,8 @@ class Client(db.Model):
         all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id).all()
         all_workouts = []
         all_workouts = all_time_length_workouts + all_rep_set_workouts
-        return all_workouts
+        return sorted(all_workouts, key=lambda x: datetime.datetime.strptime(x.date, '%m/%d/%Y'))
+
 
 class Time_Length_Workout(db.Model):
     """
@@ -130,6 +134,7 @@ class Time_Length_Workout(db.Model):
     def __init__(self, name,owner):
         self.name = name
         self.owner_id = owner.id
+        self.date = datetime.now()
 
     def __repr__(self):
         return '<Time_Length_Workout %r>' % self.name
@@ -151,6 +156,7 @@ class Rep_Set_Workout(db.Model):
     def __init__(self, name,owner):
         self.name = name
         self.owner_id = owner.id
+        self.date = datetime.now()
 
     def __repr__(self):
         return '<rep_set_workout %r>' % self.name
@@ -172,6 +178,7 @@ class Measurement(db.Model):
 
     def __repr__(self):
         return '<Measurement %r>' % self.name
+
 
 
 if __name__ == '__main__':

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <ul class="workouts">
+        {% for workout in workouts %}
+        <li>
+            <p class="workout_name">{{ workout.name }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    <ul class="all-workouts">
+        {% for sample_workout in all_workouts %}
+        <li>
+            <p class="workout_name">{{ sample_workout }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
