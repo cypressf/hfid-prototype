@@ -23,18 +23,15 @@ db = SQLAlchemy(app)
 metadata = MetaData()
 
 @app.route("/")
-def home():
-    
+def home():    
     clients = Client.query.all()
-    db.session.commit()
     print clients
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
 def client(id):
-    selected_client_query = Client.query.filter_by(id=id) #grab the list of clients by id
-    selected_client = selected_client_query.first() #there should be only one client. Grab the the first anyway.
-    return render_template("client.html", client=selected_client)
+    client = Client.query.filter_by(id=id).first() #grab the list of clients by id
+    return render_template("client.html", client=client)
 
 class Client(db.Model):
     __tablename__ = 'clients'
