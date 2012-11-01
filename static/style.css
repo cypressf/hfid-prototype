@@ -13,6 +13,7 @@ a {
 
 body {
     font-family: sans-serif;
+    margin-bottom:55px;
 }
 
 ul.clients {
@@ -71,7 +72,6 @@ nav ul li {
 }
 nav ul a {
     display:block;
-    background:#fbe749;
     height:50px;
     width:80px;
     background-repeat:no-repeat;
@@ -124,8 +124,20 @@ header a {
 /******************************
 big workout and measure buttons
 *******************************/
-#add_somthing {
-    
+#add_something {
+    height:300px;
+}
+
+
+#add_something li a {
+    display:block;
+    font-size:1.5em;
+    padding:1.5em 0;
+    border:1px solid;
+    border-radius:1em;
+    text-align:center;
+    margin:0.5em;
+    margin-top:35px;
 }
 
 

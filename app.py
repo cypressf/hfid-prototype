@@ -36,8 +36,15 @@ def view_all_workouts(id):
     workouts  = selected_client.workouts()
     return render_template("workouts.html",workouts=workouts)
 
-@app.route("/client/<id>/add_workout",methods=['POST'])
+
+@app.route("/client/<id>/add_workout")
 def add_workout(id):
+    client = Client.query.filter_by(id=id).first()
+    return render_template("add_workout.html", client=client)
+
+# api
+@app.route("/api/client/<id>/add_workout", methods=['POST'])
+def api_add_workout(id):
     client = Client.query.filter_by(id=id).first()
     workout_name = request.form['workout_name']
     workout_type = request.form['workout_type']
@@ -56,7 +63,7 @@ def add_workout(id):
     db.session.commit()
     return 'true'
 
-@app.route("/client/<id>/workout/<wo_id>/edit",methods=['POST'])
+@app.route("/api/client/<id>/workout/<wo_id>/edit", methods=['POST'])
 def edit_workout(id,wo_id):
     workout_type_flag = wo_id[0]
     workout_id = wo_id[1:]
