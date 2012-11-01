@@ -17,9 +17,9 @@ try:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
 except Exception, e:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://gtfomqcakbtbjc:PqNH-Ltth50qTb6V63gkUJt7uV@ec2-107-21-107-221.compute-1.amazonaws.com:5432/d2n3c81nka07du'
-    db = SQLAlchemy(app)
+
+db = SQLAlchemy(app)
 metadata = MetaData()
-db.create_all()
 
 @app.route("/")
 def home():    
