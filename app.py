@@ -46,11 +46,16 @@ def view_all_workouts(id):
     client_workouts  = selected_client.workouts()
     return render_template("workouts.html",workouts=client_workouts,all_workouts=all_workouts,client_id = selected_client.id)
 
-
-@app.route("/client/<id>/add_workout")
-def add_workout(id):
+@app.route("/client/<id>/workouts/<edit>")
+def workouts(id, edit):
+    if edit == "edit":
+        edit = True
+    else:
+        edit = False
     client = Client.query.filter_by(id=id).first()
-    return render_template("add_workout.html", client=client)
+    workouts  = client.workouts()
+    return render_template("workouts.html",client=client, workouts=workouts, all_workouts=all_workouts, edit=edit)
+
 
 # api
 @app.route("/api/client/<id>/add_workout", methods=['POST'])
