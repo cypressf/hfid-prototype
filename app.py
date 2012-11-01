@@ -39,7 +39,7 @@ def client(id):
 @app.route("/client/<id>/workouts")
 def view_all_workouts(id):
     selected_client_query = Client.query.filter_by(id=id) #grab the list of clients by id
-    selected_client = selected_client_query.first
+    selected_client = selected_client_query.first()
     return selected_client.workouts()
 
 class Client(db.Model):
@@ -60,8 +60,8 @@ class Client(db.Model):
 
     def workouts(self):
         this_client_id = self.id
-        all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=this_client_id)
-        all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id)
+        all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=this_client_id).all()
+        all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id).all()
         workouts = all_time_length_workouts.append(all_rep_set_workouts)
 
 
