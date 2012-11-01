@@ -13,7 +13,7 @@
         <li>
             <p class="workout_name">{{ workout.name }}</p>
             <form onsubmit="add_workout()" id="{{ workout.name }}" method="POST">
-                <input type="hidden" value="{{ client_id }}" />
+                <input type="hidden" value="{{ client.id }}" />
                 <!-- action="/api/client/{{client_id}}/add_workout" -->
                 <input type="button" name="add_set" value="+" />
                 <div id="set0">
