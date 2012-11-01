@@ -144,7 +144,7 @@ big workout and measure buttons
     margin-top:35px;
 }
 
-#done {
+#done_workouts, #edit_workouts {
     right:10px;
     left:auto;
 }
