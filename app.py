@@ -7,7 +7,7 @@ from sqlalchemy import *
 import os
 import random
 import string
-
+import datetime
 
 #################
 # Globals
@@ -36,10 +36,53 @@ def view_all_workouts(id):
     workouts  = selected_client.workouts()
     return render_template("workouts.html",workouts=workouts)
 
-@app.route("/client/<id>/add_workout")
+@app.route("/client/<id>/add_workout",methods=['POST'])
 def add_workout(id):
     client = Client.query.filter_by(id=id).first()
-    return render_template("add_workout.html", client=client)
+    workout_name = request.form['workout_name']
+    workout_type = request.form['workout_type']
+    if workout_type == 'time_length_workout':
+        new_workout = Time_Length_Workout(workout_name,client)
+        new_workout.time = request.form['workout_time']
+        new_workout.length = request.form['workout_length']
+    elif workout_type == 'rep_set_workout':
+        new_workout.reps = request.form['reps']
+        new_workout.sets = request.form['sets']
+        new_workout.weights = request.form['weights']
+    else:
+        pass
+    new_workout.date = datetime.now()
+    db.session.add(new_workout)
+    db.session.commit()
+    return 'true'
+
+@app.route("/client/<id>/workout/<wo_id>/edit",methods=['POST'])
+def edit_workout(id,wo_id):
+    workout_type_flag = wo_id[0]
+    workout_id = wo_id[1:]
+    if workout_type_flag == 'r':
+        workout = Rep_Set_Workout.query.filter_by(id=workout_id)
+        reps = request.form['reps']
+        sets = request.form['sets']
+        weights = request.form['weights']
+        workout.update({
+            'reps' : reps,
+            'sets' : sets,
+            'weigts' : weights
+            })
+    elif workout_type_flag == 't':
+        workout = Time_Length_Workout.query.filter_by(id=workout_id)
+        time = request.form['workout_time']
+        length = request.form['workout_length']
+        workout.update({
+            'time' : time,
+            'length' : length
+            })
+    else:
+        pass
+    db.session.commit()
+    return 'true'
+
 
 class Client(db.Model):
     __tablename__ = 'clients'
@@ -82,7 +125,7 @@ class Time_Length_Workout(db.Model):
         self.owner_id = owner.id
 
     def __repr__(self):
-        return '<Run %r>' % self.name
+        return '<Time_Length_Workout %r>' % self.name
 
 class Rep_Set_Workout(db.Model):
     """
@@ -103,7 +146,25 @@ class Rep_Set_Workout(db.Model):
         self.owner_id = owner.id
 
     def __repr__(self):
-        return '<rep_set_workout` %r>' % self.name
+        return '<rep_set_workout %r>' % self.name
+
+class Measurement(db.Model):
+    """
+    Represents a measurement (e.g. waist circumference)
+    """
+    __tablename__ = 'measurements'
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(256))
+    owner_id = db.Column(db.Integer,db.ForeignKey('clients.id'))
+    value = db.Column(postgresql.FLOAT)
+    unit = db.Column(db.String(100))
+
+    def __init__(self, name,owner):
+        self.name = name
+        self.owner_id = owner.id
+
+    def __repr__(self):
+        return '<Measurement %r>' % self.name
 
 
 if __name__ == '__main__':
