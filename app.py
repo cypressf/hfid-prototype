@@ -17,18 +17,19 @@ try:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
 except Exception, e:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://gtfomqcakbtbjc:PqNH-Ltth50qTb6V63gkUJt7uV@ec2-107-21-107-221.compute-1.amazonaws.com:5432/d2n3c81nka07du'
-db = SQLAlchemy(app)
+    db = SQLAlchemy(app)
 metadata = MetaData()
+db.create_all()
 
 @app.route("/")
 def home():    
     clients = Client.query.all()
-    print clients
-    Dave = Client("Dave", "Poop")
-    db.session.add(Dave)
-    a_workout = Rep_Set_Workout("Barbell Squats", Dave)
-    another_workout = Time_Length_Workout("Running", Dave)
-    db.session.commit()
+    # print clients
+    # Dave = Client("Dave", "Poop")
+    # db.session.add(Dave)
+    # a_workout = Rep_Set_Workout("Barbell Squats", Dave)
+    # another_workout = Time_Length_Workout("Running", Dave)
+    # db.session.commit()
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
@@ -39,7 +40,7 @@ def client(id):
 @app.route("/client/<id>/workouts")
 def view_all_workouts(id):
     selected_client = Client.query.filter_by(id=id).first()
-    return selected_client.workouts()
+    return "fuck off"
 
 class Client(db.Model):
     __tablename__ = 'clients'
