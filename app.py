@@ -57,11 +57,12 @@ def api_add_workout(id):
     client = Client.query.filter_by(id=id).first()
     workout_name = request.form['workout_name']
     workout_type = request.form['workout_type']
-    if workout_type == 'time_length_workout':
+    print request.form
+    if workout_type == 'Time_Length_Workout':
         new_workout = Time_Length_Workout(workout_name,client)
         new_workout.time = request.form['workout_time']
         new_workout.length = request.form['workout_length']
-    elif workout_type == 'rep_set_workout':
+    elif workout_type == 'Rep_Set_Workout':
         new_workout.reps = request.form['reps']
         new_workout.sets = request.form['sets']
         new_workout.weights = request.form['weights']
@@ -155,7 +156,7 @@ class Rep_Set_Workout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
-    sets = db.Column(postgresql.ARRAY(Integer))
+    sets = db.Column(db.Integer)
     reps = db.Column(postgresql.ARRAY(Integer))
     weights = db.Column(postgresql.ARRAY(postgresql.FLOAT))
     date = db.Column(db.DateTime)
