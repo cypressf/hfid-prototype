@@ -1,4 +1,9 @@
-// javascript goes here
+// Hide the address bar in mobile safari
+window.addEventListener("load",function() {
+  setTimeout(function(){
+    window.scrollTo(0, 1);
+  }, 0);
+});
 
 function add_workout(sender) {
     outer_div = sender.parentNode;

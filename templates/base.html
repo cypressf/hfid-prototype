@@ -4,73 +4,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script type="text/javascript" src="{{ url_for('static',filename='js.js')}}"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery.js">\x3C/script>')</script>
     <title>Soul Patch App</title>
 </head>
 <body>
-    {% block content %}{% endblock %}
-<script>
-// When ready...
-window.addEventListener("load",function() {
-  // Set a timeout...
-  setTimeout(function(){
-    // Hide the address bar!
-    window.scrollTo(0, 1);
-  }, 0);
-});
-function add_workout(sender) {
-    outer_div = sender.parentNode;
-    workout_name = outer_div.id;
-    var workoutNodes = outer_div.childNodes;
-    var numSets = 0;
-    var reps = [];
-    var weights = [];
-    var time;
-    var length;
-    var client_id;
-    var workout_type;
-    for (var i = 0; i < workoutNodes.length; i++) {
-        var this_node = workoutNodes[i]
-        if (this_node.name === "client_id") {
-            client_id = this_node.value;
-        };
-        if (this_node.name === "workout_type") {
-            workout_type = this_node.value;
-        };
-        if (this_node.tagName === "DIV" && this_node.id !== workout_name) {
-            for (var j = 0; j < this_node.childNodes.length; j++) {
-                var numeric_entry = this_node.childNodes[j];
-                if (numeric_entry.name === "reps") {
-                    reps.push(numeric_entry.value);
-                } else if (numeric_entry.name === "weight") {
-                    weights.push(numeric_entry.value);
-                } else if (numeric_entry.name === "time") {
-                    time = numeric_entry.value;
-                } else if (numeric_entry.name === "length") {
-                    length = numeric_entry.value;
-                }
-            }
-        }
-    }
-    numSets = reps.length
-    post_url = "/api/client/" + client_id + "/add_workout";
-    $.post(post_url,{
-        workout_name: workout_name,
-        workout_type: workout_type,
-        reps: reps.toString(),
-        sets: numSets,
-        weights: weights.toString(),
-        workout_time: time,
-        workout_length: length
-    },
-    function () {console.log("post worked!")},
-    function() {console.log("post did not work")},
-    "json");
-    return;
-}
-</script>
+
+{% block content %}{% endblock %}
+
+<script src="{{ url_for('static',filename='jq.js')}}"></script>
+<script src="{{ url_for('static',filename='js.js')}}"></script>
 </body>
 
 </html>
