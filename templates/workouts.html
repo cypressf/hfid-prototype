@@ -10,6 +10,10 @@
 {% endif %}
 </header>
 {{ edit }}
+    <div class="ui-widget">
+    <label for="tags">Tags: </label>
+    <input id="tags" />
+</div>
     <ul class="workouts">
         {% for workout in workouts %}
         <li>
