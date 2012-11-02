@@ -2,69 +2,35 @@
 
 {% block content %}
 <header>
-<a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s workouts</h1>
-{% if edit %}
-    <a href="/client/{{ client.id }}/workouts/list" id="done_workouts" class="ios-button">Done</a>
-{% else %}
-    <a href="/client/{{ client.id }}/workouts/edit" id="edit_workouts" class="ios-button">Edit</a>
-{% endif %}
+    <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s workouts</h1>
+    {% if edit %}
+        <a href="/client/{{ client.id }}/workouts/list" id="done_workouts" class="ios-button">Done</a>
+    {% else %}
+        <a href="/client/{{ client.id }}/workouts/edit" id="edit_workouts" class="ios-button">Edit</a>
+    {% endif %}
 </header>
-{{ edit }}
-    <ul class="workouts">
-        {% for workout in workouts %}
-        <li>
-            <p class="workout_name">{{ workout.name }}</p>
-            <div id="{{ workout.name }}">
-                <input type="hidden" name="client_id" value="{{ client.id }}" />
-                <input type="hidden" name="workout_type" value="{{ workout.__class__.__name__ }}" />
-                    <input type="button" name="add_set" value="+" />
-                <div id="set0">
-                <input type="tel" name="reps"  />
-                <input type="tel" name="weight" />
-                </div>
-                <div id="set1">
-                <input type="tel" name="reps"  />
-                <input type="tel" name="weight" />
-                </div>
-                <div id="set2">
-                <input type="tel" name="reps"  />
-                <input type="tel" name="weight" />
-                </div>
-                <input type="button" value="add workout" onclick="add_workout(this)" />
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
 
-<ul class="all-workouts">
+    <ul id="workouts">
     {% for w in all_workouts %}
-    <li>
+        <li>
         <p class="workout_name">{{ w[0] }}</p>
-            <div id="{{ w[0] }}">
-                <input type="hidden" name="client_id" value="{{ client.id }}" />
-                <input type="hidden" name="workout_type" value="{{ w[1] }}" />
-                <input type="button" name="add_set" value="+" />
-                {% if w[1] == 'Rep_Set_Workout' %}
-                <div id="set0">
-                <input type="tel" name="reps"  />
-                <input type="tel" name="weight" />
+            <form id="{{ w[0] }}">
+                <input type="hidden" name="client_id" value="{{ client.id }}">
+                <input type="hidden" name="workout_type" value="{{ w[1] }}">
+                <div class="set">
+                    <a class="remove_set">-</a>
+                    <label>
+                        <input type="tel" name="reps">
+                        reps
+                    </label>
+                    <label>
+                        <input type="tel" name="weight">
+                        lbs
+                    </label>
                 </div>
-                <div id="set1">
-                <input type="tel" name="reps"  />
-                <input type="tel" name="weight" />
-                </div>
-                <div id="set2">
-                <input type="tel" name="reps"  />
-                <input type="tel" name="weight" />
-                </div>
-                {% elif w[1] == 'Time_Length_Workout' %}
-                <div id="set0">
-                <input type="tel" name="time"  />
-                <input type="tel" name="length" />
-                </div>
-                {% endif %}
-                <input type="button" value="add workout" onclick="add_workout(this)" />
-            </div>
+                <a class="add_set">Add set</a>
+                <input type="submit" value="Done">
+            </form>
         </li>
     {% endfor %}
 </ul>
