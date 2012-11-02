@@ -43,7 +43,8 @@
             <div id="{{ w[0] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}" />
                 <input type="hidden" name="workout_type" value="{{ w[1] }}" />
-                    <input type="button" name="add_set" value="+" />
+                <input type="button" name="add_set" value="+" />
+                {% if w[1] == 'Rep_Set_Workout' %}
                 <div id="set0">
                 <input type="tel" name="reps"  />
                 <input type="tel" name="weight" />
@@ -56,10 +57,15 @@
                 <input type="tel" name="reps"  />
                 <input type="tel" name="weight" />
                 </div>
+                {% elif w[1] == 'Time_Length_Workout' %}
+                <div id="set0">
+                <input type="tel" name="time"  />
+                <input type="tel" name="length" />
+                </div>
+                {% endif %}
                 <input type="button" value="add workout" onclick="add_workout(this)" />
             </div>
         </li>
-    </li>
     {% endfor %}
 </ul>
 
