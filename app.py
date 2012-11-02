@@ -12,7 +12,7 @@ from datetime import date, datetime
 #################
 # Globals
 #################
-all_workouts = ['Arm Pullover','Chest Fly','Chest Press','Crossover Chest Fly','Decline Chest Fly','Decline Chest Press','Decline Push Up','Incline Chest Fly','Incline Chest Press','Kneeling Single-Arm Chest Fly','Parallel Grip Chest Press','Reverse Grip Chest Press','Reverse Grip Decline Chest Press','Reverse Grip Incline Chest Press','Single Arm Chest Fly','Single Arm Chest Press','Wide Chest Press','Abdominal Crunch','Cable Abdominal Crunch','Cross-body Pull Over Crunch','Incline Sit-Up','Kneeling Torso Twist','Reverse Fly','Shoulder Abduction','Shoulder Shrug','Supine Cross-Body Shoulder ','Forearm Curl','Incline Biceps Curl','Kneeling Biceps Curl','Kneeling Lateral Biceps Curl','Kneeling Reverse Biceps Curl','Lateral Biceps Curl','Preacher Concentration Curl','Preacher Curl','Preacher Reverse Curl','Prone Biceps Curl','Reverse Forearm Curl','Seated Biceps Curl','Seated Concentration Curl','Seated Reverse Biceps Curl','Supine Biceps Curl','Supine Concentration Curl','Supine Reverse Biceps Curl','High Crossover Lat Row','High Lat Row','Kneeling Lat Row','Lat Fly','Lat Pull-Down','Lat Row','Low Back Extension','Low Crossover Lat Row','Parallel Grip Kneeling Lat Row','Parallel Grip Lat Pull-Down','Parallel Grip Lat Row','Pull Up','Reverse Grip Kneeling Lat Row','Reverse Grip Lat Pull-Down','Reverse Grip Lat Row','Reverse Grip Pull Up','Single Arm Lat Row','Single Arm Pull Up','Surfer Lat Pull','Buns-Up Leg Press','Calf Raise','Cardio Pull','Decline Lunge','Hamstring Curl','Hip Abduction','Hip Adduction','Hip Extension','Incline Lunge','Lateral Lunge','Leg Extension','Leg Thrust','Lying Hip Adduction','Plyometric Split Squat','Plyometric Squat','Rowing Machine','Single Leg Calf Raise','Single Leg Side Squat','Skiing','Split Squat','Sprint Squat','Squat','Standing Split Squat','Toes In Squat','Toes Out Squat','Swimmer','Upright Row','Close Grip Chest Press','Kneeling Reverse Triceps Kickback','Kneeling Triceps Kickback','Lateral Triceps Extension','Overhead Triceps Press','Reverse Grip Overhead Triceps','Reverse Grip Triceps Pressdown','Triceps Dip','Triceps Pressdown']
+all_workouts = [('Arm Pullover','Time_Length_Workout'),('Chest Fly','Time_Length_Workout'),('Chest Press','Time_Length_Workout'),('Crossover Chest Fly','Time_Length_Workout'),('Decline Chest Fly','Time_Length_Workout'),('Decline Chest Press','Time_Length_Workout'),('Decline Push Up','Time_Length_Workout'),('Incline Chest Fly','Time_Length_Workout'),('Incline Chest Press','Time_Length_Workout'),('Kneeling Single-Arm Chest Fly','Time_Length_Workout'),('Parallel Grip Chest Press','Time_Length_Workout'),('Reverse Grip Chest Press','Time_Length_Workout'),('Reverse Grip Decline Chest Press','Time_Length_Workout'),('Reverse Grip Incline Chest Press','Time_Length_Workout'),('Single Arm Chest Fly','Time_Length_Workout'),('Single Arm Chest Press','Time_Length_Workout'),('Wide Chest Press','Time_Length_Workout'),('Abdominal Crunch','Time_Length_Workout'),('Cable Abdominal Crunch','Time_Length_Workout'),('Cross-body Pull Over Crunch','Time_Length_Workout'),('Incline Sit-Up','Time_Length_Workout'),('Kneeling Torso Twist','Time_Length_Workout'),('Reverse Fly','Time_Length_Workout'),('Shoulder Abduction','Time_Length_Workout'),('Shoulder Shrug','Time_Length_Workout'),('Supine Cross-Body Shoulder ','Time_Length_Workout'),('Forearm Curl','Time_Length_Workout'),('Incline Biceps Curl','Time_Length_Workout'),('Kneeling Biceps Curl','Time_Length_Workout'),('Kneeling Lateral Biceps Curl','Time_Length_Workout'),('Kneeling Reverse Biceps Curl','Time_Length_Workout'),('Lateral Biceps Curl','Time_Length_Workout'),('Preacher Concentration Curl','Time_Length_Workout'),('Preacher Curl','Time_Length_Workout'),('Preacher Reverse Curl','Time_Length_Workout'),('Prone Biceps Curl','Time_Length_Workout'),('Reverse Forearm Curl','Time_Length_Workout'),('Seated Biceps Curl','Time_Length_Workout'),('Seated Concentration Curl','Time_Length_Workout'),('Seated Reverse Biceps Curl','Time_Length_Workout'),('Supine Biceps Curl','Time_Length_Workout'),('Supine Concentration Curl','Time_Length_Workout'),('Supine Reverse Biceps Curl','Time_Length_Workout'),('High Crossover Lat Row','Time_Length_Workout'),('High Lat Row','Time_Length_Workout'),('Kneeling Lat Row','Time_Length_Workout'),('Lat Fly','Time_Length_Workout'),('Lat Pull-Down','Time_Length_Workout'),('Lat Row','Time_Length_Workout'),('Low Back Extension','Rep_Set_Workout'),('Low Crossover Lat Row','Rep_Set_Workout'),('Parallel Grip Kneeling Lat Row','Rep_Set_Workout'),('Parallel Grip Lat Pull-Down','Rep_Set_Workout'),('Parallel Grip Lat Row','Rep_Set_Workout'),('Pull Up','Rep_Set_Workout'),('Reverse Grip Kneeling Lat Row','Rep_Set_Workout'),('Reverse Grip Lat Pull-Down','Rep_Set_Workout'),('Reverse Grip Lat Row','Rep_Set_Workout'),('Reverse Grip Pull Up','Rep_Set_Workout'),('Single Arm Lat Row','Rep_Set_Workout'),('Single Arm Pull Up','Rep_Set_Workout'),('Surfer Lat Pull','Rep_Set_Workout'),('Buns-Up Leg Press','Rep_Set_Workout'),('Calf Raise','Rep_Set_Workout'),('Cardio Pull','Rep_Set_Workout'),('Decline Lunge','Rep_Set_Workout'),('Hamstring Curl','Rep_Set_Workout'),('Hip Abduction','Rep_Set_Workout'),('Hip Adduction','Rep_Set_Workout'),('Hip Extension','Rep_Set_Workout'),('Incline Lunge','Rep_Set_Workout'),('Lateral Lunge','Rep_Set_Workout'),('Leg Extension','Rep_Set_Workout'),('Leg Thrust','Rep_Set_Workout'),('Lying Hip Adduction','Rep_Set_Workout'),('Plyometric Split Squat','Rep_Set_Workout'),('Plyometric Squat','Rep_Set_Workout'),('Rowing Machine','Rep_Set_Workout'),('Single Leg Calf Raise','Rep_Set_Workout'),('Single Leg Side Squat','Rep_Set_Workout'),('Skiing','Rep_Set_Workout'),('Split Squat','Rep_Set_Workout'),('Sprint Squat','Rep_Set_Workout'),('Squat','Rep_Set_Workout'),('Standing Split Squat','Rep_Set_Workout'),('Toes In Squat','Rep_Set_Workout'),('Toes Out Squat','Rep_Set_Workout'),('Swimmer','Rep_Set_Workout'),('Upright Row','Rep_Set_Workout'),('Close Grip Chest Press','Rep_Set_Workout'),('Kneeling Reverse Triceps Kickback','Rep_Set_Workout'),('Kneeling Triceps Kickback','Rep_Set_Workout'),('Lateral Triceps Extension','Rep_Set_Workout'),('Overhead Triceps Press','Rep_Set_Workout'),('Reverse Grip Overhead Triceps','Rep_Set_Workout'),('Reverse Grip Triceps Pressdown','Rep_Set_Workout'),('Triceps Dip','Rep_Set_Workout'),('Triceps Pressdown','Rep_Set_Workout')]
 app = Flask(__name__)
 try:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
@@ -24,15 +24,6 @@ metadata = MetaData()
 @app.route("/")
 def home():    
     clients = Client.query.all()
-    # newguy = Client.query.filter_by(id=6).first()
-    # for i in range(5):
-    #     w1 = Rep_Set_Workout("weight %d" % (i), newguy)
-    #     # w2 = Time_Length_Workout("run %d" % (i), newguy)
-    #     w1.date = random_date();
-    #     # w2.date = random_date();
-    #     print "%s occured on %s" % (w1.name,w1.date)
-    #     db.session.add(w1)
-    #     db.session.commit()
     return render_template("home.html",clients=clients)
 
 @app.route("/client/<id>")
@@ -47,9 +38,9 @@ def workouts(id, edit):
     else:
         edit = False
     client = Client.query.filter_by(id=id).first()
-    workouts  = client.workouts()
-    return render_template("workouts.html",client=client, workouts=workouts, all_workouts=all_workouts, edit=edit)
-
+    top_workouts  = client.top_workouts()
+    all_workouts_sorted = sorted(all_workouts,key=lambda x: x[0])
+    return render_template("workouts.html",client=client, workouts=top_workouts, all_workouts=all_workouts_sorted, edit=edit)
 
 # api
 @app.route("/api/client/<id>/add_workout", methods=['POST'])
@@ -121,8 +112,14 @@ class Client(db.Model):
         all_workouts = []
         all_workouts = all_time_length_workouts + all_rep_set_workouts
         return sorted(all_workouts, key=lambda x: x.date)
-        
 
+    def top_workouts(self):
+        this_client_id = self.id
+        counts_time_length_workouts = db.session.query(func.count(Time_Length_Workout.id),Time_Length_Workout.name).group_by(Time_Length_Workout.name).all()
+        counts_rep_set_workouts = db.session.query(func.count(Rep_Set_Workout.id),Rep_Set_Workout.name).group_by(Rep_Set_Workout.name).all()
+        counts_workouts = counts_time_length_workouts + counts_rep_set_workouts
+        top_workouts = sorted(counts_workouts, key=lambda x: x[0])
+        return top_workouts[0:3]  
 
 class Time_Length_Workout(db.Model):
     """
