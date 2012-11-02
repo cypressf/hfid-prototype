@@ -57,17 +57,15 @@ def api_add_workout(id):
     client = Client.query.filter_by(id=id).first()
     workout_name = request.form['workout_name']
     workout_type = request.form['workout_type']
-    print request.form
     if workout_type == 'Time_Length_Workout':
         new_workout = Time_Length_Workout(workout_name,client)
         new_workout.time = request.form['workout_time']
         new_workout.length = request.form['workout_length']
-    elif workout_type == 'Rep_Set_Workout':
-        new_workout.reps = request.form['reps']
+    if workout_type == 'Rep_Set_Workout':
+        new_workout = Rep_Set_Workout(workout_name,client)
+        new_workout.reps = [int(x) for x in request.form['reps'].split(',')]
         new_workout.sets = request.form['sets']
-        new_workout.weights = request.form['weights']
-    else:
-        pass
+        new_workout.weights = [float(x) for x in request.form['weights'].split(',')]
     new_workout.date = datetime.now()
     db.session.add(new_workout)
     db.session.commit()
@@ -85,7 +83,7 @@ def edit_workout(id,wo_id):
         workout.update({
             'reps' : reps,
             'sets' : sets,
-            'weigts' : weights
+            'weights' : weights
             })
     elif workout_type_flag == 't':
         workout = Time_Length_Workout.query.filter_by(id=workout_id)

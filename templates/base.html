@@ -65,15 +65,18 @@ function add_workout(sender) {
     }
     console.log(add_workout_info);
     post_url = "/api/client/" + client_id + "/add_workout";
-    $.post(post_url, {
-        "workout_name": workout_name,
-        "workout_type": workout_type,
-        "reps": reps,
-        "sets": numSets,
-        "weights": weights,
-        "workout_time": time,
-        "workout_length": length
-    }, 'JSON');
+    $.post(post_url,{
+        workout_name: workout_name,
+        workout_type: workout_type,
+        reps: reps.toString(),
+        sets: numSets,
+        weights: weights.toString(),
+        workout_time: time,
+        workout_length: length
+    },
+    function () {console.log("post worked!")},
+    function() {console.log("post did not work")},
+    "json");
     return;
 }
 </script>
