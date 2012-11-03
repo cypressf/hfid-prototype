@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, url_for
+from flask import Flask, request, redirect, render_template, url_for, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from urlparse import urlparse, urljoin
 from sqlalchemy.sql.expression import func, select
@@ -13,6 +13,8 @@ from datetime import date, datetime
 # Globals
 #################
 all_workouts = [('Arm Pullover','Time_Length_Workout'),('Chest Fly','Time_Length_Workout'),('Chest Press','Time_Length_Workout'),('Crossover Chest Fly','Time_Length_Workout'),('Decline Chest Fly','Time_Length_Workout'),('Decline Chest Press','Time_Length_Workout'),('Decline Push Up','Time_Length_Workout'),('Incline Chest Fly','Time_Length_Workout'),('Incline Chest Press','Time_Length_Workout'),('Kneeling Single-Arm Chest Fly','Time_Length_Workout'),('Parallel Grip Chest Press','Time_Length_Workout'),('Reverse Grip Chest Press','Time_Length_Workout'),('Reverse Grip Decline Chest Press','Time_Length_Workout'),('Reverse Grip Incline Chest Press','Time_Length_Workout'),('Single Arm Chest Fly','Time_Length_Workout'),('Single Arm Chest Press','Time_Length_Workout'),('Wide Chest Press','Time_Length_Workout'),('Abdominal Crunch','Time_Length_Workout'),('Cable Abdominal Crunch','Time_Length_Workout'),('Cross-body Pull Over Crunch','Time_Length_Workout'),('Incline Sit-Up','Time_Length_Workout'),('Kneeling Torso Twist','Time_Length_Workout'),('Reverse Fly','Time_Length_Workout'),('Shoulder Abduction','Time_Length_Workout'),('Shoulder Shrug','Time_Length_Workout'),('Supine Cross-Body Shoulder ','Time_Length_Workout'),('Forearm Curl','Time_Length_Workout'),('Incline Biceps Curl','Time_Length_Workout'),('Kneeling Biceps Curl','Time_Length_Workout'),('Kneeling Lateral Biceps Curl','Time_Length_Workout'),('Kneeling Reverse Biceps Curl','Time_Length_Workout'),('Lateral Biceps Curl','Time_Length_Workout'),('Preacher Concentration Curl','Time_Length_Workout'),('Preacher Curl','Time_Length_Workout'),('Preacher Reverse Curl','Time_Length_Workout'),('Prone Biceps Curl','Time_Length_Workout'),('Reverse Forearm Curl','Time_Length_Workout'),('Seated Biceps Curl','Time_Length_Workout'),('Seated Concentration Curl','Time_Length_Workout'),('Seated Reverse Biceps Curl','Time_Length_Workout'),('Supine Biceps Curl','Time_Length_Workout'),('Supine Concentration Curl','Time_Length_Workout'),('Supine Reverse Biceps Curl','Time_Length_Workout'),('High Crossover Lat Row','Time_Length_Workout'),('High Lat Row','Time_Length_Workout'),('Kneeling Lat Row','Time_Length_Workout'),('Lat Fly','Time_Length_Workout'),('Lat Pull-Down','Time_Length_Workout'),('Lat Row','Time_Length_Workout'),('Low Back Extension','Rep_Set_Workout'),('Low Crossover Lat Row','Rep_Set_Workout'),('Parallel Grip Kneeling Lat Row','Rep_Set_Workout'),('Parallel Grip Lat Pull-Down','Rep_Set_Workout'),('Parallel Grip Lat Row','Rep_Set_Workout'),('Pull Up','Rep_Set_Workout'),('Reverse Grip Kneeling Lat Row','Rep_Set_Workout'),('Reverse Grip Lat Pull-Down','Rep_Set_Workout'),('Reverse Grip Lat Row','Rep_Set_Workout'),('Reverse Grip Pull Up','Rep_Set_Workout'),('Single Arm Lat Row','Rep_Set_Workout'),('Single Arm Pull Up','Rep_Set_Workout'),('Surfer Lat Pull','Rep_Set_Workout'),('Buns-Up Leg Press','Rep_Set_Workout'),('Calf Raise','Rep_Set_Workout'),('Cardio Pull','Rep_Set_Workout'),('Decline Lunge','Rep_Set_Workout'),('Hamstring Curl','Rep_Set_Workout'),('Hip Abduction','Rep_Set_Workout'),('Hip Adduction','Rep_Set_Workout'),('Hip Extension','Rep_Set_Workout'),('Incline Lunge','Rep_Set_Workout'),('Lateral Lunge','Rep_Set_Workout'),('Leg Extension','Rep_Set_Workout'),('Leg Thrust','Rep_Set_Workout'),('Lying Hip Adduction','Rep_Set_Workout'),('Plyometric Split Squat','Rep_Set_Workout'),('Plyometric Squat','Rep_Set_Workout'),('Rowing Machine','Rep_Set_Workout'),('Single Leg Calf Raise','Rep_Set_Workout'),('Single Leg Side Squat','Rep_Set_Workout'),('Skiing','Rep_Set_Workout'),('Split Squat','Rep_Set_Workout'),('Sprint Squat','Rep_Set_Workout'),('Squat','Rep_Set_Workout'),('Standing Split Squat','Rep_Set_Workout'),('Toes In Squat','Rep_Set_Workout'),('Toes Out Squat','Rep_Set_Workout'),('Swimmer','Rep_Set_Workout'),('Upright Row','Rep_Set_Workout'),('Close Grip Chest Press','Rep_Set_Workout'),('Kneeling Reverse Triceps Kickback','Rep_Set_Workout'),('Kneeling Triceps Kickback','Rep_Set_Workout'),('Lateral Triceps Extension','Rep_Set_Workout'),('Overhead Triceps Press','Rep_Set_Workout'),('Reverse Grip Overhead Triceps','Rep_Set_Workout'),('Reverse Grip Triceps Pressdown','Rep_Set_Workout'),('Triceps Dip','Rep_Set_Workout'),('Triceps Pressdown','Rep_Set_Workout')]
+all_workouts = sorted(all_workouts, key=lambda x: x[0])
+
 stock_measurements = [('Weight','lbs'),('Arms','in'),('Forearms','in'),('Neck','in'),('Chest','in'),('Waist','in'),('Thighs','in'),('Calves','in')]
 app = Flask(__name__)
 try:
@@ -39,29 +41,34 @@ def workouts(id, edit):
     else:
         edit = False
     client = Client.query.filter_by(id=id).first()
+    client_workouts = client.workouts()
     top_workouts  = client.top_workouts()
-    all_workouts_sorted = sorted(all_workouts,key=lambda x: x[0])
-    return render_template("workouts.html",client=client, workouts=top_workouts, all_workouts=all_workouts_sorted, edit=edit)
+    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts, client_workouts = client_workouts, edit=edit)
 
 # api
-@app.route("/api/client/<id>/add_workout", methods=['POST'])
-def api_add_workout(id):
-    client = Client.query.filter_by(id=id).first()
+@app.route("/api/add_workout", methods=['POST'])
+def api_add_workout():
+    print request.form
+    print request.form['client_id']
+    print request.form['workout_name']
+    print request.form['workout_type']
+
+    client = Client.query.filter_by(id=request.form['client_id']).first()
     workout_name = request.form['workout_name']
     workout_type = request.form['workout_type']
     if workout_type == 'Time_Length_Workout':
-        new_workout = Time_Length_Workout(workout_name,client)
-        new_workout.time = request.form['workout_time']
-        new_workout.length = request.form['workout_length']
+        new_workout = Time_Length_Workout(workout_name, client)
+        new_workout.time =  int(request.form["workout_time"])
+        new_workout.length = int(request.form["workout_length"])
     if workout_type == 'Rep_Set_Workout':
-        new_workout = Rep_Set_Workout(workout_name,client)
-        new_workout.reps = [int(x) for x in request.form['reps'].split(',')]
-        new_workout.sets = request.form['sets']
-        new_workout.weights = [float(x) for x in request.form['weights'].split(',')]
+        new_workout = Rep_Set_Workout(workout_name, client)
+        new_workout.reps =  [int(i) for i in request.form.getlist("reps")]
+        new_workout.weights = [int(i) for i in request.form.getlist("weights")]
+        new_workout.sets = len(request.form.getlist("workout_time"))
     new_workout.date = datetime.now()
     db.session.add(new_workout)
     db.session.commit()
-    return 'true'
+    return jsonify(submitted=True)
 
 @app.route("/api/client/<id>/workout/<wo_id>/edit", methods=['POST'])
 def edit_workout(id,wo_id):
