@@ -58,9 +58,9 @@ ul.clients li#add a {
     color:#000;
 }
 
-/*******
-navbar
-********/
+/************
+bottom navbar
+************/
 nav {
     position:fixed;
     bottom:0;
@@ -79,7 +79,8 @@ nav ul a {
     background-position:50% 0%;
     text-align:center;
     position:relative;
-    background-color:#fff;
+    background-color:#5a6e93;
+    color:#fff;
 }
 
 nav ul p {
@@ -91,16 +92,16 @@ nav ul p {
 }
 
 #measure {
-    background-image:url('/static/img/tape_measure.png');
+    background-image:url('/static/img/tape_measure2.png');
 }
 #workout {
-    background-image:url('/static/img/clip.png');
+    background-image:url('/static/img/clip2.png');
 }
 #progress {
-    background-image:url('/static/img/graph.png');
+    background-image:url('/static/img/graph2.png');
 }
 #goals {
-    background-image:url('/static/img/trophy.png');
+    background-image:url('/static/img/trophy2.png');
 }
 
 /*************
