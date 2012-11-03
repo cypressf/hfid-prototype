@@ -15,10 +15,12 @@
         <li>
         <p class="workout_name">{{ w[0] }}</p>
             <form id="{{ w[0] }}">
+                <input type="hidden" name="workout_name" value="{{ w[0] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}">
                 <input type="hidden" name="workout_type" value="{{ w[1] }}">
                 <div class="set">
                     <a class="remove_set">-</a>
+                    {% if w[1] == "Rep_Set_Workout" %}
                     <label>
                         <input type="tel" name="reps">
                         reps
@@ -27,6 +29,17 @@
                         <input type="tel" name="weight">
                         lbs
                     </label>
+                    {% else %}
+                    <label>
+                        <input type="tel" name="workout_time">
+                        hr/min/sec
+                    </label>
+                    <label>
+                        <input type="tel" name="workout_length">
+                        mi
+                    </label>
+                    {% endif %}
+                
                 </div>
                 <a class="add_set">Add set</a>
                 <input type="submit" value="Done">
