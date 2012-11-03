@@ -5,28 +5,38 @@ window.addEventListener("load",function() {
   }, 0);
 });
 
-// attach event listener to clicking workout name
+// event listeners
 $(".workout_name").click(expand_workout);
+$("form").submit(add_workout);
+$(".add_set").click(add_set);
+$("#workouts form").click(remove_set);
 
+
+// show the workout form for a workout
 function expand_workout(){
     $(this).parent().addClass("add");
 }
 
-$("form").submit(add_workout);
 
+// submit the workout to the database
 function add_workout() {
     console.log("submit");
+    // hide the form
     $(this).parent().removeClass("add");
+
+    // submit the data via post
+    var form = $(this).parent().children("form");
+    $.post('/api/add_workout', form.serialize(), function(data) {
+        console.log(data);
+    });
 
     return false;
 }
 
-$(".add_set").click(add_set);
-
 // make another set appear in the form
 function add_set() {
-    el = $(this).parent().children(".set:last");
-    content = "<div class=\"set\">\
+    var el = $(this).parent().children(".set:last");
+    var content = "<div class=\"set\">\
                     <a class=\"remove_set\">-</a>\
                     <label>\
                         <input type=\"tel\" name=\"reps\">\
@@ -40,11 +50,9 @@ function add_set() {
     el.after(content);
 }
 
-$("#workouts form").click(remove_set);
-
 // remove a set
 function remove_set(e) {
-    el = $(e.target);
+    var el = $(e.target);
     if( el.hasClass("remove_set") ) {
         el.parent().remove();
     }
