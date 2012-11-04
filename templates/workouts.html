@@ -14,14 +14,15 @@
     <label for="tags">Tags: </label>
     <input id="tags" />
 </div>
-    <ul class="workouts">
-        {% for workout in workouts %}
+    <ul class="top_workouts">
+        {% for workout in top_workouts %}
         <li>
-            <p class="workout_name">{{ workout.name }}</p>
-            <div id="{{ workout.name }}">
+            <p class="workout_name">{{ workout[1] }}</p>
+            <div id="{{ workout[1] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}" />
-                <input type="hidden" name="workout_type" value="{{ workout.__class__.__name__ }}" />
+                <input type="hidden" name="workout_type" value="{{ workout[2] }}" />
                     <input type="button" name="add_set" value="+" />
+                {% if workout[2] == 'Rep_Set_Workout' %}
                 <div id="set0">
                 <input type="tel" name="reps"  />
                 <input type="tel" name="weight" />
@@ -34,6 +35,12 @@
                 <input type="tel" name="reps"  />
                 <input type="tel" name="weight" />
                 </div>
+                {% elif workout[2   ] == 'Time_Length_Workout' %}
+                <div id="set0">
+                <input type="tel" name="time"  />
+                <input type="tel" name="length" />
+                </div>
+                {% endif %}
                 <input type="button" value="add workout" onclick="add_workout(this)" />
             </div>
         </li>

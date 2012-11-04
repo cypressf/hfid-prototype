@@ -41,19 +41,41 @@ def workouts(id, edit):
     client = Client.query.filter_by(id=id).first()
     top_workouts  = client.top_workouts()
     all_workouts_sorted = sorted(all_workouts,key=lambda x: x[0])
-    return render_template("workouts.html",client=client, workouts=top_workouts, all_workouts=all_workouts_sorted, edit=edit)
+    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts_sorted, edit=edit)
+
+@app.route("/client/<id>/measurements/<edit>")
+def measurements(id, edit):
+    if edit == "edit":
+        edit = True
+    else:
+        edit = False
+    client = Client.query.filter_by(id=id).first()
+    return render_template("measurements.html",client=client, measurements=stock_measurements, edit=edit)
 
 # api
+
+@app.route("/api/client/<id>/add_measurement", methods=['POST'])
+def api_add_measurement(id):
+    client = Client.query.filter_by(id=id).first()
+    workout_name = request.form['measurement_name']
+    new_measurement = Measurement(workout_name,client)
+    new_measurement.value = request['measurement_value']
+    new_measurement.units = request['measurement_units']
+    new_measurement.date = datetime.now()
+    db.session.add(new_measurement)
+    db.session.commit()
+    return 'true'
+
 @app.route("/api/client/<id>/add_workout", methods=['POST'])
 def api_add_workout(id):
     client = Client.query.filter_by(id=id).first()
     workout_name = request.form['workout_name']
     workout_type = request.form['workout_type']
-    if workout_type == 'Time_Length_Workout':
+    if workout_type == u'Time_Length_Workout':
         new_workout = Time_Length_Workout(workout_name,client)
         new_workout.time = request.form['workout_time']
         new_workout.length = request.form['workout_length']
-    if workout_type == 'Rep_Set_Workout':
+    if workout_type == u'Rep_Set_Workout':
         new_workout = Rep_Set_Workout(workout_name,client)
         new_workout.reps = [int(x) for x in request.form['reps'].split(',')]
         new_workout.sets = request.form['sets']
@@ -62,6 +84,8 @@ def api_add_workout(id):
     db.session.add(new_workout)
     db.session.commit()
     return 'true'
+
+
 
 @app.route("/api/client/<id>/workout/<wo_id>/edit", methods=['POST'])
 def edit_workout(id,wo_id):
@@ -90,6 +114,10 @@ def edit_workout(id,wo_id):
     db.session.commit()
     return 'true'
 
+@app.route("/api/client/<id>/goals")
+def goals(id):
+    client = Client.query.filter_by(id=id).first()
+    return render_template("goals.html",client=client)
 
 class Client(db.Model):
     __tablename__ = 'clients'
@@ -117,7 +145,11 @@ class Client(db.Model):
     def top_workouts(self):
         this_client_id = self.id
         counts_time_length_workouts = db.session.query(func.count(Time_Length_Workout.id),Time_Length_Workout.name).group_by(Time_Length_Workout.name).all()
+        counts_time_length_workouts = [ (w[0],w[1],'Time_Length_Workout') for w in counts_time_length_workouts]
+        print "the counts_time_length_workouts look like " + str(counts_time_length_workouts)
         counts_rep_set_workouts = db.session.query(func.count(Rep_Set_Workout.id),Rep_Set_Workout.name).group_by(Rep_Set_Workout.name).all()
+        counts_rep_set_workouts = [ (w[0],w[1],'Rep_Set_Workout') for w in counts_time_length_workouts]
+        print "the counts_rep_set_workouts look like " + str(counts_rep_set_workouts)
         counts_workouts = counts_time_length_workouts + counts_rep_set_workouts
         top_workouts = sorted(counts_workouts, key=lambda x: x[0])
         return top_workouts[0:3]  
