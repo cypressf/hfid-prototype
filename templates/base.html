@@ -7,12 +7,13 @@
     <title>Soul Patch App</title>
 </head>
 <body>
-<div id="iphone">
-{% block content %}{% endblock %}
-</div>
-<script src="{{ url_for('static',filename='jq.js')}}"></script>
-<script src="{{ url_for('static',filename='js.js')}}"></script>
-<script src=" http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+    <div id="iphone">
+    {% block content %}{% endblock %}
+    </div>
+    
+    <script src="{{ url_for('static',filename='jq.js')}}"></script>
+    <script src="{{ url_for('static',filename='js.js')}}"></script>
+    <script src=" http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 </body>
 
 </html>
