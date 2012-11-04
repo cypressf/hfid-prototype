@@ -4,14 +4,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script type="text/javascript" src="{{ url_for('static',filename='js.js')}}"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src=" http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-  <script>window.jQuery || document.write('<script src="/static/js/libs/jquery.js">\x3C/script>')</script>
     <title>Soul Patch App</title>
 </head>
 <body>
-    {% block content %}{% endblock %}
+
+{% block content %}{% endblock %}
+
+<script src="{{ url_for('static',filename='jq.js')}}"></script>
+<script src="{{ url_for('static',filename='js.js')}}"></script>
+<script src=" http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <script>
 // When ready...
 window.addEventListener("load",function() {
