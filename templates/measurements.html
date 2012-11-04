@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header>
+<a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s measurements</h1>
+{% if edit %}
+    <a href="/client/{{ client.id }}/workouts/list" id="done_workouts" class="ios-button">Done</a>
+{% else %}
+    <a href="/client/{{ client.id }}/workouts/edit" id="edit_workouts" class="ios-button">Edit</a>
+{% endif %}
+</header>
+{{ edit }}
+    <ul class="measurements">
+        {% for measurement in measurements %}
+        <li>
+            <p class="measurement_name">{{  measurement[0] }}</p>
+            <div id="{{ measurement[0] }}">
+                <input type="hidden" name="client_id" value="{{ client.id }}" />
+                <div id="measurement_entry">
+                <input type="tel" name="measurement_value"  />
+                <p name="measurement_units">
+                    {{ measurement[1] }}
+                </p>
+                </div>
+                <input type="button" value="add measurement" onclick="add_measurement(this)" />
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+<nav>
+    <ul>
+        <li><a href="" id="measure"><p>Measure</p></a></li>
+        <li><a href="" id="workout"><p>Workout</p></a></li>
+        <li><a href="" id="progress"><p>Progress</p></a></li>
+        <li><a href="" id="goals"><p>Goals</p></a></li>
+    </ul>
+</nav>
+{% endblock %}
