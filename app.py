@@ -7,7 +7,7 @@ from sqlalchemy import *
 import os
 import random
 import string
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 #################
 # Globals
@@ -85,7 +85,7 @@ def api_add_workout():
     
     if workout_type == 'Time_Length_Workout':
         new_workout = Time_Length_Workout(workout_name, client)
-        new_workout.time =  int(request.form["workout_time"])
+        new_workout.time =  timedelta(request.form["workout_time"])
         new_workout.length = int(request.form["workout_length"])
     
     if workout_type == 'Rep_Set_Workout':
@@ -181,7 +181,7 @@ class Time_Length_Workout(db.Model):
     name = db.Column(db.String(100))
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
     time = db.Column(postgresql.FLOAT) # this is length
-    length = db.Column(postgresql.INTERVAL) # this is time
+    length = db.Column(db.Interval) # this is time
     date = db.Column(db.DateTime)
 
     def __init__(self, name,owner):
