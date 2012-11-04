@@ -10,6 +10,7 @@ $(".workout_name").click(expand_workout);
 $("form").submit(add_workout);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
+$(".measurement_form").submit(add_measurement);
 
 
 // show the workout form for a workout
@@ -26,6 +27,19 @@ function add_workout() {
     // submit the data via post
     var form = $(this).parent().children("form");
     $.post('/api/add_workout', form.serialize(), function(data) {
+        console.log(data);
+    });
+
+    return false;
+}
+
+function add_measurement() {
+    // hide the form
+    //$(this).parent().removeClass("add");
+
+    // submit the data via post
+    var form = $(this).parent().children("form");
+    $.post('/api/add_measurement', form.serialize(), function(data) {
         console.log(data);
     });
 

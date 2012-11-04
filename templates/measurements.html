@@ -14,16 +14,20 @@
         {% for measurement in measurements %}
         <li>
             <p class="measurement_name">{{  measurement[0] }}</p>
+            <form id="{{ measurement[0] }}" class="measurement_form">
             <div id="{{ measurement[0] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}" />
+                <input type="hidden" name="measurement_name" value="{{ measurement[0] }}" />
+                <input type="hidden" name="measurement_units" value="{{ measurement[1] }}" />
                 <div id="measurement_entry">
                 <input type="tel" name="measurement_value"  />
                 <p name="measurement_units">
                     {{ measurement[1] }}
                 </p>
                 </div>
-                <input type="button" value="add measurement" onclick="add_measurement(this)" />
+                <input type="submit" value="Done" />
             </div>
+            </form>
         </li>
         {% endfor %}
     </ul>
