@@ -1,50 +1,14 @@
 {% extends 'base.html' %}
-
-
-
 {% block content %}
     <ul class="clients">
         <li id="add"><a href="">+</a></li>
+        {% for client in clients %}
         <li>
-            <a href="/client/1">
+            <a href="/client/{{ client.id }}">
                 <img src="{{ url_for('static', filename='img/profile-photo.jpg') }}">
-                <p class="name">Dave B.</p>
+                <p class="name">{{ client.firstname }} {{ client.lastname[0] }}. </p>
             </a>
         </li>
-
-        <li>
-            <a href="/client/1">
-                <img src="{{ url_for('static', filename='img/profile-photo.jpg') }}">
-                <p class="name">Ted S.</p>
-            </a>
-        </li>
-
-        <li>
-            <a href="/client/1">
-                <img src="{{ url_for('static', filename='img/profile-photo.jpg') }}">
-                <p class="name">Julianne W.</p>
-            </a>
-        </li>
-
-        <li>
-            <a href="/client/1">
-                <img src="{{ url_for('static', filename='img/profile-photo.jpg') }}">
-                <p class="name">Allyson W.</p>
-            </a>
-        </li>
-
-        <li>
-            <a href="/client/1">
-                <img src="{{ url_for('static', filename='img/profile-photo.jpg') }}">
-                <p class="name">Avis D.</p>
-            </a>
-        </li>
-
-        <li>
-            <a href="/client/1">
-                <img src="{{ url_for('static', filename='img/profile-photo.jpg') }}">
-                <p class="name">Clevis M.</p>
-            </a>
-        </li>
+        {% endfor %}
     </ul>
 {% endblock %}

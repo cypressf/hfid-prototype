@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>client id : {{ id }}</h1>
-<form>
-    <input type="tel">
-</form>
+<header>
+<a href="/" class="ios-button ios-arrow-left">All clients</a> <h1>{{ client.firstname }}</h1>
+</header>
+
+<ul id="add_something">
+    <li><a href="{{ request.path }}/workouts/edit">Add a workout</a></li>
+    <li><a href="{{ request.path }}/measurements/edit">Add a measurement</a></li>
+</ul>
+
 <nav>
     <ul>
         <li><a href="" id="measure"><p>Measure</p></a></li>

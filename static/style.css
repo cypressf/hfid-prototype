@@ -6,6 +6,15 @@ homepage
     margin:0;padding:0;
 }
 
+#iphone {
+    width:320px;
+    height:480px;
+    border:1px solid;
+    overflow:scroll;
+    margin:0 auto;
+    position:relative;
+}
+
 a {
     color:#000;
     text-decoration:none;
@@ -13,6 +22,7 @@ a {
 
 body {
     font-family: sans-serif;
+    margin-bottom:55px;
 }
 
 ul.clients {
@@ -57,13 +67,18 @@ ul.clients li#add a {
     color:#000;
 }
 
-/*******
-navbar
-********/
+/************
+bottom navbar
+************/
 nav {
     position:fixed;
     bottom:0;
-    border-top:1px solid #919191;
+}
+nav ul {
+    border-top:1px solid #212427;
+    height:50px;
+    background-color:#5a6e93;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d7dff2), color-stop(52%,#5a6e93), color-stop(53%,#5a6e93), color-stop(100%,#5a6e93));
 }
 nav ul li {
     float:left;
@@ -71,14 +86,16 @@ nav ul li {
 }
 nav ul a {
     display:block;
-    background:#fbe749;
     height:50px;
     width:80px;
     background-repeat:no-repeat;
-    background-size: auto 35px;
-    background-position:50% 0%;
+    background-size: auto 30px;
+    background-position:50% 15%;
     text-align:center;
     position:relative;
+    color:#fff;
+    text-shadow : 0px -1px 0px #000;
+
 }
 
 nav ul p {
@@ -90,14 +107,172 @@ nav ul p {
 }
 
 #measure {
-    background-image:url('/static/img/tape_measure.png');
+    background-image:url('/static/img/tape_measure2.png');
 }
 #workout {
-    background-image:url('/static/img/clip.png');
+    background-image:url('/static/img/clip2.png');
 }
 #progress {
-    background-image:url('/static/img/graph.png');
+    background-image:url('/static/img/graph2.png');
 }
 #goals {
-    background-image:url('/static/img/trophy.png');
+    background-image:url('/static/img/trophy2.png');
 }
+
+/*************
+top button bar
+**************/
+
+header {
+    border-bottom:1px solid;
+    background:#5a6e93;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d7dff2), color-stop(52%,#5a6e93), color-stop(53%,#5a6e93), color-stop(100%,#5a6e93))
+}
+
+header h1 {
+    text-align:center;
+    font-size:1em;
+    padding:1em 0;
+    color:#fff;
+    text-shadow: 0px -1px 0px #1f284d;
+}
+
+header a {
+    display:block;
+}
+
+/*******************
+workout list and form
+********************/
+#workouts form {
+    display:none;
+}
+#workouts .workout_name {
+    border-bottom:1px solid;
+    padding:1em;
+}
+#workouts li.add form{
+    display:block;
+}
+#workouts .workout_name {
+    cursor:pointer;
+}
+#workouts li.add .workout_name {
+    cursor:default;
+}
+#workouts form {
+    margin:0 1em;
+}
+#workouts .set {
+    margin-bottom:1em;
+}
+
+#workouts .add_set, #workouts .remove_set {
+    cursor:pointer;
+}
+#workouts .add_set {
+    background:#86df4b;
+}
+#workouts .remove_set {
+    background:#df1644;
+    padding:0 1em;
+}
+
+/******************************
+big workout and measure buttons
+*******************************/
+#add_something {
+    height:300px;
+}
+
+
+#add_something li a {
+    display:block;
+    font-size:1.5em;
+    padding:1.5em 0;
+    border:1px solid;
+    border-radius:1em;
+    text-align:center;
+    margin:0.5em;
+    margin-top:35px;
+}
+
+#done_workouts, #edit_workouts {
+    right:10px;
+    left:auto;
+}
+
+.ios-button {
+    left:10px;/*change the position*/
+    top:10px;/*change the position*/
+    position:absolute;
+    background-repeat:repeat-x;
+    background-color: rgba(74,108,155,1);/*change this and the background color for the :before element*/
+    background-image : -webkit-linear-gradient(
+        bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0) 50%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0.3) 100%
+        );
+    height:30px;
+    padding: 0 10px 0 8px;
+    z-index : 0;
+    border-radius: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    box-shadow :-1px -1px 0px rgba(0,0,0,0.2)inset,
+        0 1px 2px rgba(0,0,0,0.8)inset;
+    font-size : 11px;
+    display : block;
+    text-align:center;
+    color:#fff;
+    text-shadow : 0px -1px 0px #000;
+    line-height : 30px;
+    font-family : HelveticaNeue;
+    font-weight: 700;
+    -webkit-background-size : 30px;
+}
+ 
+.ios-button:before{
+
+}
+
+.ios-arrow-left {
+    border-top-left-radius : 10px 15px;
+    border-bottom-left-radius : 10px 15px;
+}
+
+.ios-arrow-left:before {
+    position:absolute;
+    top:9.9%;
+    left:-5px;
+    -webkit-background-size : 22px 22px;
+    background-position :-2px -1.5px;
+    background-color: rgba(74,108,155,1);/*change to the same as the main element*/
+    background-image :
+        -webkit-gradient(linear, left bottom, right top,
+            from(rgba(0,0,0,0)),
+            color-stop(0.5, rgba(0,0,0,0)),
+            color-stop(0.5, rgba(255,255,255,0.1)),
+            to(rgba(255,255,255,0.3)));
+    height : 25px;
+    width: 25px;
+    -webkit-transform : rotate(-45deg) skew(-10deg, -10deg);
+    border-top-right-radius : 100px 40px;
+    border-top-left-radius : 30px 2px;
+    border-bottom-right-radius : 2px 30px;
+    border-bottom-left-radius : 40px 100px;
+    z-index : 1;
+    content : ' ';
+    border-left : 1.5px solid rgba(255,255,255,0.3);
+    box-shadow :  1px 1px 0 rgba(0,0,0,0.2) inset,
+        -1px 1px 1px rgba(0,0,0,0.5) inset;
+    -webkit-mask-image :
+        -webkit-gradient(linear, left top, right bottom,
+            from(#000000),
+            color-stop(0.33,#000000),
+            color-stop(0.5, transparent),
+            to(transparent));
+}
+
+
