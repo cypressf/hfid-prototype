@@ -51,8 +51,9 @@ def goals(id):
 def workouts(id):
     client = Client.query.filter_by(id=id).first()
     client_workouts = client.workouts()
+    todays_workouts = [w for w in client_workouts if w.date.date() == datetime.now().date()]
     top_workouts  = client.top_workouts()
-    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts, client_workouts = client_workouts)
+    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts, todays_workouts = todays_workouts)
 
    
 @app.route("/client/<id>/measurements/<edit>")
@@ -124,13 +125,13 @@ def workout_summary(id):
     yesterday = today - timedelta(days=1)
     time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=owner_id).all()
     rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=owner_id).all()
-    all_workouts = time_length_workouts + rep_set_workouts
-    todays_workouts = [w for w in all_workouts if w.date.date() == today]
-    yesterdays_workouts = [w for w in all_workouts if w.date.date() == yesterday]
+    workouts = time_length_workouts + rep_set_workouts
+    todays_workouts = [w for w in workouts if w.date.date() == today]
+    yesterdays_workouts = [w for w in workouts if w.date.date() == yesterday]
 
     all_other_dates = get_all_other_workout_dates(owner_id)
     date_dict = {}
-    other_workouts = [w for w in all_workouts if w.date.date() != yesterday and w.date.date() != today]
+    other_workouts = [w for w in workouts if w.date.date() != yesterday and w.date.date() != today]
     for date in all_other_dates:
         date_dict[date] = []
     for workout in other_workouts:
@@ -142,11 +143,11 @@ def get_all_other_workout_dates(owner_id):
     yesterday = today - timedelta(days=1)
     time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=owner_id).all()
     rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=owner_id).all()
-    all_workouts = time_length_workouts + rep_set_workouts
-    all_dates = set([w.date.date() for w in all_workouts if w.date.date() != today and w.date.date() != yesterday])
+    workouts = time_length_workouts + rep_set_workouts
+    all_dates = set([w.date.date() for w in workouts if w.date.date() != today and w.date.date() != yesterday])
     return all_dates
 
-@app.route("/client/<id>/measurements/summary")
+@app.route("/client/<id>/measurements/list")
 def measurement_summary(id):
     owner_id = int(id)
     client = Client.query.filter_by(id=owner_id).first()
@@ -218,9 +219,9 @@ class Client(db.Model):
         this_client_id = self.id
         all_time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=this_client_id).all()
         all_rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=this_client_id).all()
-        all_workouts = []
-        all_workouts = all_time_length_workouts + all_rep_set_workouts
-        return sorted(all_workouts, key=lambda x: x.date)
+        workouts = []
+        workouts = all_time_length_workouts + all_rep_set_workouts
+        return sorted(workouts, key=lambda x: x.date)
 
     def top_workouts(self):
         this_client_id = self.id

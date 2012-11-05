@@ -11,6 +11,44 @@
 </form>
 
     <ul id="workouts">
+    {% for w in todays_workouts %}
+        <li class="today" id="{{ w.name }}">
+            <p class="workout_name">{{ w.name }}</p>
+            <form id="{{ w.name }}">
+                <input type="hidden" name="workout_name" value="{{ w.name }}">
+                <input type="hidden" name="client_id" value="{{ client.id }}">
+                <input type="hidden" name="workout_type" value="{{ w.__class__.__name__ }}">
+                <div class="set">
+                    <a class="remove_set"></a>
+                    {% if w.type == "Rep_Set_Workout" %}
+                    <label>
+                        <input type="tel" name="reps">
+                        reps
+                    </label>
+                    <label>
+                        <input type="tel" name="weight">
+                        lbs
+                    </label>
+                    
+                    {% else %}
+                    <label class="workout_time">
+                        <input type="tel" name="workout_time">
+                        min
+                    </label>
+                    <label class="workout_length">
+                        <input type="tel" name="workout_length">
+                        mi
+                    </label>
+                    {% endif %}
+                
+                </div>
+                {% if w.type == "Rep_Set_Workout" %}
+                <a class="add_set">Add set</a>
+                {% endif %}
+                <input type="submit" value="Done" class="ios-button">
+            </form>
+        </li>
+    {% endfor %}
     {% for w in all_workouts %}
         <li id="{{ w[0] }}">
         <p class="workout_name">{{ w[0] }}</p>
