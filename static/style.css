@@ -258,7 +258,7 @@ workout list and form
 
 }
 
-.list form .set input, .list #measurements form input {
+.list form .set input, #measurements form input {
     width:4em;
     font-size:1em;
 }
@@ -285,14 +285,27 @@ workout list and form
     margin-top:0;
 }
 
-#workoutsummary {
-margin-top:52px;
-
+.summary {
+    margin-top:70px;
+    margin-bottom:50px;
+    margin-left:1em;
+    margin-right:1em;
 }
 
-#measurementsummary {
-margin-top:52px;
+.summary .details {
+    color:#989898;
+    margin-left:1em;
+}
 
+.summary h1 {
+    font-size:1.5em;
+    font-weight:400;
+    margin-top:1em;
+    margin-bottom:0.5em;
+}
+
+.summary ul {
+    list-style:none;
 }
 
 #show_goals {

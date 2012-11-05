@@ -5,7 +5,7 @@
 <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s measurements</h1>
 <a href="/client/{{ client.id }}/measurements/edit" id="edit_workouts" class="ios-button">Edit</a>
 </header>
-<div id="measurementsummary">
+<div class="summary">
     <h1> Today </h1>
     <ul id="todays_measurements">
         {% for measurement in todays_measurements %}
