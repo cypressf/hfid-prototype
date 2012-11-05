@@ -19,6 +19,7 @@ $("#search input").blur(searchblur);
 $("#search input").keyup(search);
 $("#search input").click(search);
 $("#edit_goals").click(not_implemented);
+$("#add").click(not_implemented);
 
 function not_implemented(){
     $("#edit_goals").off("click", not_implemented);

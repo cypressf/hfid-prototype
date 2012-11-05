@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <ul class="clients">
-        <li id="add"><a href="">+</a></li>
+        <li id="add"><a id="edit_goals" href="">+</a></li>
         {% for client in clients %}
         <li>
             <a href="/client/{{ client.id }}">
