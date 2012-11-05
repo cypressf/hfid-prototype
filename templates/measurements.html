@@ -35,7 +35,10 @@
                 <input type="hidden" name="measurement_name" value="{{ measurement[0] }}" />
                 <input type="hidden" name="measurement_units" value="{{ measurement[1] }}" />
                 <div id="measurement_entry">
-                <label><input type="tel" name="measurement_value"  />{{ measurement[1] }}</label>
+                <label>
+                    <input type="tel" name="measurement_value"  />
+                    {{ measurement[1] }}
+                </label>
                 </div>
                 <input type="submit" value="Done" class="ios-button">
             </div>

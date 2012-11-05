@@ -5,17 +5,19 @@
     <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s workouts</h1>
     <a href="/client/{{ client.id }}/workouts/edit" id="edit_workouts" class="ios-button">Edit</a>
 </header>
-<div id="workoutsummary">
+<div class="summary">
 <ul id="todays_workouts">
     <h1> Today </h1>
     {% for w in todays_workouts %}
         <li>
         <p class="workout_name">{{ w.name }}</p>
         {% if w.__class__.__name__ == "Time_Length_Workout" %}
+        <p class="details">
         <span>{{ w.length }} miles </span>
         <span>{{ w.time.seconds//3600 }} hr {{ (w.time.seconds - w.time.seconds//3600*3600 - ((w.time.seconds - w.time.seconds//3600*3600)%60))//60 }} min {{ w.time.seconds - w.time.seconds//3600*3600 - (w.time.seconds - w.time.seconds//3600*3600)//60*60 }} sec</span>
+    </p>
         {% else %}
-        <ul>
+        <ul class="details">
         {% for i in range(w.sets) %}
         <li>
         <span> {{ w.reps[i] }} reps </span>
@@ -32,12 +34,14 @@
     <h1> Yesterday </h1>
     {% for w in yestedays_workouts %}
         <li>
-        <p class="workout_name">{{ w.name }}</p>
+        <p class="name">{{ w.name }}</p>
         {% if w.__class__.__name__ == "Time_Length_Workout" %}
+        <p class="details">
         <span>{{ w.length }} miles </span>
         <span>{{ w.time.seconds//3600 }} hr {{ (w.time.seconds - w.time.seconds//3600*3600 - ((w.time.seconds - w.time.seconds//3600*3600)%60))//60 }} min {{ w.time.seconds - w.time.seconds//3600*3600 - (w.time.seconds - w.time.seconds//3600*3600)//60*60 }} sec</span>
+    </p>
         {% else %}
-        <ul>
+        <ul class="details">
         {% for i in range(w.sets) %}
         <li>
         <span> {{ w.reps[i] }} reps </span>
@@ -57,10 +61,12 @@
         <li>
         <p class="workout_name">{{ w.name }}</p>
         {% if w.__class__.__name__ == "Time_Length_Workout" %}
+        <p class="details">
         <span>{{ w.length }} miles </span>
         <span>{{ w.time.seconds//3600 }} hr {{ (w.time.seconds - w.time.seconds//3600*3600 - ((w.time.seconds - w.time.seconds//3600*3600)%60))//60 }} min {{ w.time.seconds - w.time.seconds//3600*3600 - (w.time.seconds - w.time.seconds//3600*3600)//60*60 }} sec</span>
+    </p>
         {% else %}
-        <ul>
+        <ul class="details">
         {% for i in range(w.sets) %}
         <li>
         <span> {{ w.reps[i] }} reps </span>
