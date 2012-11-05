@@ -12,7 +12,6 @@ homepage
     box-shadow:0 0 10px #000;
     overflow:scroll;
     margin:0 auto;
-    margin-top:50px;
     position:relative;
 }
 
@@ -73,7 +72,7 @@ bottom navbar
 ************/
 nav {
     position:fixed;
-    top:480px;
+    top:430px;
 }
 nav ul {
     border-top:1px solid #212427;
@@ -146,23 +145,32 @@ top button bar
 
 header {
     position:fixed;
-    top:50px;
+    top:0px;
     width:320px;
     border-bottom:1px solid;
     background:#5a6e93;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d7dff2), color-stop(52%,#5a6e93), color-stop(53%,#5a6e93), color-stop(100%,#5a6e93))
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d7dff2), color-stop(52%,#5a6e93), color-stop(53%,#5a6e93), color-stop(100%,#5a6e93));
 }
 
 header h1 {
-    text-align:center;
+    margin-left:85px;
     font-size:1em;
-    padding:1em 0;
+    line-height:0px;
+    padding:25px 0;
     color:#fff;
+    width:175px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     text-shadow: 0px -1px 0px #1f284d;
 }
 
 header a {
     display:block;
+}
+
+header.hidden {
+    display:none;
 }
 
 /*******
@@ -177,7 +185,10 @@ border-radius: 15px;
 /*******************
 workout list and form
 ********************/
-#workouts form {
+#workouts {
+    margin-bottom:50px;
+}
+#workouts li form {
     display:none;
 }
 #workouts .workout_name {
@@ -193,7 +204,7 @@ workout list and form
 #workouts li.add .workout_name {
     cursor:default;
 }
-#workouts form {
+#workouts li form {
     margin:0 1em;
 }
 #workouts .set {
@@ -209,6 +220,21 @@ workout list and form
 #workouts .remove_set {
     background:#df1644;
     padding:0 1em;
+}
+#workouts li.hidden {
+    display:none;
+}
+#search {
+    margin:60px 1em 1em 1em;
+}
+#search input {
+    font-size:1em;
+    padding:0.5em;
+    width:100%;
+}
+
+#search.focus {
+    margin-top:10px;
 }
 
 #workoutsummary {
