@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header>
+    <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s workouts</h1>
+    <a href="/client/{{ client.id }}/workouts/edit" id="edit_workouts" class="ios-button">Edit</a>
+</header>
+<div id="workoutsummary">
+<ul id="todays_workouts">
+    <h1> Today </h1>
+    {% for w in todays_workouts %}
+        <li>
+        <p class="workout_name">{{ w.name }}</p>
+        {% if w.__class__.__name__ == "Time_Length_Workout" %}
+        <span>{{ w.length }} miles </span>
+        <span>{{ w.time.seconds//3600 }} hr {{ (w.time.seconds - w.time.seconds//3600*3600 - ((w.time.seconds - w.time.seconds//3600*3600)%60))//60 }} min {{ w.time.seconds - w.time.seconds//3600*3600 - (w.time.seconds - w.time.seconds//3600*3600)//60*60 }} sec</span>
+        {% else %}
+        <ul>
+        {% for i in range(w.sets) %}
+        <li>
+        <span> {{ w.reps[i] }} reps </span>
+        <span> {{ w.weights[i] }} lbs. </span>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<ul id="yeserdays_workouts">
+    <h1> Yesterday </h1>
+    {% for w in yestedays_workouts %}
+        <li>
+        <p class="workout_name">{{ w.name }}</p>
+        {% if w.__class__.__name__ == "Time_Length_Workout" %}
+        <span>{{ w.length }} miles </span>
+        <span>{{ w.time.seconds//3600 }} hr {{ (w.time.seconds - w.time.seconds//3600*3600 - ((w.time.seconds - w.time.seconds//3600*3600)%60))//60 }} min {{ w.time.seconds - w.time.seconds//3600*3600 - (w.time.seconds - w.time.seconds//3600*3600)//60*60 }} sec</span>
+        {% else %}
+        <ul>
+        {% for i in range(w.sets) %}
+        <li>
+        <span> {{ w.reps[i] }} reps </span>
+        <span> {{ w.weights[i] }} lbs. </span>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+{% for key, val in other_workouts.iteritems() %}
+<h1>{{ key.strftime("%m/%d") }} </h1>
+<ul id="other_workouts">
+    {% for w in val %}
+    {% for w in todays_workouts %}
+        <li>
+        <p class="workout_name">{{ w.name }}</p>
+        {% if w.__class__.__name__ == "Time_Length_Workout" %}
+        <span>{{ w.length }} miles </span>
+        <span>{{ w.time.seconds//3600 }} hr {{ (w.time.seconds - w.time.seconds//3600*3600 - ((w.time.seconds - w.time.seconds//3600*3600)%60))//60 }} min {{ w.time.seconds - w.time.seconds//3600*3600 - (w.time.seconds - w.time.seconds//3600*3600)//60*60 }} sec</span>
+        {% else %}
+        <ul>
+        {% for i in range(w.sets) %}
+        <li>
+        <span> {{ w.reps[i] }} reps </span>
+        <span> {{ w.weights[i] }} lbs. </span>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        </li>
+    {% endfor %}
+    {% endfor %}
+</ul>
+{% endfor %}
+</div>
+
+<nav>
+    <ul>
+        <li><a href="/client/{{ client.id }}/measurements/list" id="measure"><p>Measure</p></a></li>
+        <li><a href="/client/{{ client.id }}/workouts/list" id="workout" class="active"><p>Workout</p></a></li>
+        <li><a href="/client/{{ client.id }}/progress" id="progress"><p>Progress</p></a></li>
+        <li><a href="/client/{{ client.id }}/goals" id="goals"><p>Goals</p></a></li>
+    </ul>
+</nav>
+{% endblock %}

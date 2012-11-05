@@ -10,7 +10,7 @@ $(".workout_name").click(expand_workout);
 $("#workouts form").submit(add_workout);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
-$("#measurements_form form").submit(add_measurement);
+$("#measurements form").submit(add_measurement);
 
 
 // show the workout form for a workout
