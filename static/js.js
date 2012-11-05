@@ -22,7 +22,7 @@ $("#edit_goals").click(not_implemented)
 function not_implemented(){
     var el = $("#iphone");
     var content = "<p class=\"alert\"> This is not yet implemented. </p>"
-    el.after(content);
+    el.before(content);
     return false;
 }
 
