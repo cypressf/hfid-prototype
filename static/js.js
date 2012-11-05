@@ -17,11 +17,18 @@ $("#search input").focus(searchfocus);
 $("#search input").blur(searchblur);
 $("#search input").keyup(search);
 $("#search input").click(search);
+$("#edit_goals a").click(not_implemented)
+
+function not_implemented(){
+    alert("Sorry, this functionality is not yet implemented."); 
+    return false;
+}
 
 function search() {
     console.log(this.value);
     filter(this.value);
 }
+
 
 function filter(search_string) {
     search_string = search_string.toLowerCase();

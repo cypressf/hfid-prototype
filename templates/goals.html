@@ -4,10 +4,13 @@
 
 <header>
 <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s goals</h1>
-   <a href="/client/{{ client.id }}/goals/edit" id="edit_workouts" class="ios-button">Edit</a>
+   <a href="" id="edit_goals" class="ios-button">Edit</a>
 </header>
-<input type="text" class="goals" />
-
+<p id="show_goals">
+	{{ client.firstname }} wants to lose 150 lbs <br>
+	{{ client.firstname }} wants to bench press 300 lbs
+	{{ client.firstname }} wants to run a 6 minute mile
+</p>
 <nav>
     <ul>
         <li><a href="/client/{{ client.id }}/measurements/list" id="measure"><p>Measure</p></a></li>

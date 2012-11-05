@@ -283,6 +283,30 @@ workout list and form
     margin-top:0;
 }
 
+#workoutsummary {
+margin-top:52px;
+
+}
+
+#measurementsummary {
+margin-top:52px;
+
+}
+
+#show_goals {
+    margin-top:55px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 350px;
+    border: 1px solid #000;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px; 
+    border-radius: 15px;
+    padding: 0.5em;
+}
+
+
 /******************************
 big workout and measure buttons
 *******************************/
@@ -302,7 +326,7 @@ big workout and measure buttons
     margin-top:35px;
 }
 
-#done_workouts, #edit_workouts {
+#done_workouts, #edit_workouts, #edit_goals {
     right:10px;
     left:auto;
 }

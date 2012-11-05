@@ -15,7 +15,7 @@ from datetime import date, datetime, timedelta
 all_workouts = [('Arm Pullover','Time_Length_Workout'),('Chest Fly','Time_Length_Workout'),('Chest Press','Time_Length_Workout'),('Crossover Chest Fly','Time_Length_Workout'),('Decline Chest Fly','Time_Length_Workout'),('Decline Chest Press','Time_Length_Workout'),('Decline Push Up','Time_Length_Workout'),('Incline Chest Fly','Time_Length_Workout'),('Incline Chest Press','Time_Length_Workout'),('Kneeling Single-Arm Chest Fly','Time_Length_Workout'),('Parallel Grip Chest Press','Time_Length_Workout'),('Reverse Grip Chest Press','Time_Length_Workout'),('Reverse Grip Decline Chest Press','Time_Length_Workout'),('Reverse Grip Incline Chest Press','Time_Length_Workout'),('Single Arm Chest Fly','Time_Length_Workout'),('Single Arm Chest Press','Time_Length_Workout'),('Wide Chest Press','Time_Length_Workout'),('Abdominal Crunch','Time_Length_Workout'),('Cable Abdominal Crunch','Time_Length_Workout'),('Cross-body Pull Over Crunch','Time_Length_Workout'),('Incline Sit-Up','Time_Length_Workout'),('Kneeling Torso Twist','Time_Length_Workout'),('Reverse Fly','Time_Length_Workout'),('Shoulder Abduction','Time_Length_Workout'),('Shoulder Shrug','Time_Length_Workout'),('Supine Cross-Body Shoulder ','Time_Length_Workout'),('Forearm Curl','Time_Length_Workout'),('Incline Biceps Curl','Time_Length_Workout'),('Kneeling Biceps Curl','Time_Length_Workout'),('Kneeling Lateral Biceps Curl','Time_Length_Workout'),('Kneeling Reverse Biceps Curl','Time_Length_Workout'),('Lateral Biceps Curl','Time_Length_Workout'),('Preacher Concentration Curl','Time_Length_Workout'),('Preacher Curl','Time_Length_Workout'),('Preacher Reverse Curl','Time_Length_Workout'),('Prone Biceps Curl','Time_Length_Workout'),('Reverse Forearm Curl','Time_Length_Workout'),('Seated Biceps Curl','Time_Length_Workout'),('Seated Concentration Curl','Time_Length_Workout'),('Seated Reverse Biceps Curl','Time_Length_Workout'),('Supine Biceps Curl','Time_Length_Workout'),('Supine Concentration Curl','Time_Length_Workout'),('Supine Reverse Biceps Curl','Time_Length_Workout'),('High Crossover Lat Row','Time_Length_Workout'),('High Lat Row','Time_Length_Workout'),('Kneeling Lat Row','Time_Length_Workout'),('Lat Fly','Time_Length_Workout'),('Lat Pull-Down','Time_Length_Workout'),('Lat Row','Time_Length_Workout'),('Low Back Extension','Rep_Set_Workout'),('Low Crossover Lat Row','Rep_Set_Workout'),('Parallel Grip Kneeling Lat Row','Rep_Set_Workout'),('Parallel Grip Lat Pull-Down','Rep_Set_Workout'),('Parallel Grip Lat Row','Rep_Set_Workout'),('Pull Up','Rep_Set_Workout'),('Reverse Grip Kneeling Lat Row','Rep_Set_Workout'),('Reverse Grip Lat Pull-Down','Rep_Set_Workout'),('Reverse Grip Lat Row','Rep_Set_Workout'),('Reverse Grip Pull Up','Rep_Set_Workout'),('Single Arm Lat Row','Rep_Set_Workout'),('Single Arm Pull Up','Rep_Set_Workout'),('Surfer Lat Pull','Rep_Set_Workout'),('Buns-Up Leg Press','Rep_Set_Workout'),('Calf Raise','Rep_Set_Workout'),('Cardio Pull','Rep_Set_Workout'),('Decline Lunge','Rep_Set_Workout'),('Hamstring Curl','Rep_Set_Workout'),('Hip Abduction','Rep_Set_Workout'),('Hip Adduction','Rep_Set_Workout'),('Hip Extension','Rep_Set_Workout'),('Incline Lunge','Rep_Set_Workout'),('Lateral Lunge','Rep_Set_Workout'),('Leg Extension','Rep_Set_Workout'),('Leg Thrust','Rep_Set_Workout'),('Lying Hip Adduction','Rep_Set_Workout'),('Plyometric Split Squat','Rep_Set_Workout'),('Plyometric Squat','Rep_Set_Workout'),('Rowing Machine','Rep_Set_Workout'),('Single Leg Calf Raise','Rep_Set_Workout'),('Single Leg Side Squat','Rep_Set_Workout'),('Skiing','Rep_Set_Workout'),('Split Squat','Rep_Set_Workout'),('Sprint Squat','Rep_Set_Workout'),('Squat','Rep_Set_Workout'),('Standing Split Squat','Rep_Set_Workout'),('Toes In Squat','Rep_Set_Workout'),('Toes Out Squat','Rep_Set_Workout'),('Swimmer','Rep_Set_Workout'),('Upright Row','Rep_Set_Workout'),('Close Grip Chest Press','Rep_Set_Workout'),('Kneeling Reverse Triceps Kickback','Rep_Set_Workout'),('Kneeling Triceps Kickback','Rep_Set_Workout'),('Lateral Triceps Extension','Rep_Set_Workout'),('Overhead Triceps Press','Rep_Set_Workout'),('Reverse Grip Overhead Triceps','Rep_Set_Workout'),('Reverse Grip Triceps Pressdown','Rep_Set_Workout'),('Triceps Dip','Rep_Set_Workout'),('Triceps Pressdown','Rep_Set_Workout')]
 all_workouts = sorted(all_workouts, key=lambda x: x[0])
 
-stock_measurements = [('Weight','lbs'),('Arms','in'),('Forearms','in'),('Neck','in'),('Chest','in'),('Waist','in'),('Thighs','in'),('Calves','in')]
+stock_measurements = [('Weight','lbs'),('Arms','in'),('Forearms','in'),('Neck','in'),('Chest','in'),('Waist','in'),('Thighs','in'),('Calves','in'), ('Body Fat', '%')]
 app = Flask(__name__)
 try:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_SILVER_URL']
@@ -131,9 +131,50 @@ def workout_summary(id):
     all_workouts = time_length_workouts + rep_set_workouts
     todays_workouts = [w for w in all_workouts if w.date.date() == today]
     yesterdays_workouts = [w for w in all_workouts if w.date.date() == yesterday]
-    other_workouts = [w for w in all_workouts if w.date.date() != yesterday and w.date.date() != today]
-    return render_template("workout_summary.html", client=client, todays_workouts = todays_workouts, yesterdays_workouts=yesterdays_workouts, other_workouts = other_workouts )
 
+    all_other_dates = get_all_other_workout_dates(owner_id)
+    date_dict = {}
+    other_workouts = [w for w in all_workouts if w.date.date() != yesterday and w.date.date() != today]
+    for date in all_other_dates:
+        date_dict[date] = []
+    for workout in other_workouts:
+        date_dict[workout.date.date()].append(workout)
+    return render_template("workout_summary.html", client=client, todays_workouts = todays_workouts, yesterdays_workouts=yesterdays_workouts, other_workouts = date_dict )
+
+def get_all_other_workout_dates(owner_id):
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+    time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=owner_id).all()
+    rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=owner_id).all()
+    all_workouts = time_length_workouts + rep_set_workouts
+    all_dates = set([w.date.date() for w in all_workouts if w.date.date() != today and w.date.date() != yesterday])
+    return all_dates
+
+@app.route("/client/<id>/measurements/summary")
+def measurement_summary(id):
+    owner_id = int(id)
+    client = Client.query.filter_by(id=owner_id).first()
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+    measurements = Measurement.query.filter_by(owner_id=owner_id).all()
+    todays_measurements = [w for w in measurements if w.date.date() == today]
+    yesterdays_measurements = [w for w in measurements if w.date.date() == yesterday]
+
+    all_other_dates = get_all_other_measurement_dates(owner_id)
+    date_dict = {}
+    other_measurements = [w for w in measurements if w.date.date() != yesterday and w.date.date() != today]
+    for date in all_other_dates:
+        date_dict[date] = []
+    for measurement in other_measurements:
+        date_dict[measurement.date.date()].append(workout)
+    return render_template("measurement_summary.html", client=client, todays_measurements=measurements,yesterdays_measurements=yesterdays_measurements,other_measurements=date_dict)
+
+def get_all_other_measurement_dates(owner_id):
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+    measurements = Measurement.query.filter_by(owner_id=owner_id).all()
+    all_measurements = set([w.date.date() for w in measurements if w.date.date() != today and w.date.date() != yesterday])
+    return all_measurements
 
 @app.route("/api/client/<id>/workout/<wo_id>/edit", methods=['POST'])
 def edit_workout(id,wo_id):
