@@ -153,11 +153,15 @@ header {
 }
 
 header h1 {
-    margin-left:7em;
-    font-size:0.8em;
+    margin-left:85px;
+    font-size:1em;
     line-height:0px;
     padding:25px 0;
     color:#fff;
+    width:175px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     text-shadow: 0px -1px 0px #1f284d;
 }
 
