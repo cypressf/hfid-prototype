@@ -177,36 +177,39 @@ border-radius: 15px;
 /*******************
 workout list and form
 ********************/
-#workouts {
+#measurements {
+    margin:50px 0;
+}
+.list {
     margin-bottom:50px;
 }
-#workouts li form {
+.list li form {
     display:none;
 }
-#workouts .workout_name {
+.list .item_name {
     border-top:1px solid #c7c7c7;
     padding:1em;
 }
-#workouts li.add form{
+.list li.add form{
     display:block;
 }
-#workouts .workout_name {
+.list .item_name {
     cursor:pointer;
 }
 
-#workouts li form {
+.list li form {
     margin:0 1em 1em 1em;
     padding-bottom:25px;
     position:relative;
 }
-#workouts .set {
+.list .set {
     margin-bottom:1em;
 }
 
-#workouts .add_set, #workouts .remove_set {
+.list .add_set, .list .remove_set {
     cursor:pointer;
 }
-#workouts .add_set {
+.list .add_set {
     background-image:url('/static/img/add.png');
     background-repeat:no-repeat;
     background-size:25px auto;
@@ -216,7 +219,7 @@ workout list and form
     padding-left:40px;
     font-weight:bold;
 }
-#workouts .remove_set {
+.list .remove_set {
     display:block;
     float:left;
     width:25px;
@@ -226,13 +229,13 @@ workout list and form
     background-repeat:no-repeat;
     background-size:25px auto;
 }
-#workouts li.hidden {
+.list li.hidden {
     display:none;
 }
-#workouts li {
+.list li {
     position:relative;
 }
-#workouts li:after {
+.list li:after {
     content:">";
     position:absolute;
     right:1em;
@@ -241,11 +244,11 @@ workout list and form
     color:#7e7e7e;
     z-index:-1;
 }
-#workouts li.add:after {
+.list li.add:after {
     -webkit-transform:rotate(90deg);
 }
 
-#workouts form input[type=submit] {
+.list form input[type=submit] {
    top:auto;
     left:auto;
     right:0;
@@ -255,14 +258,14 @@ workout list and form
 
 }
 
-#workouts form .set input {
+.list form .set input, .list #measurements_form input {
     width:4em;
     font-size:1em;
 }
-#workouts form .set label:last-child {
+.list form .set label:last-child {
     margin-left:1em;
 }
-#workouts form .set label.workout_length input{
+.list form .set label.workout_length input{
     width:2em;
 }
 

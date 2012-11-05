@@ -9,15 +9,16 @@ window.addEventListener("load",function() {
 
 // event listeners
 $(".workout_name").click(expand_workout);
+$(".measurement_name").click(expand_measurement);
 $("#workouts form").submit(add_workout);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
-$("#measurements_form form").submit(add_measurement);
+$("#measurements_form").submit(add_measurement);
 $("#search input").focus(searchfocus);
 $("#search input").blur(searchblur);
 $("#search input").keyup(search);
 $("#search input").click(search);
-$("#edit_goals").click(not_implemented)
+$("#edit_goals").click(not_implemented);
 
 function not_implemented(){
     $("#edit_goals").off("click", not_implemented);
@@ -76,6 +77,13 @@ function searchblur(){
 function expand_workout(){
     $(this).off("click", expand_workout);
     $(this).click(add_workout);
+    $(this).parent().addClass("add");
+}
+
+// show the workout form for a workout
+function expand_measurement(){
+    $(this).off("click", expand_measurement);
+    $(this).click(add_measurement);
     $(this).parent().addClass("add");
 }
 
