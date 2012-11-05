@@ -23,7 +23,7 @@
                 <input type="hidden" name="client_id" value="{{ client.id }}">
                 <input type="hidden" name="workout_type" value="{{ w[1] }}">
                 <div class="set">
-                    <a class="remove_set">-</a>
+                    <a class="remove_set"></a>
                     {% if w[1] == "Rep_Set_Workout" %}
                     <label>
                         <input type="tel" name="reps">
@@ -33,12 +33,13 @@
                         <input type="tel" name="weight">
                         lbs
                     </label>
+                    
                     {% else %}
-                    <label>
+                    <label class="workout_time">
                         <input type="tel" name="workout_time">
                         hr/min/sec
                     </label>
-                    <label>
+                    <label class="workout_length">
                         <input type="tel" name="workout_length">
                         mi
                     </label>
@@ -48,7 +49,7 @@
                 {% if w[1] == "Rep_Set_Workout" %}
                 <a class="add_set">Add set</a>
                 {% endif %}
-                <input type="submit" value="Done">
+                <input type="submit" value="Done" class="ios-button">
             </form>
         </li>
     {% endfor %}

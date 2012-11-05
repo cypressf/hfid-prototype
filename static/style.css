@@ -6,15 +6,6 @@ homepage
     margin:0;padding:0;
 }
 
-#iphone {
-    width:320px;
-    height:480px;
-    box-shadow:0 0 10px #000;
-    overflow:scroll;
-    margin:0 auto;
-    position:relative;
-}
-
 a {
     color:#000;
     text-decoration:none;
@@ -72,7 +63,8 @@ bottom navbar
 ************/
 nav {
     position:fixed;
-    top:430px;
+    bottom:0;
+    z-index:1000;
 }
 nav ul {
     border-top:1px solid #212427;
@@ -144,6 +136,7 @@ top button bar
 **************/
 
 header {
+    z-index:1000;
     position:fixed;
     top:0px;
     width:320px;
@@ -192,7 +185,7 @@ workout list and form
     display:none;
 }
 #workouts .workout_name {
-    border-bottom:1px solid;
+    border-top:1px solid #c7c7c7;
     padding:1em;
 }
 #workouts li.add form{
@@ -201,11 +194,11 @@ workout list and form
 #workouts .workout_name {
     cursor:pointer;
 }
-#workouts li.add .workout_name {
-    cursor:default;
-}
+
 #workouts li form {
-    margin:0 1em;
+    margin:0 1em 1em 1em;
+    padding-bottom:25px;
+    position:relative;
 }
 #workouts .set {
     margin-bottom:1em;
@@ -215,17 +208,70 @@ workout list and form
     cursor:pointer;
 }
 #workouts .add_set {
-    background:#86df4b;
+    background-image:url('/static/img/add.png');
+    background-repeat:no-repeat;
+    background-size:25px auto;
+    line-height:25px;
+    display:block;    
+    float:left;
+    padding-left:40px;
+    font-weight:bold;
 }
 #workouts .remove_set {
-    background:#df1644;
-    padding:0 1em;
+    display:block;
+    float:left;
+    width:25px;
+    height:25px;
+    margin-right:1em;
+    background-image:url('/static/img/delete.png');
+    background-repeat:no-repeat;
+    background-size:25px auto;
 }
 #workouts li.hidden {
     display:none;
 }
+#workouts li {
+    position:relative;
+}
+#workouts li:after {
+    content:">";
+    position:absolute;
+    right:1em;
+    top:1em;
+    font-weight:bold;
+    color:#7e7e7e;
+    z-index:-1;
+}
+#workouts li.add:after {
+    -webkit-transform:rotate(90deg);
+}
+
+#workouts form input[type=submit] {
+   top:auto;
+    left:auto;
+    right:0;
+    bottom:0;
+    display:block;
+    border:none;
+
+}
+
+#workouts form .set input {
+    width:4em;
+    font-size:1em;
+}
+#workouts form .set label:last-child {
+    margin-left:1em;
+}
+#workouts form .set label.workout_length input{
+    width:2em;
+}
+
+
 #search {
-    margin:60px 1em 1em 1em;
+    margin:50px 0 0 0;
+    padding:1em;
+    background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#afafaf), color-stop(50%,#5b5b5b), color-stop(51%,#4c4c4c), color-stop(100%,#4c4c4c));
 }
 #search input {
     font-size:1em;
@@ -234,7 +280,7 @@ workout list and form
 }
 
 #search.focus {
-    margin-top:10px;
+    margin-top:0;
 }
 
 /******************************
@@ -334,4 +380,19 @@ big workout and measure buttons
             to(transparent));
 }
 
-
+/* fake iphone screen for large screens */
+@media screen and (min-width: 321px) {
+    #iphone {
+        width:320px;
+        height:480px;
+        box-shadow:0 0 10px #000;
+        overflow:scroll;
+        margin:0 auto;
+        position:relative;
+    }
+    nav {
+        position:fixed;
+        top:430px;
+        z-index:1000;
+    }
+}

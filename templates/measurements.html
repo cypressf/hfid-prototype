@@ -4,9 +4,9 @@
 <header>
 <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s measurements</h1>
 {% if edit %}
-    <a href="/client/{{ client.id }}/workouts/list" id="done_workouts" class="ios-button">Done</a>
+    <a href="/client/{{ client.id }}/measurements/list" id="done_workouts" class="ios-button">Done</a>
 {% else %}
-    <a href="/client/{{ client.id }}/workouts/edit" id="edit_workouts" class="ios-button">Edit</a>
+    <a href="/client/{{ client.id }}/measurements/edit" id="edit_workouts" class="ios-button">Edit</a>
 {% endif %}
 </header>
 {{ edit }}

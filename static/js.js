@@ -42,26 +42,34 @@ function searchfocus(){
     window.scrollTo(0, 1);
     $("header").addClass("hidden");
     $(this).parent().addClass("focus");
-    console.log('focus');
 }
 
 function searchblur(){
     $(this).parent().removeClass("focus");
     $("header").removeClass("hidden");
-    console.log('blur');
 }
 
 
 // show the workout form for a workout
 function expand_workout(){
+    $(this).off("click", expand_workout);
+    $(this).click(add_workout);
     $(this).parent().addClass("add");
 }
 
 
 // submit the workout to the database
 function add_workout() {
+
     // hide the form
     $(this).parent().removeClass("add");
+
+    // remove the submission event handler
+    // from the title expander,
+    // and reattach the expansion event handler
+    var title = $(this).parent().children(".workout_name");
+    title.off("click", add_workout);
+    title.click(expand_workout);
 
     // submit the data via post
     var form = $(this).parent().children("form");
@@ -71,6 +79,7 @@ function add_workout() {
 
     return false;
 }
+
 
 function add_measurement() {
     console.log("measurement being added....")
@@ -90,7 +99,7 @@ function add_measurement() {
 function add_set() {
     var el = $(this).parent().children(".set:last");
     var content = "<div class=\"set\">\
-                    <a class=\"remove_set\">-</a>\
+                    <a class=\"remove_set\"></a>\
                     <label>\
                         <input type=\"tel\" name=\"reps\">\
                         reps\
