@@ -10,11 +10,11 @@
 {% endif %}
 </header>
 {{ edit }}
-    <ul class="measurements">
+    <ul id="measurements">
         {% for measurement in measurements %}
         <li>
             <p class="measurement_name">{{  measurement[0] }}</p>
-            <form id="{{ measurement[0] }}" class="measurement_form">
+            <form id="{{ measurement[0] }}" id="measurements_form">
             <div id="{{ measurement[0] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}" />
                 <input type="hidden" name="measurement_name" value="{{ measurement[0] }}" />

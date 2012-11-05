@@ -7,10 +7,10 @@ window.addEventListener("load",function() {
 
 // event listeners
 $(".workout_name").click(expand_workout);
-$("form").submit(add_workout);
+$("#workouts form").submit(add_workout);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
-$(".measurement_form").submit(add_measurement);
+$("#measurements_form form").submit(add_measurement);
 
 
 // show the workout form for a workout
@@ -34,6 +34,7 @@ function add_workout() {
 }
 
 function add_measurement() {
+    console.log("measurement being added....")
     // hide the form
     //$(this).parent().removeClass("add");
 

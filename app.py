@@ -57,17 +57,22 @@ def measurements(id, edit):
 
 # api
 
-@app.route("/api/client/<id>/add_measurement", methods=['POST'])
-def api_add_measurement(id):
-    client = Client.query.filter_by(id=id).first()
-    workout_name = request.form['measurement_name']
-    new_measurement = Measurement(workout_name,client)
-    new_measurement.value = request['measurement_value']
-    new_measurement.units = request['measurement_units']
+@app.route("/api/add_measurement", methods=['POST'])
+def api_add_measurement():
+    print request.form
+    value = float(request.form['measurement_value'])
+    units = request.form['measurement_units']
+    print value, units
+    client_id = int(request.form['client_id'])
+    client = Client.query.filter_by(id=client_id).first()
+    measurement_name = request.form['measurement_name']    
+    new_measurement = Measurement(measurement_name,client)
+    new_measurement.value = value
+    new_measurement.unit = units
     new_measurement.date = datetime.now()
     db.session.add(new_measurement)
     db.session.commit()
-    return 'true'
+    return jsonify(submitted=True)
 
 
 # api
@@ -224,6 +229,7 @@ class Measurement(db.Model):
     owner_id = db.Column(db.Integer,db.ForeignKey('clients.id'))
     value = db.Column(postgresql.FLOAT)
     unit = db.Column(db.String(100))
+    date = db.Column(db.DateTime)
 
     def __init__(self, name,owner):
         self.name = name
