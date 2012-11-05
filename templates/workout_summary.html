@@ -54,7 +54,6 @@
 <h1>{{ key.strftime("%m/%d") }} </h1>
 <ul id="other_workouts">
     {% for w in val %}
-    {% for w in todays_workouts %}
         <li>
         <p class="workout_name">{{ w.name }}</p>
         {% if w.__class__.__name__ == "Time_Length_Workout" %}
@@ -71,7 +70,6 @@
         </ul>
         {% endif %}
         </li>
-    {% endfor %}
     {% endfor %}
 </ul>
 {% endfor %}

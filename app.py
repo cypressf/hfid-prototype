@@ -132,7 +132,7 @@ def workout_summary(id):
     todays_workouts = [w for w in all_workouts if w.date.date() == today]
     yesterdays_workouts = [w for w in all_workouts if w.date.date() == yesterday]
 
-    all_other_dates = get_all_workout_dates(owner_id)
+    all_other_dates = get_all_other_workout_dates(owner_id)
     date_dict = {}
     other_workouts = [w for w in all_workouts if w.date.date() != yesterday and w.date.date() != today]
     for date in all_other_dates:
@@ -141,7 +141,7 @@ def workout_summary(id):
         date_dict[workout.date.date()].append(workout)
     return render_template("workout_summary.html", client=client, todays_workouts = todays_workouts, yesterdays_workouts=yesterdays_workouts, other_workouts = date_dict )
 
-def get_all_workout_dates(owner_id):
+def get_all_other_workout_dates(owner_id):
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
     time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=owner_id).all()
@@ -157,7 +157,24 @@ def measurement_summary(id):
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
     measurements = Measurement.query.filter_by(owner_id=owner_id).all()
-    return render_template("measurement_summary.html", client=client, measurements=measurements)
+    todays_measurements = [w for w in measurements if w.date.date() == today]
+    yesterdays_measurements = [w for w in measurements if w.date.date() == yesterday]
+
+    all_other_dates = get_all_other_measurement_dates(owner_id)
+    date_dict = {}
+    other_measurements = [w for w in measurements if w.date.date() != yesterday and w.date.date() != today]
+    for date in all_other_dates:
+        date_dict[date] = []
+    for measurement in other_measurements:
+        date_dict[measurement.date.date()].append(workout)
+    return render_template("measurement_summary.html", client=client, todays_measurements=measurements,yesterdays_measurements=yesterdays_measurements,other_measurements=date_dict)
+
+def get_all_other_measurement_dates(owner_id):
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+    measurements = Measurement.query.filter_by(owner_id=owner_id).all()
+    all_measurements = set([w.date.date() for w in measurements if w.date.date() != today and w.date.date() != yesterday])
+    return all_measurements
 
 @app.route("/api/client/<id>/workout/<wo_id>/edit", methods=['POST'])
 def edit_workout(id,wo_id):

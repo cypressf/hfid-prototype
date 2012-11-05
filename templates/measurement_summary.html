@@ -10,13 +10,33 @@
 {% endif %}
 </header>
 <div id="measurementsummary">
-    <ul id="measurements">
-        {% for measurement in measurements %}
+    <h1> Today </h1>
+    <ul id="todays_measurements">
+        {% for measurement in todays_measurements %}
         <li>
             <span>{{ measurement.name }}: {{ measurement.value }} {{ measurement.unit }} </span>
         </li>
         {% endfor %}
     </ul>
+    <h1> Yesterday </h1>
+    <ul id="yesterdays_measurements">
+        {% for measurement in yesterdays_measurements %}
+        <li>
+            <span>{{ measurement.name }}: {{ measurement.value }} {{ measurement.unit }} </span>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% for key, val in other_measurements.iteritems() %}
+<h1> {{ key.strftime("%m/%d") }} </h1>
+    <ul id="yesterdays_measurements">
+        {% for measurement in val %}
+        <li>
+            <span>{{ measurement.name }}: {{ measurement.value }} {{ measurement.unit }} </span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
 </div>
 
 <nav>
