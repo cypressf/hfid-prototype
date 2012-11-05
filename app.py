@@ -103,7 +103,7 @@ def api_add_workout():
     
     if workout_type == 'Time_Length_Workout':
         new_workout = Time_Length_Workout(workout_name, client)
-        new_workout.time =  timedelta(request.form["workout_time"])
+        new_workout.time =  timedelta(minutes=float(request.form["workout_time"]))
         new_workout.length = int(request.form["workout_length"])
     
     if workout_type == 'Rep_Set_Workout':
@@ -120,6 +120,19 @@ def api_add_workout():
     db.session.commit()
     return jsonify(submitted=True)
 
+@app.route("/client/<id>/workouts/summary")
+def workout_summary(id):
+    owner_id = int(id)
+    client = Client.query.filter_by(id=owner_id).first()
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+    time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=owner_id).all()
+    rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=owner_id).all()
+    all_workouts = time_length_workouts + rep_set_workouts
+    todays_workouts = [w for w in all_workouts if w.date.date() == today]
+    yesterdays_workouts = [w for w in all_workouts if w.date.date() == yesterday]
+    other_workouts = [w for w in all_workouts if w.date.date() != yesterday and w.date.date() != today]
+    return render_template("workout_summary.html", client=client, todays_workouts = todays_workouts, yesterdays_workouts=yesterdays_workouts, other_workouts = other_workouts )
 
 
 @app.route("/api/client/<id>/workout/<wo_id>/edit", methods=['POST'])
@@ -176,10 +189,8 @@ class Client(db.Model):
         this_client_id = self.id
         counts_time_length_workouts = db.session.query(func.count(Time_Length_Workout.id),Time_Length_Workout.name).group_by(Time_Length_Workout.name).all()
         counts_time_length_workouts = [ (w[0],w[1],'Time_Length_Workout') for w in counts_time_length_workouts]
-        print "the counts_time_length_workouts look like " + str(counts_time_length_workouts)
         counts_rep_set_workouts = db.session.query(func.count(Rep_Set_Workout.id),Rep_Set_Workout.name).group_by(Rep_Set_Workout.name).all()
         counts_rep_set_workouts = [ (w[0],w[1],'Rep_Set_Workout') for w in counts_time_length_workouts]
-        print "the counts_rep_set_workouts look like " + str(counts_rep_set_workouts)
         counts_workouts = counts_time_length_workouts + counts_rep_set_workouts
         top_workouts = sorted(counts_workouts, key=lambda x: x[0])
         return top_workouts[0:3]  
@@ -193,8 +204,8 @@ class Time_Length_Workout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     owner_id = db.Column(db.Integer, db.ForeignKey('clients.id'))
-    time = db.Column(postgresql.FLOAT) # this is length
-    length = db.Column(db.Interval) # this is time
+    time = db.Column(db.Interval) # this is length
+    length = db.Column(postgresql.FLOAT) # this is time
     date = db.Column(db.DateTime)
 
     def __init__(self, name,owner):
