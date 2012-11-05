@@ -10,6 +10,22 @@
 {% endif %}
 </header>
     <ul id="measurements" class="list">
+        {% for measurement in todays_measurements %}
+        <li>
+            <p class="measurement_name item_name">{{  measurement.name }}</p>
+            <form>
+            <div id="{{ measurement.name }}">
+                <input type="hidden" name="client_id" value="{{ client.id }}" />
+                <input type="hidden" name="measurement_name" value="{{ measurement.name }}" />
+                <input type="hidden" name="measurement_units" value="{{ measurement.unit }}" />
+                <div id="measurement_entry">
+                <label><input type="tel" name="measurement_value" value="{{ measurement.value }}"  />{{ measurement.unit }}</label>
+                </div>
+                <input type="submit" value="Done" class="ios-button">
+            </div>
+            </form>
+        </li>
+        {% endfor %}
         {% for measurement in measurements %}
         <li>
             <p class="measurement_name item_name">{{  measurement[0] }}</p>

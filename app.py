@@ -66,22 +66,35 @@ def measurements(id, edit):
     else:
         edit = False
     client = Client.query.filter_by(id=id).first()
-    return render_template("measurements.html",client=client, measurements=stock_measurements, edit=edit)
+    todays_measurements = [m for m in client.measurements() if m.date.date() == datetime.now().date()]
+    todays_measurements_names = [m.name for m in todays_measurements]
+    stock_measurements_edited = [m for m in stock_measurements if m[0] not in todays_measurements_names]
+    return render_template("measurements.html",client=client, measurements=stock_measurements_edited, edit=edit, todays_measurements = todays_measurements)
 
 # api
 
 @app.route("/api/add_measurement", methods=['POST'])
 def api_add_measurement():
+    print 'hey'
     print request.form
+    name = request.form['measurement_name']
     value = float(request.form['measurement_value'])
-    units = request.form['measurement_units']
-    print value, units
+    unit = request.form['measurement_units']
     client_id = int(request.form['client_id'])
     client = Client.query.filter_by(id=client_id).first()
-    measurement_name = request.form['measurement_name']    
-    new_measurement = Measurement(measurement_name,client)
+    todays_measurements = [w for w in client.measurements() if w.date.date() == datetime.now().date()]
+    todays_measurements_names = [w.name for w in todays_measurements]
+    if name in todays_measurements_names:
+        this_measurement = [w for w in todays_measurements if w.name == name]
+        this_measurement = this_measurement[0]
+        this_measurement.value = value
+        this_measurement.unit = unit
+        db.session.add(this_measurement)
+        db.session.commit()
+        return jsonify(submitted=True)
+    new_measurement = Measurement(name,client)
     new_measurement.value = value
-    new_measurement.unit = units
+    new_measurement.unit = unit
     new_measurement.date = datetime.now()
     db.session.add(new_measurement)
     db.session.commit()
@@ -197,32 +210,6 @@ def get_all_other_measurement_dates(owner_id):
     all_measurements = set([w.date.date() for w in measurements if w.date.date() != today and w.date.date() != yesterday])
     return all_measurements
 
-@app.route("/api/client/<id>/workout/<wo_id>/edit", methods=['POST'])
-def edit_workout(id,wo_id):
-    workout_type_flag = wo_id[0]
-    workout_id = wo_id[1:]
-    if workout_type_flag == 'r':
-        workout = Rep_Set_Workout.query.filter_by(id=workout_id)
-        reps = request.form['reps']
-        sets = request.form['sets']
-        weights = request.form['weights']
-        workout.update({
-            'reps' : reps,
-            'sets' : sets,
-            'weights' : weights
-            })
-    elif workout_type_flag == 't':
-        workout = Time_Length_Workout.query.filter_by(id=workout_id)
-        time = request.form['workout_time']
-        length = request.form['workout_length']
-        workout.update({
-            'time' : time,
-            'length' : length
-            })
-    else:
-        pass
-    db.session.commit()
-    return 'true'
 
 class Client(db.Model):
     __tablename__ = 'clients'
@@ -256,6 +243,12 @@ class Client(db.Model):
         counts_workouts = counts_time_length_workouts + counts_rep_set_workouts
         top_workouts = sorted(counts_workouts, key=lambda x: x[0])
         return top_workouts[0:3]  
+
+    def measurements(self):
+        this_client_id = self.id
+        measurements = Measurement.query.filter_by(owner_id=this_client_id).all()
+        print measurements
+        return measurements
 
 class Time_Length_Workout(db.Model):
     """
