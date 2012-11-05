@@ -309,20 +309,15 @@ workout list and form
 }
 
 #show_goals {
-    margin-top:55px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    height: 350px;
-    border: 1px solid #000;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px; 
-    border-radius: 15px;
-    padding: 0.5em;
+    margin:50px 0;
+    height: 100%;
+    padding: 26px 2em;
+    line-height:22px;
+    background-image:url('img/goals_background.png');
 }
 
 #graph_container {
-    margin-top: 55px;
+    margin: 55px 0;
 }
 
 .graph{
