@@ -20,9 +20,22 @@ $("#search input").click(search);
 $("#edit_goals").click(not_implemented)
 
 function not_implemented(){
+    $("#edit_goals").off("click", not_implemented);
     var el = $("#iphone");
-    var content = "<p class=\"alert\"> This is not yet implemented. </p>"
+    var content = "<p class=\"alert\">\
+                    <a href=\"\" id=\"close\"></a>\
+                    This is not yet implemented.\
+                    </p>"
     el.before(content);
+    $("#close").click(close_alert);
+    return false;
+}
+
+function close_alert() {
+    $(this).off("click", close_alert);
+    $("#edit_goals").click(not_implemented);
+    $(this).parent().remove();
+    console.log("removed")
     return false;
 }
 

@@ -47,16 +47,12 @@ def goals(id):
 
 
 
-@app.route("/client/<id>/workouts/<edit>")
-def workouts(id, edit):
-    if edit == "edit":
-        edit = True
-    else:
-        edit = False
+@app.route("/client/<id>/workouts/edit")
+def workouts(id):
     client = Client.query.filter_by(id=id).first()
     client_workouts = client.workouts()
     top_workouts  = client.top_workouts()
-    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts, client_workouts = client_workouts, edit=edit)
+    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts, client_workouts = client_workouts)
 
    
 @app.route("/client/<id>/measurements/<edit>")
@@ -120,7 +116,7 @@ def api_add_workout():
     db.session.commit()
     return jsonify(submitted=True)
 
-@app.route("/client/<id>/workouts/summary")
+@app.route("/client/<id>/workouts/list")
 def workout_summary(id):
     owner_id = int(id)
     client = Client.query.filter_by(id=owner_id).first()
