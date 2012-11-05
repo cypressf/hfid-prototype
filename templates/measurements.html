@@ -9,23 +9,19 @@
     <a href="/client/{{ client.id }}/measurements/edit" id="edit_workouts" class="ios-button">Edit</a>
 {% endif %}
 </header>
-{{ edit }}
-    <ul id="measurements">
+    <ul id="measurements" class="list">
         {% for measurement in measurements %}
         <li>
-            <p class="measurement_name">{{  measurement[0] }}</p>
-            <form id="measurements_form">
+            <p class="measurement_name item_name">{{  measurement[0] }}</p>
+            <form>
             <div id="{{ measurement[0] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}" />
                 <input type="hidden" name="measurement_name" value="{{ measurement[0] }}" />
                 <input type="hidden" name="measurement_units" value="{{ measurement[1] }}" />
                 <div id="measurement_entry">
-                <input type="tel" name="measurement_value"  />
-                <p name="measurement_units">
-                    {{ measurement[1] }}
-                </p>
+                <label><input type="tel" name="measurement_value"  />{{ measurement[1] }}</label>
                 </div>
-                <input type="submit" value="Done" />
+                <input type="submit" value="Done" class="ios-button">
             </div>
             </form>
         </li>
