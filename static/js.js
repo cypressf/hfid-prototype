@@ -17,10 +17,12 @@ $("#search input").focus(searchfocus);
 $("#search input").blur(searchblur);
 $("#search input").keyup(search);
 $("#search input").click(search);
-$("#edit_goals a").click(not_implemented)
+$("#edit_goals").click(not_implemented)
 
 function not_implemented(){
-    alert("Sorry, this functionality is not yet implemented."); 
+    var el = $("#iphone");
+    var content = "<p class=\"alert\"> This is not yet implemented. </p>"
+    el.after(content);
     return false;
 }
 
