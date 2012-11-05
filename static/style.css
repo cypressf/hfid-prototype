@@ -169,6 +169,10 @@ header a {
     display:block;
 }
 
+header.hidden {
+    display:none;
+}
+
 /*******
 goals page
 ********/
@@ -229,6 +233,9 @@ workout list and form
     width:100%;
 }
 
+#search.focus {
+    margin-top:10px;
+}
 
 /******************************
 big workout and measure buttons

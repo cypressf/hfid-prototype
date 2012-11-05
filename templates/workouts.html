@@ -16,7 +16,7 @@
 
     <ul id="workouts">
     {% for w in all_workouts %}
-        <li>
+        <li id="{{ w[0] }}">
         <p class="workout_name">{{ w[0] }}</p>
             <form id="{{ w[0] }}">
                 <input type="hidden" name="workout_name" value="{{ w[0] }}">
