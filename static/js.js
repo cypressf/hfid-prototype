@@ -11,7 +11,12 @@ $("#workouts form").submit(add_workout);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
 $("#measurements_form form").submit(add_measurement);
+$("#search input").focus(searchfocus);
 
+function searchfocus(){
+    window.scrollTo(0, 1);
+    console.log('focus');
+}
 
 // show the workout form for a workout
 function expand_workout(){
@@ -71,6 +76,10 @@ function remove_set(e) {
         el.parent().remove();
     }
     // $(this).parent().remove();
+}
+
+function search() {
+
 }
 
 $(function() {
