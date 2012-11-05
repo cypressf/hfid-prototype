@@ -420,3 +420,11 @@ big workout and measure buttons
         z-index:1000;
     }
 }
+
+.alert {
+    float:right;
+    background:#daf1ff;
+    border-radius:0.5em;
+    box-shadow:0 0 0 10px #000;
+    margin:2em;
+}
