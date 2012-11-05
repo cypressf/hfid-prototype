@@ -13,7 +13,7 @@
         {% for measurement in measurements %}
         <li>
             <p class="measurement_name item_name">{{  measurement[0] }}</p>
-            <form id="measurements_form">
+            <form>
             <div id="{{ measurement[0] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}" />
                 <input type="hidden" name="measurement_name" value="{{ measurement[0] }}" />

@@ -258,7 +258,7 @@ workout list and form
 
 }
 
-.list form .set input, .list #measurements_form input {
+.list form .set input, .list #measurements form input {
     width:4em;
     font-size:1em;
 }

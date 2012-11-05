@@ -13,7 +13,7 @@ $(".measurement_name").click(expand_measurement);
 $("#workouts form").submit(add_workout);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
-$("#measurements_form").submit(add_measurement);
+$("#measurements form").submit(add_measurement);
 $("#search input").focus(searchfocus);
 $("#search input").blur(searchblur);
 $("#search input").keyup(search);
@@ -97,7 +97,7 @@ function add_workout() {
     // remove the submission event handler
     // from the title expander,
     // and reattach the expansion event handler
-    var title = $(this).parent().children(".workout_name");
+    var title = $(this).parent().children(".item_name");
     title.off("click", add_workout);
     title.click(expand_workout);
 
@@ -114,7 +114,14 @@ function add_workout() {
 function add_measurement() {
     console.log("measurement being added....")
     // hide the form
-    //$(this).parent().removeClass("add");
+    $(this).parent().removeClass("add");
+
+    // remove the submission event handler
+    // from the title expander,
+    // and reattach the expansion event handler
+    var title = $(this).parent().children(".item_name");
+    title.off("click", add_measurement);
+    title.click(expand_measurement);
 
     // submit the data via post
     var form = $(this).parent().children("form");
