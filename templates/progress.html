@@ -4,7 +4,11 @@
 <header>
 <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s progress</h1>
 </header>
-
+<div id="graph_container">
+<img src="/static/img/sample_graph1.png" id="graph1" class="graph">
+<img src="/static/img/sample_graph2.png" id="graph2" class="graph">
+<img src="/static/img/sample_graph3.png" id="graph3" class="graph">
+</div>
 <nav>
     <ul>
         <li><a href="/client/{{ client.id }}/measurements/list" id="measure"><p>Measure</p></a></li>

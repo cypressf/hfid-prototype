@@ -306,6 +306,13 @@ margin-top:52px;
     padding: 0.5em;
 }
 
+#graph_container {
+    margin-top: 55px;
+}
+
+.graph{
+    width:100%;
+}
 
 /******************************
 big workout and measure buttons
