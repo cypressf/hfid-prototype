@@ -64,6 +64,7 @@ nav {
     position:fixed;
     bottom:0;
     z-index:1000;
+    width:320;
 }
 nav ul {
     border-top:1px solid #212427;
