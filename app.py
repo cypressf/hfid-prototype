@@ -34,6 +34,19 @@ def client(id):
     client = Client.query.filter_by(id=id).first()
     return render_template("client.html", client=client)
 
+
+@app.route("/client/<id>/progress")
+def progress(id):
+    client = Client.query.filter_by(id=id).first()
+    return render_template("progress.html",client=client)
+
+@app.route("/client/<id>/goals")
+def goals(id):
+    client = Client.query.filter_by(id=id).first()
+    return render_template("goals.html",client=client)
+
+
+
 @app.route("/client/<id>/workouts/<edit>")
 def workouts(id, edit):
     if edit == "edit":
@@ -130,11 +143,6 @@ def edit_workout(id,wo_id):
         pass
     db.session.commit()
     return 'true'
-
-@app.route("/api/client/<id>/goals")
-def goals(id):
-    client = Client.query.filter_by(id=id).first()
-    return render_template("goals.html",client=client)
 
 class Client(db.Model):
     __tablename__ = 'clients'
