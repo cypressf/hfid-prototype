@@ -2,19 +2,14 @@
 
 {% block content %}
 <header>
-<a href="/" class="ios-button ios-arrow-left">All clients</a> <h1>{{ client.firstname }}</h1>
+<a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s progress</h1>
 </header>
-
-<ul id="add_something">
-    <li><a href="{{ request.path }}/workouts/edit">Add a workout</a></li>
-    <li><a href="{{ request.path }}/measurements/edit">Add a measurement</a></li>
-</ul>
 
 <nav>
     <ul>
         <li><a href="/client/{{ client.id }}/measurements/list" id="measure"><p>Measure</p></a></li>
         <li><a href="/client/{{ client.id }}/workouts/list" id="workout"><p>Workout</p></a></li>
-        <li><a href="/client/{{ client.id }}/progress" id="progress"><p>Progress</p></a></li>
+        <li><a href="/client/{{ client.id }}/progress" id="progress" class="active"><p>Progress</p></a></li>
         <li><a href="/client/{{ client.id }}/goals" id="goals"><p>Goals</p></a></li>
     </ul>
 </nav>
