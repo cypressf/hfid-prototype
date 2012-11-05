@@ -52,8 +52,11 @@ def workouts(id):
     client = Client.query.filter_by(id=id).first()
     client_workouts = client.workouts()
     todays_workouts = [w for w in client_workouts if w.date.date() == datetime.now().date()]
+    todays_workouts_names = [w.name for w in todays_workouts]
     top_workouts  = client.top_workouts()
-    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts, todays_workouts = todays_workouts)
+    top_workouts_names = [w[0] for w in top_workouts]
+    all_workouts_edited = [w for w in all_workouts if w[0] not in todays_workouts_names and w[0] not in top_workouts_names]
+    return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts_edited, todays_workouts = todays_workouts)
 
    
 @app.route("/client/<id>/measurements/<edit>")
@@ -97,11 +100,32 @@ def api_add_workout():
     client = Client.query.filter_by(id=client_id).first()
     workout_name = request.form['workout_name']
     workout_type = request.form['workout_type']
-    
+    todays_workouts = [w for w in client.workouts() if w.date.date() == datetime.now().date()]
+    todays_workouts_names = [w.name for w in todays_workouts]
+    if workout_name in todays_workouts_names:
+        this_workout = [w for w in todays_workouts if w.name == workout_name]
+        this_workout = this_workout[0]
+        if workout_type == 'Time_Length_Workout':
+            this_workout.time = timedelta(minutes=float(request.form["workout_time"]))
+            this_workout.length = float(request.form["workout_length"])
+            db.session.commit()
+            db.session.add(this_workout)
+            return jsonify(submitted=True)
+        if workout_type == 'Rep_Set_Workout':
+            weights = [float(i) for i in request.form.getlist("weight")]
+            print weights
+            reps = [int(i) for i in request.form.getlist("reps")]
+            print reps
+            this_workout.weights = weights
+            this_workout.reps = reps
+            this_workout.sets = len(reps)
+            db.session.add(this_workout)
+            db.session.commit()
+            return jsonify(submitted=True)
     if workout_type == 'Time_Length_Workout':
         new_workout = Time_Length_Workout(workout_name, client)
         new_workout.time =  timedelta(minutes=float(request.form["workout_time"]))
-        new_workout.length = int(request.form["workout_length"])
+        new_workout.length = float(request.form["workout_length"])
     
     if workout_type == 'Rep_Set_Workout':
         weights = [float(i) for i in request.form.getlist("weight")]

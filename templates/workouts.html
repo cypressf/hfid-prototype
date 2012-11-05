@@ -18,9 +18,36 @@
                 <input type="hidden" name="workout_name" value="{{ w.name }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}">
                 <input type="hidden" name="workout_type" value="{{ w.__class__.__name__ }}">
+                {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+                {% for i in range(w.sets) %}
+                    <div class="set">
+                    <a class="remove_set"></a>
+                    <label>
+                        <input type="tel" name="reps" value="{{ w.reps[i] }}">
+                        reps
+                    </label>
+                    <label>
+                        <input type="tel" name="weight" value="{{ w.weights[i] }}">
+                        lbs
+                    </label>          
+                </div>
+                {% endfor %}
+                {% else %}
                 <div class="set">
                     <a class="remove_set"></a>
+                    <label class="workout_time">
+                        <input type="tel" name="workout_time" value="{{ w.time.seconds//60 }}">
+                        min
+                    </label>
+                    <label class="workout_length">
+                        <input type="tel" name="workout_length" value="{{ w.length }}">
+                        mi
+                    </label>
+                </div>
+                {% endif %}
+                <div class="set">
                     {% if w.type == "Rep_Set_Workout" %}
+                    <a class="remove_set"></a>
                     <label>
                         <input type="tel" name="reps">
                         reps
@@ -31,18 +58,18 @@
                     </label>
                     
                     {% else %}
-                    <label class="workout_time">
+<!--                     <label class="workout_time">
                         <input type="tel" name="workout_time">
                         min
                     </label>
                     <label class="workout_length">
                         <input type="tel" name="workout_length">
                         mi
-                    </label>
+                    </label> -->
                     {% endif %}
                 
                 </div>
-                {% if w.type == "Rep_Set_Workout" %}
+                {% if w.__class__.__name__ == "Rep_Set_Workout" %}
                 <a class="add_set">Add set</a>
                 {% endif %}
                 <input type="submit" value="Done" class="ios-button">
