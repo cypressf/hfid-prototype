@@ -200,7 +200,7 @@ def measurement_summary(id):
     for date in all_other_dates:
         date_dict[date] = []
     for measurement in other_measurements:
-        date_dict[measurement.date.date()].append(workout)
+        date_dict[measurement.date.date()].append(measurement)
     return render_template("measurement_summary.html", client=client, todays_measurements=measurements,yesterdays_measurements=yesterdays_measurements,other_measurements=date_dict)
 
 def get_all_other_measurement_dates(owner_id):
