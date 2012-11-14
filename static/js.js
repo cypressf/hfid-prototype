@@ -107,6 +107,12 @@ function add_workout() {
     $.post('/api/add_workout', form.serialize(), function(data) {
         console.log(data);
     });
+    //prepare the list item for moving
+    $(this).parent().addClass("today")
+    //now that a workout's been added, we need to move it.
+    var li_loc = Math.ceil($("#workouts li.today").length);
+    $("#workouts li:nth-child(" + li_loc + ")").after($(this).parent())
+    //Show/hide the "workout saved" notification
     $(document.getElementById("wo_saved_notif_div")).slideToggle();
     window.setTimeout(function(){
         $(document.getElementById("wo_saved_notif_div")).slideToggle();
