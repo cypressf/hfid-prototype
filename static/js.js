@@ -107,6 +107,10 @@ function add_workout() {
     $.post('/api/add_workout', form.serialize(), function(data) {
         console.log(data);
     });
+    $(document.getElementById("wo_saved_notif_div")).slideToggle();
+    window.setTimeout(function(){
+        $(document.getElementById("wo_saved_notif_div")).slideToggle();
+    },5000)
 
     return false;
 }

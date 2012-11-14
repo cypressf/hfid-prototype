@@ -5,10 +5,14 @@
     <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>{{ client.firstname }}'s workouts</h1>
     <a href="/client/{{ client.id }}/workouts/list" id="done_workouts" class="ios-button">Done</a>
 </header>
-
+<div id="search_area_wrapper">
+<div class="wo_saved_notif" id="wo_saved_notif_div"> 
+<p class="wo_saved_notif"> Workouts Saved </p>
+</div>
 <form id="search">
     <input type="search" placeholder="search workouts">
 </form>
+</div>
 
     <ul id="workouts" class="list">
     {% for w in todays_workouts %}
