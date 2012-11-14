@@ -275,7 +275,6 @@ margin:50px 0 0 0;
 }
 
 div.wo_saved_notif {
-    margin: 50px 0 0 0;
     background-color: #2BD551;
     padding: 0.2em;
     display: none;
@@ -285,14 +284,6 @@ p.wo_saved_notif {
     text-align: center;
     color: #F5F5F5;
 }
-div.wo_saved_notif .add {
-    margin: 50px 0 0 0;
-    background-color: #2BD551;
-    padding: 0.2em;
-    display: block;
-}
-
-
 
 #search {
     padding:1em;
