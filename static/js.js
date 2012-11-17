@@ -15,7 +15,7 @@ $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
 $("#measurements form").submit(add_measurement);
 $("#search input").focus(searchfocus);
-$("#search input").blur(searchblur);
+$("#search input")[0].addEventListener("blur", searchblur);
 $("#search input").keyup(search);
 $("#search input").click(search);
 $("#edit_goals").click(not_implemented);
