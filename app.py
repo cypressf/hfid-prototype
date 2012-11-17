@@ -136,18 +136,24 @@ def api_add_workout():
             db.session.commit()
             return jsonify(submitted=True)
     if workout_type == 'Time_Length_Workout':
-        new_workout = Time_Length_Workout(workout_name, client)
-        new_workout.time =  timedelta(minutes=float(request.form["workout_time"]))
-        new_workout.length = float(request.form["workout_length"])
+        try:
+            new_workout = Time_Length_Workout(workout_name, client)
+            new_workout.time =  timedelta(minutes=float(request.form["workout_time"]))
+            new_workout.length = float(request.form["workout_length"])
+        except:
+            return jsonify(submitted=False)
     
     if workout_type == 'Rep_Set_Workout':
-        weights = [float(i) for i in request.form.getlist("weight")]
-        reps = [int(i) for i in request.form.getlist("reps")]
-        
-        new_workout = Rep_Set_Workout(workout_name, client)
-        new_workout.reps = reps
-        new_workout.weights = weights
-        new_workout.sets = len(reps)
+        try:
+            weights = [float(i) for i in request.form.getlist("weight")]
+            reps = [int(i) for i in request.form.getlist("reps")]
+            
+            new_workout = Rep_Set_Workout(workout_name, client)
+            new_workout.reps = reps
+            new_workout.weights = weights
+            new_workout.sets = len(reps)
+        except:
+            return jsonify(submitted=False)
     
     new_workout.date = datetime.now()
     db.session.add(new_workout)
