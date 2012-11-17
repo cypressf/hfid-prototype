@@ -270,10 +270,6 @@ workout list and form
     width:2em;
 }
 
-#search_area_wrapper {
-margin:50px 0 0 0;
-}
-
 div.wo_saved_notif {
     background-color: #2BD551;
     padding: 0.2em;
@@ -286,6 +282,7 @@ p.wo_saved_notif {
 }
 
 #search {
+    margin:50px 0 0 0;
     padding:1em;
     background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#afafaf), color-stop(50%,#5b5b5b), color-stop(51%,#4c4c4c), color-stop(100%,#4c4c4c));
 }
