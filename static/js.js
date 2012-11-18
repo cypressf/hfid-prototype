@@ -88,7 +88,9 @@ function expand_workout(){
     $(this).off("click", expand_workout);
     $(this).click(add_workout);
     $(this).parent().addClass("add");
-    $(this).parent()[0].scrollIntoView();
+    var top = $(this).parent().position().top;
+    var position = $("#iphone")[0].scrollTop + top - 150;
+    $("#iphone").animate({scrollTop: position}, 200);
 }
 
 // show the workout form for a workout
