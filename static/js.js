@@ -51,14 +51,23 @@ function filter(search_string) {
     search_string = search_string.toLowerCase();
 
     var workouts = $("#workouts li");
+    var j = 0;
     for (var i = 0; i < workouts.length; i ++) {
         var w = workouts[i].id.toLowerCase();
         if ( w.contains(search_string) ) {
             $(workouts[i]).removeClass("hidden");
+            j ++;
         }
         else {
            $(workouts[i]).addClass("hidden");
         }
+    }
+
+    if (!j) {
+        $(".search-error").removeClass("hidden");
+    }
+    else {
+        $(".search-error").addClass("hidden");
     }
 }
 
@@ -79,6 +88,7 @@ function expand_workout(){
     $(this).off("click", expand_workout);
     $(this).click(add_workout);
     $(this).parent().addClass("add");
+    $(this).parent()[0].scrollIntoView();
 }
 
 // show the workout form for a workout

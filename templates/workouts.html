@@ -78,6 +78,7 @@
             </form>
         </li>
     {% endfor %}
+    <div class="search-error hidden">No workouts found</div>
     {% for w in all_workouts %}
         <li id="{{ w[0] }}">
         <p class="workout_name item_name">{{ w[0] }}</p>

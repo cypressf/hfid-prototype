@@ -337,7 +337,16 @@ p.wo_saved_notif {
 .graph{
     width:100%;
 }
-
+.search-error.hidden {
+    display:none;
+}
+.search-error {
+    padding:1em;
+    font-weight:bold;
+    color:#ffffff;
+    text-shadow:-1px -1px #080808;
+    background:#4c4c4c;
+}
 /******************************
 big workout and measure buttons
 *******************************/
