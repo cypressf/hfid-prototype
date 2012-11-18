@@ -11,12 +11,13 @@
 <form id="search">
     <input type="search" placeholder="search workouts">
 </form>
+    <div class="search-error hidden">No workouts found</div>
 
     <ul id="workouts" class="list">
     {% for w in todays_workouts %}
         <li class="today" id="{{ w.name }}">
             <p class="workout_name item_name">{{ w.name }}</p>
-            <form id="{{ w.name }}">
+            <form id="{{ w.name }}" class="{{ w.__class__.__name__ }}">
                 <input type="hidden" name="workout_name" value="{{ w.name }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}">
                 <input type="hidden" name="workout_type" value="{{ w.__class__.__name__ }}">
@@ -78,11 +79,10 @@
             </form>
         </li>
     {% endfor %}
-    <div class="search-error hidden">No workouts found</div>
     {% for w in all_workouts %}
         <li id="{{ w[0] }}">
         <p class="workout_name item_name">{{ w[0] }}</p>
-            <form id="{{ w[0] }}">
+            <form id="{{ w[0] }}" class="{{ w[1] }}">
                 <input type="hidden" name="workout_name" value="{{ w[0] }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}">
                 <input type="hidden" name="workout_type" value="{{ w[1] }}">

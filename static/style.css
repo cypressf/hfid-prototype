@@ -271,6 +271,12 @@ workout list and form
 .list form .set label.workout_length input{
     width:2em;
 }
+.list.no-done form input[type=submit]{
+    display:none;
+}
+.list.no-done form.Time_Length_Workout{
+    padding-bottom:0;
+}
 
 div.wo_saved_notif {
     background-color: #2BD551;
@@ -484,4 +490,3 @@ big workout and measure buttons
         z-index:1000;
     }
 }
-
