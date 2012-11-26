@@ -20,6 +20,7 @@ $("#search input").keyup(search);
 $("#search input").click(search);
 $("#edit_goals").click(not_implemented);
 $("#add").click(not_implemented);
+$("input[type=tel]").blur(test);
 
 function not_implemented(){
     $("#edit_goals").off("click", not_implemented);
@@ -114,19 +115,24 @@ function add_workout() {
     title.off("click", add_workout);
     title.click(expand_workout);
 
-    // submit the data via post
     var form = $(this).parent().children("form");
-    $.post('/api/add_workout', form.serialize(), function(data) {
-        console.log(data);
-    });
-    $(document.getElementById("wo_saved_notif_div")).slideToggle();
-    window.setTimeout(function(){
-        $(document.getElementById("wo_saved_notif_div")).slideToggle();
-    },5000)
+    submit_workout(form);
 
     return false;
 }
 
+
+// submit a workout to the database
+function submit_workout(form) {
+    // submit the data via post
+    $.post('/api/add_workout', form.serialize(), function(data) {
+        console.log(data);
+        $(document.getElementById("wo_saved_notif_div")).slideToggle();
+        window.setTimeout(function(){
+            $(document.getElementById("wo_saved_notif_div")).slideToggle();
+        },1000)
+    });
+}
 
 function add_measurement() {
     console.log("measurement being added....")
