@@ -174,6 +174,9 @@ function add_measurement() {
 // make another set appear in the form
 function add_set() {
     var el = $(this).parent().children(".set:last");
+    if (el.length === 0) {
+        el = $(this).parent().children("input[type=hidden]:last");
+    }
     var content = "<div class=\"set\">\
                     <a class=\"remove_set\"></a>\
                     <label>\
