@@ -20,7 +20,7 @@ $("#search input").keyup(search);
 $("#search input").click(search);
 $("#edit_goals").click(not_implemented);
 $("#add").click(not_implemented);
-$("input[type=tel]").blur(test);
+// $("input[type=tel]").blur(check_for_submit);
 
 function not_implemented(){
     $("#edit_goals").off("click", not_implemented);
@@ -102,23 +102,37 @@ function expand_measurement(){
 }
 
 
-// submit the workout to the database
-function add_workout() {
 
-    // hide the form
-    $(this).parent().removeClass("add");
+// onblur of form element, check to see if it can be submitted
+// if so, submit it
+function check_for_submit() {
+    save_workout($(this).closest("li"));
+}
 
+
+function save_workout(list_item) {
+    
     // remove the submission event handler
     // from the title expander,
     // and reattach the expansion event handler
-    var title = $(this).parent().children(".item_name");
+    var title = list_item.children(".item_name");
     title.off("click", add_workout);
     title.click(expand_workout);
 
-    var form = $(this).parent().children("form");
+    var form = list_item.children("form");
     submit_workout(form);
 
     return false;
+}
+
+
+// fires when the workout is collapsed or done is pressed
+function add_workout() {
+    // hide the form
+    var list_item = $(this).parent();
+    list_item.removeClass("add");
+
+    save_workout(list_item);
 }
 
 
