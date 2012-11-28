@@ -127,10 +127,12 @@ function submit_workout(form) {
     // submit the data via post
     $.post('/api/add_workout', form.serialize(), function(data) {
         console.log(data);
-        $(document.getElementById("wo_saved_notif_div")).slideToggle();
-        window.setTimeout(function(){
+        if (data.submitted === true ) {
             $(document.getElementById("wo_saved_notif_div")).slideToggle();
-        },1000)
+            window.setTimeout(function(){
+                $(document.getElementById("wo_saved_notif_div")).slideToggle();
+            },1000)
+        }
     });
 }
 
