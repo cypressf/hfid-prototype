@@ -118,6 +118,14 @@ function add_workout() {
     var form = $(this).parent().children("form");
     $.post('/api/add_workout', form.serialize(), function(data) {
         console.log(data);
+        if (data.submitted===true) {
+             //prepare the list item for moving
+    $(this).parent().addClass("today");
+    //now that a workout's been added, we need to move it.
+    var li_loc = Math.ceil($("#workouts li.today").length);
+    $("#workouts li:nth-child(" + li_loc + ")").after($(this).parent());
+    console.log("I tried to move it!")
+        };
     });
     $(document.getElementById("wo_saved_notif_div")).slideToggle();
     window.setTimeout(function(){
