@@ -106,7 +106,7 @@ function add_workout() {
 
     // hide the form
     $(this).parent().removeClass("add");
-
+    var me = $(this);
     // remove the submission event handler
     // from the title expander,
     // and reattach the expansion event handler
@@ -120,18 +120,19 @@ function add_workout() {
         console.log(data);
         if (data.submitted===true) {
              //prepare the list item for moving
-    $(this).parent().addClass("today");
+    me.addClass("today");
     //now that a workout's been added, we need to move it.
     var li_loc = Math.ceil($("#workouts li.today").length);
-    $("#workouts li:nth-child(" + li_loc + ")").after($(this).parent());
-    console.log("I tried to move it!")
+    $("#workouts li:nth-child(" + li_loc + ")").after(me.parent());
         };
     });
     $(document.getElementById("wo_saved_notif_div")).slideToggle();
-    window.setTimeout(function(){
-        $(document.getElementById("wo_saved_notif_div")).slideToggle();
-    },5000)
-
+    window.setTimeout(
+        function()
+        {
+         $(document.getElementById("wo_saved_notif_div")).slideToggle();
+        },5000
+    );
     return false;
 }
 
