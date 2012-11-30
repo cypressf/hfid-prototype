@@ -18,8 +18,8 @@ $("#search input").focus(searchfocus);
 $("#search input")[0].addEventListener("blur", searchblur);
 $("#search input").keyup(search);
 $("#search input").click(search);
-// $("#edit_goals").click(not_implemented);
-// $("#add").click(not_implemented);
+$("#edit_goals").click(not_implemented);
+$("#add").click(not_implemented);
 
 var checks = false;
 var notification = false;
