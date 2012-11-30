@@ -278,6 +278,12 @@ workout list and form
     padding-bottom:0;
 }
 
+.list .set.saved {
+    background-image:url('/static/img/check_mark.png');
+    background-repeat:no-repeat;
+    background-position:100% 0;
+}
+
 div.wo_saved_notif {
     background-color: #2BD551;
     padding: 0.2em;
