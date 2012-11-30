@@ -8,9 +8,9 @@ window.addEventListener("load",function() {
 });
 
 // event listeners
-$(".workout_name").click(expand_workout);
+$(".workout_name").click(expand_collapse);
 $(".measurement_name").click(expand_measurement);
-$("#workouts form").submit(add_workout);
+$("#workouts form").submit(done_clicked);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
 $("#measurements form").submit(add_measurement);
@@ -18,10 +18,17 @@ $("#search input").focus(searchfocus);
 $("#search input")[0].addEventListener("blur", searchblur);
 $("#search input").keyup(search);
 $("#search input").click(search);
-$("#edit_goals").click(not_implemented);
-$("#add").click(not_implemented);
-$("input[type=tel]:last-child").live('blur', check_for_submit);
+// $("#edit_goals").click(not_implemented);
+// $("#add").click(not_implemented);
 
+var checks = false;
+var notification = false;
+
+var workout_inputs = $("input[type=tel]");
+for (var i = 0; i < workout_inputs.length; i++) {
+    console.log(workout_inputs[i]);
+    workout_inputs[i].addEventListener("keyup", check_for_submit);
+}
 
 function not_implemented(){
     $("#edit_goals").off("click", not_implemented);
@@ -86,13 +93,23 @@ function searchblur(){
 
 
 // show the workout form for a workout
-function expand_workout(){
-    $(this).off("click", expand_workout);
-    $(this).click(add_workout);
-    $(this).parent().addClass("add");
-    var top = $(this).parent().position().top;
-    var position = $("#iphone")[0].scrollTop + top - 150;
-    $("#iphone").animate({scrollTop: position}, 200);
+function expand_collapse(){
+    var li = $(this).parent();
+    if (li.hasClass("add")) {
+        collapse_and_submit(li);
+    }
+    else {
+        li.addClass("add");
+        var sets = li[0].querySelectorAll(".set");
+        var last_set = sets[sets.length -1];
+        var active_field = last_set.querySelector("input");
+        active_field.focus();
+
+        var top = li.position().top;
+        var position = $("#iphone")[0].scrollTop + top - 150;
+        $("#iphone").animate({scrollTop: position}, 200);
+    }
+
 }
 
 // show the workout form for a workout
@@ -103,54 +120,64 @@ function expand_measurement(){
 }
 
 
-
-// onblur of form element, check to see if it can be submitted
-// if so, submit it
 function check_for_submit(e) {
-    save_workout($(this).closest("li"));
-    $(this).closest(".set").removeClass("saved");
-    spinner_on($(this).closest(".set")[0]);
+    var form = $(this).closest("form");
+    var set = $(this).closest(".set");
+    if (validate(set)) {
+        set.removeClass("saved");
+        if ( $(".spinner", set).length < 1 ) {
+            console.log("yes");
+            spinner_on(set[0]);
+        };
+        submit_workout(form,  {checks:true});
+    }
 }
 
+function validate(set) {
+    var inputs = set[0].querySelectorAll("input");
+    var is_valid = true;
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        if (isNaN(input.value)) {
+            is_valid = false;
+            break;
+        }
+    }
+    return is_valid;
+}
 
-function save_workout(list_item) {
-    
-    // remove the submission event handler
-    // from the title expander,
-    // and reattach the expansion event handler
-    var title = list_item.children(".item_name");
-    title.off("click", add_workout);
-    title.click(expand_workout);
-
-    var form = list_item.children("form");
-    submit_workout(form);
-
+// fires when workout is submitted via done button
+function done_clicked(e) {
+    collapse_and_submit($(this).closest("li"));
+    // prevent the "done" button from refreshing the page
     return false;
 }
 
-
-// fires when the workout is collapsed or done is pressed
-function add_workout() {
-    // hide the form
-    var list_item = $(this).parent();
-    list_item.removeClass("add");
-
-    save_workout(list_item);
+// submit a workout, and collapse the form
+function collapse_and_submit(li) {
+    // hide the form, and submit the data
+    li.removeClass("add");
+    var form = li.children("form");
+    submit_workout(form, {notification:true});
 }
 
 
 // submit a workout to the database
-function submit_workout(form) {
+function submit_workout(form, validation) {
     // submit the data via post
     $.post('/api/add_workout', form.serialize(), function(data) {
         console.log(data);
+        spinner_off(form);
         if (data.submitted === true ) {
-            $(document.getElementById("wo_saved_notif_div")).slideToggle();
-            window.setTimeout(function(){
+            if(notification && validation.notification) {
                 $(document.getElementById("wo_saved_notif_div")).slideToggle();
-            },1000)
-            spinner_off(form);
-            $(".set", $(form)).addClass("saved");
+                window.setTimeout(function(){
+                    $(document.getElementById("wo_saved_notif_div")).slideToggle();
+                },1000)
+            }
+            if(checks && validation.checks) {
+                $(".set", $(form)).addClass("saved");
+            }
         }
     });
 }
@@ -178,9 +205,9 @@ function add_measurement() {
 
 // make another set appear in the form
 function add_set() {
-    var el = $(this).parent().children(".set:last");
-    if (el.length === 0) {
-        el = $(this).parent().children("input[type=hidden]:last");
+    var last_set = $(this).parent().children(".set:last");
+    if (last_set.length === 0) {
+        last_set = $(this).parent().children("input[type=hidden]:last");
     }
     var content = "<div class=\"set\">\
                     <a class=\"remove_set\"></a>\
@@ -192,8 +219,14 @@ function add_set() {
                         <input type=\"tel\" name=\"weight\">\
                         lbs\
                     </label>\
-                </div>"
-    el.after(content);
+                </div>";
+    last_set.after(content);
+    var new_set = last_set.next();
+    var input_fields =  new_set.children("label").children("input");
+    for (var i = 0; i < input_fields.length; i++) {
+        input_fields[i].addEventListener("keyup", check_for_submit);
+    }
+    input_fields[0].focus();
 }
 
 // remove a set
@@ -214,13 +247,23 @@ function done_button(bool){
     }
 }
 
-done_button(false);
-
-function spinner_off(element) {
-    $(".spinner", $(element)).remove();
+function set_checks(bool) {
+    checks = bool;
 }
 
-function spinner_on(element){
+function set_notification(bool) {
+    notification = bool;
+}
+
+done_button(false);
+set_checks(true);
+set_notification(true);
+
+function spinner_off(form) {
+    $(".spinner", $(form)).remove();
+}
+
+function spinner_on(set){
     var opts = {
       lines: 9, // The number of lines to draw
       length: 4, // The length of each line
@@ -238,5 +281,5 @@ function spinner_on(element){
       top: 0, // Top position relative to parent in px
       left: 265 // Left position relative to parent in px
     };
-    var spinner = new Spinner(opts).spin(element);
+    var spinner = new Spinner(opts).spin(set);
 }
