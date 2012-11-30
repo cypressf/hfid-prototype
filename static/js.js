@@ -105,11 +105,15 @@ function expand_collapse(){
         var active_field = last_set.querySelector("input");
         active_field.focus();
 
-        var top = li.position().top;
-        var position = $("#iphone")[0].scrollTop + top - 150;
-        $("#iphone").animate({scrollTop: position}, 200);
+        scroll_to_workout(li);
     }
 
+}
+
+function scroll_to_workout(li) {
+    var top = li.position().top;
+    var position = $("#iphone")[0].scrollTop + top - 150;
+    $("#iphone").animate({scrollTop: position}, 200);
 }
 
 // show the workout form for a workout
@@ -162,6 +166,28 @@ function collapse_and_submit(li) {
 }
 
 
+function move_to_top(li) {
+    // move the li to the top and add the "today" class
+    // if it isn't there already
+    var active_input = document.activeElement;
+
+    if (!li.hasClass("today")) {
+        var ul = li.parent();
+        li.detach();
+        ul.prepend(li);
+        li.addClass("today");
+
+        // move the screen so we can see it, 
+        // and refocus the input element, so we can
+        // keep typing with ease
+        scroll_to_workout(li);
+        if (active_input){
+            active_input.focus();
+        }
+    }
+}
+
+
 // submit a workout to the database
 function submit_workout(form, validation) {
     // submit the data via post
@@ -169,6 +195,10 @@ function submit_workout(form, validation) {
         console.log(data);
         spinner_off(form);
         if (data.submitted === true ) {
+
+            var li = form.closest("li");
+            move_to_top(li);
+
             if(notification && validation.notification) {
                 $(document.getElementById("wo_saved_notif_div")).slideToggle();
                 window.setTimeout(function(){
