@@ -48,8 +48,8 @@
                     </label>
                 </div>
                 {% endif %}
+                {% if w.type == "Rep_Set_Workout" %}
                 <div class="set">
-                    {% if w.type == "Rep_Set_Workout" %}
                     <a class="remove_set"></a>
                     <label>
                         <input type="tel" name="reps">
@@ -59,19 +59,9 @@
                         <input type="tel" name="weight">
                         lbs
                     </label>
-                    
-                    {% else %}
-<!--                     <label class="workout_time">
-                        <input type="tel" name="workout_time">
-                        min
-                    </label>
-                    <label class="workout_length">
-                        <input type="tel" name="workout_length">
-                        mi
-                    </label> -->
-                    {% endif %}
-                
                 </div>
+                {% endif %}
+                
                 {% if w.__class__.__name__ == "Rep_Set_Workout" %}
                 <a class="add_set">Add set</a>
                 {% endif %}

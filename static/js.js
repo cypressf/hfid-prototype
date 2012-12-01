@@ -8,9 +8,9 @@ window.addEventListener("load",function() {
 });
 
 // event listeners
-$(".workout_name").click(expand_workout);
+$(".workout_name").click(expand_collapse);
 $(".measurement_name").click(expand_measurement);
-$("#workouts form").submit(add_workout);
+$("#workouts form").submit(done_clicked);
 $(".add_set").click(add_set);
 $("#workouts form").click(remove_set);
 $("#measurements form").submit(add_measurement);
@@ -20,6 +20,15 @@ $("#search input").keyup(search);
 $("#search input").click(search);
 $("#edit_goals").click(not_implemented);
 $("#add").click(not_implemented);
+
+var checks = false;
+var notification = false;
+
+var workout_inputs = $("input[type=tel]");
+for (var i = 0; i < workout_inputs.length; i++) {
+    console.log(workout_inputs[i]);
+    workout_inputs[i].addEventListener("keyup", check_for_submit);
+}
 
 function not_implemented(){
     $("#edit_goals").off("click", not_implemented);
@@ -84,11 +93,25 @@ function searchblur(){
 
 
 // show the workout form for a workout
-function expand_workout(){
-    $(this).off("click", expand_workout);
-    $(this).click(add_workout);
-    $(this).parent().addClass("add");
-    var top = $(this).parent().position().top;
+function expand_collapse(){
+    var li = $(this).parent();
+    if (li.hasClass("add")) {
+        collapse_and_submit(li);
+    }
+    else {
+        li.addClass("add");
+        var sets = li[0].querySelectorAll(".set");
+        var last_set = sets[sets.length -1];
+        var active_field = last_set.querySelector("input");
+        active_field.focus();
+
+        scroll_to_workout(li);
+    }
+
+}
+
+function scroll_to_workout(li) {
+    var top = li.position().top;
     var position = $("#iphone")[0].scrollTop + top - 150;
     $("#iphone").animate({scrollTop: position}, 200);
 }
@@ -101,41 +124,90 @@ function expand_measurement(){
 }
 
 
-// submit the workout to the database
-function add_workout() {
-
-    // hide the form
-    $(this).parent().removeClass("add");
-    var me = $(this);
-    // remove the submission event handler
-    // from the title expander,
-    // and reattach the expansion event handler
-    var title = $(this).parent().children(".item_name");
-    title.off("click", add_workout);
-    title.click(expand_workout);
-
-    // submit the data via post
-    var form = $(this).parent().children("form");
-    $.post('/api/add_workout', form.serialize(), function(data) {
-        console.log(data);
-        if (data.submitted===true) {
-             //prepare the list item for moving
-    me.addClass("today");
-    //now that a workout's been added, we need to move it.
-    var li_loc = Math.ceil($("#workouts li.today").length);
-    $("#workouts li:nth-child(" + li_loc + ")").after(me.parent());
+function check_for_submit(e) {
+    var form = $(this).closest("form");
+    var set = $(this).closest(".set");
+    if (validate(set)) {
+        set.removeClass("saved");
+        if ( $(".spinner", set).length < 1 ) {
+            console.log("yes");
+            spinner_on(set[0]);
         };
-    });
-    $(document.getElementById("wo_saved_notif_div")).slideToggle();
-    window.setTimeout(
-        function()
-        {
-         $(document.getElementById("wo_saved_notif_div")).slideToggle();
-        },5000
-    );
+        submit_workout(form,  {checks:true});
+    }
+}
+
+function validate(set) {
+    var inputs = set[0].querySelectorAll("input");
+    var is_valid = true;
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        if (isNaN(input.value)) {
+            is_valid = false;
+            break;
+        }
+    }
+    return is_valid;
+}
+
+// fires when workout is submitted via done button
+function done_clicked(e) {
+    collapse_and_submit($(this).closest("li"));
+    // prevent the "done" button from refreshing the page
     return false;
 }
 
+// submit a workout, and collapse the form
+function collapse_and_submit(li) {
+    // hide the form, and submit the data
+    li.removeClass("add");
+    var form = li.children("form");
+    submit_workout(form, {notification:true});
+}
+
+function move_to_top(li) {
+    // move the li to the top and add the "today" class
+    // if it isn't there already
+    var active_input = document.activeElement;
+
+    if (!li.hasClass("today")) {
+        var ul = li.parent();
+        li.detach();
+        ul.prepend(li);
+        li.addClass("today");
+
+        // move the screen so we can see it, 
+        // and refocus the input element, so we can
+        // keep typing with ease
+        scroll_to_workout(li);
+        if (active_input){
+            active_input.focus();
+        }
+    }
+}
+
+
+// submit a workout to the database
+function submit_workout(form, validation) {
+    // submit the data via post
+    $.post('/api/add_workout', form.serialize(), function(data) {
+        console.log(data);
+        spinner_off(form);
+        if (data.submitted === true ) {
+            var li = form.closest("li");
+            move_to_top(li);
+            if(notification && validation.notification) {
+                $(document.getElementById("wo_saved_notif_div")).slideToggle();
+                window.setTimeout(function(){
+                    $(document.getElementById("wo_saved_notif_div")).slideToggle();
+                },1000)
+            }
+            if(checks && validation.checks) {
+                $(".set", $(form)).addClass("saved");
+            }
+        }
+    });
+}
 
 function add_measurement() {
     console.log("measurement being added....")
@@ -160,7 +232,10 @@ function add_measurement() {
 
 // make another set appear in the form
 function add_set() {
-    var el = $(this).parent().children(".set:last");
+    var last_set = $(this).parent().children(".set:last");
+    if (last_set.length === 0) {
+        last_set = $(this).parent().children("input[type=hidden]:last");
+    }
     var content = "<div class=\"set\">\
                     <a class=\"remove_set\"></a>\
                     <label>\
@@ -171,8 +246,14 @@ function add_set() {
                         <input type=\"tel\" name=\"weight\">\
                         lbs\
                     </label>\
-                </div>"
-    el.after(content);
+                </div>";
+    last_set.after(content);
+    var new_set = last_set.next();
+    var input_fields =  new_set.children("label").children("input");
+    for (var i = 0; i < input_fields.length; i++) {
+        input_fields[i].addEventListener("keyup", check_for_submit);
+    }
+    input_fields[0].focus();
 }
 
 // remove a set
@@ -193,10 +274,39 @@ function done_button(bool){
     }
 }
 
-$(function() {
-    var availableTags = ['Arm Pullover','Chest Fly','Chest Press','Crossover Chest Fly','Decline Chest Fly','Decline Chest Press','Decline Push Up','Incline Chest Fly','Incline Chest Press','Kneeling Single-Arm Chest Fly','Parallel Grip Chest Press','Reverse Grip Chest Press','Reverse Grip Decline Chest Press','Reverse Grip Incline Chest Press','Single Arm Chest Fly','Single Arm Chest Press','Wide Chest Press','Abdominal Crunch','Cable Abdominal Crunch','Cross-body Pull Over Crunch','Incline Sit-Up','Kneeling Torso Twist','Reverse Fly','Shoulder Abduction','Shoulder Shrug','Supine Cross-Body Shoulder ','Forearm Curl','Incline Biceps Curl','Kneeling Biceps Curl','Kneeling Lateral Biceps Curl','Kneeling Reverse Biceps Curl','Lateral Biceps Curl','Preacher Concentration Curl','Preacher Curl','Preacher Reverse Curl','Prone Biceps Curl','Reverse Forearm Curl','Seated Biceps Curl','Seated Concentration Curl','Seated Reverse Biceps Curl','Supine Biceps Curl','Supine Concentration Curl','Supine Reverse Biceps Curl','High Crossover Lat Row','High Lat Row','Kneeling Lat Row','Lat Fly','Lat Pull-Down','Lat Row','Low Back Extension','Low Crossover Lat Row','Parallel Grip Kneeling Lat Row','Parallel Grip Lat Pull-Down','Parallel Grip Lat Row','Pull Up','Reverse Grip Kneeling Lat Row','Reverse Grip Lat Pull-Down','Reverse Grip Lat Row','Reverse Grip Pull Up','Single Arm Lat Row','Single Arm Pull Up','Surfer Lat Pull','Buns-Up Leg Press','Calf Raise','Cardio Pull','Decline Lunge','Hamstring Curl','Hip Abduction','Hip Adduction','Hip Extension','Incline Lunge','Lateral Lunge','Leg Extension','Leg Thrust','Lying Hip Adduction','Plyometric Split Squat','Plyometric Squat','Rowing Machine','Single Leg Calf Raise','Single Leg Side Squat','Skiing','Split Squat','Sprint Squat','Squat','Standing Split Squat','Toes In Squat','Toes Out Squat','Swimmer','Upright Row','Close Grip Chest Press','Kneeling Reverse Triceps Kickback','Kneeling Triceps Kickback','Lateral Triceps Extension','Overhead Triceps Press','Reverse Grip Overhead Triceps','Reverse Grip Triceps Pressdown','Triceps Dip','Triceps Pressdown'];
-    $( "#tags" ).autocomplete({
-        source: availableTags
-    });
-});
+function set_checks(bool) {
+    checks = bool;
+}
+
+function set_notification(bool) {
+    notification = bool;
+}
+
 done_button(false);
+set_checks(true);
+set_notification(true);
+
+function spinner_off(form) {
+    $(".spinner", $(form)).remove();
+}
+
+function spinner_on(set){
+    var opts = {
+      lines: 9, // The number of lines to draw
+      length: 4, // The length of each line
+      width: 2, // The line thickness
+      radius: 4, // The radius of the inner circle
+      corners: 1, // Corner roundness (0..1)
+      rotate: 0, // The rotation offset
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: 0, // Top position relative to parent in px
+      left: 265 // Left position relative to parent in px
+    };
+    var spinner = new Spinner(opts).spin(set);
+}
