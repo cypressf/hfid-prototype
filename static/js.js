@@ -61,7 +61,7 @@ function search() {
 function filter(search_string) {
     search_string = search_string.toLowerCase();
 
-    var workouts = $(".workouts li");
+    var workouts = $(".workouts li:not(.list-header)");
     var j = 0;
     for (var i = 0; i < workouts.length; i ++) {
         var w = workouts[i].id.toLowerCase();
@@ -93,6 +93,7 @@ function searchblur(){
     $("header").removeClass("hidden");
 }
 
+// clear the search input and show all the workouts
 function clear_search() {
     $("#search input")[0].value = "";
     filter("");
