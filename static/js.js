@@ -173,7 +173,15 @@ function move_to_top(li) {
     if (!li.hasClass("today")) {
         var ul = li.parent();
         li.detach();
-        ul.prepend(li);
+
+        // if the "today's workouts" and "other workouts"
+        // headers are hidden, then show them
+        var headers = ul.children(".list-header");
+        if (headers.hasClass("hidden")) {
+            headers.removeClass("hidden");
+        }
+
+        $(headers[0]).after(li);
         li.addClass("today");
 
         // move the screen so we can see it, 
