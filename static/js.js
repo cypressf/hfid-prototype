@@ -10,9 +10,9 @@ window.addEventListener("load",function() {
 // event listeners
 $(".workout_name").click(expand_collapse);
 $(".measurement_name").click(expand_measurement);
-$("#workouts form").submit(done_clicked);
+$(".workouts form").submit(done_clicked);
 $(".add_set").click(add_set);
-$("#workouts form").click(remove_set);
+$(".workouts form").click(remove_set);
 $("#measurements form").submit(add_measurement);
 $("#search input").focus(searchfocus);
 $("#search input")[0].addEventListener("blur", searchblur);
@@ -59,7 +59,7 @@ function search() {
 function filter(search_string) {
     search_string = search_string.toLowerCase();
 
-    var workouts = $("#workouts li");
+    var workouts = $(".workouts li");
     var j = 0;
     for (var i = 0; i < workouts.length; i ++) {
         var w = workouts[i].id.toLowerCase();

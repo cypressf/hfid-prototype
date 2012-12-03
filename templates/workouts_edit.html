@@ -71,7 +71,7 @@
 
 
 {% if yesterdays_workouts %}
-<h1> Yesterday  <a href="/client/{{ client.id }}/workouts/add"><img height="25px" width="25px" src="{{ url_for('static',filename='img/add.png')}}"></img> add workouts</a> </h1>
+<h1> Yesterday  <a href="/client/{{ client.id }}/workouts/edit"><img height="25px" width="25px" src="{{ url_for('static',filename='img/add.png')}}"></img> add workouts</a> </h1>
 <ul class="list">
  {% for w in yesterdays_workouts %}
      <li class="yesterday" id="{{ w.name }}">
@@ -133,7 +133,7 @@
 
 
 {% for key, val in other_workouts.iteritems() %}
-<h1>{{ key.strftime("%m/%d") }}  <a href="/client/{{ client.id }}/workouts/add"><img height="25px" width="25px" src="{{ url_for('static',filename='img/add.png')}}"></img> add workouts</a> </h1>
+<h1>{{ key.strftime("%m/%d") }}  <a href="/client/{{ client.id }}/workouts/edit"><img height="25px" width="25px" src="{{ url_for('static',filename='img/add.png')}}"></img> add workouts</a> </h1>
 <ul class="list">
  {% for w in val %}
      <li id="{{ w.name }}">

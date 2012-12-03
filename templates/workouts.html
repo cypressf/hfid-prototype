@@ -13,7 +13,7 @@
 </form>
     <div class="search-error hidden">No workouts found</div>
 
-    <ul id="workouts" class="list">
+    <ul class="list workouts">
     <li class="list-header{% if not todays_workouts %} hidden{% endif %}"> Today's workouts </li>
     {% for w in todays_workouts %}
         <li class="today" id="{{ w.name }}">
