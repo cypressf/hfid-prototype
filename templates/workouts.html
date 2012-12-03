@@ -17,16 +17,19 @@
     <li class="list-header{% if not todays_workouts %} hidden{% endif %}"> Today's workouts </li>
     {% for w in todays_workouts %}
         <li class="today" id="{{ w.name }}">
-            <p class="workout_name item_name">{{ w.name }}</p>
-            {% if w.__class__.__name__ == "Rep_Set_Workout" %}
-                {% if w.sets > 1 %}
-                <span class="workouts_added_text"> {{ w.sets }} sets added </span>
+            <p class="workout_name item_name">{{ w.name }}
+
+                {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+                    {% if w.sets > 1 %}
+                    <span class="workouts_added_text"> {{ w.sets }} sets </span>
+                    {% else %}
+                    <span class="workouts_added_text"> {{ w.sets }} set </span>
+                    {% endif %}
                 {% else %}
-                <span class="workouts_added_text"> {{ w.sets }} set added </span>
+                <span class="workouts_added_text"> {{ w.time.seconds//60 }} min workout</span>
                 {% endif %}
-            {% else %}
-            <span class="workouts_added_text"> {{ w.time.seconds//60 }} min workout added </span>
-            {% endif %}
+            </p>
+
             <form id="{{ w.name }}" class="{{ w.__class__.__name__ }}">
                 <input type="hidden" name="workout_name" value="{{ w.name }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}">
@@ -54,7 +57,7 @@
                     </label>
                     <label class="workout_length">
                         <input type="tel" name="workout_length" value="{{ w.length }}">
-                        mi
+                        miles
                     </label>
                 </div>
                 {% endif %}
@@ -108,7 +111,7 @@
                     </label>
                     <label class="workout_length">
                         <input type="tel" name="workout_length">
-                        mi
+                        miles
                     </label>
                     {% endif %}
                 

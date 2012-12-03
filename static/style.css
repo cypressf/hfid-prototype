@@ -177,6 +177,7 @@ goals page
 -webkit-border-radius: 15px; 
 border-radius: 15px;
 }*/
+
 /*******************
 workout list and form
 ********************/
@@ -188,7 +189,6 @@ workout list and form
     font-weight:normal;
     padding:1em;
 }
-
 .list_wrapper h1 a{
     font-size:60%;
     float:right;
@@ -216,6 +216,13 @@ workout list and form
 }
 .list .item_name {
     cursor:pointer;
+}
+
+.list .workouts_added_text {
+    color:#e5e5e5;
+    text-shadow: -1px 0px 0 rgba(50,50,50,.3);
+    float:right;
+    margin-right:2em;
 }
 
 .list li form {
@@ -302,7 +309,7 @@ workout list and form
     margin-left:1em;
 }
 .list form .set label.workout_length input{
-    width:2em;
+    width:3em;
 }
 .list.no-done form input[type=submit]{
     display:none;

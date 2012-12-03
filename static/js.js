@@ -241,31 +241,21 @@ function submit_workout(form, validation) {
     });
 }
 
-function add_submit_text(li,num_reps_or_wo_length,wotype){
+function add_submit_text(li, num_reps_or_wo_length, wotype){
     if (wotype === "Rep_Set_Workout"){
         if (num_reps_or_wo_length > 1) {
-            var text = "<span class=\"workouts_added_text\"> {0} sets added </span>".format(num_reps_or_wo_length);
+            var text = "<span class=\"workouts_added_text\"> {0} sets </span>".format(num_reps_or_wo_length);
         }
         else {
-            var text = "<span class=\"workouts_added_text\"> {0} set added </span>".format(num_reps_or_wo_length);
+            var text = "<span class=\"workouts_added_text\"> {0} set </span>".format(num_reps_or_wo_length);
         };
     }
     else {
-        var text = "<span class=\"workouts_added_text\"> {0} min workout added </span>".format(num_reps_or_wo_length);
+        var text = "<span class=\"workouts_added_text\"> {0} min workout</span>".format(num_reps_or_wo_length);
     }
-    li.children(".workouts_added_text").remove();
-    p = li.children(".workout_name");
-    // console.log("this is the span");
-    // console.log(span);
-    // console.log("this is the span length");
-    // console.log(span.length);
-    // console.log("this is the first item in the span");
-    // console.log(span[0])
-    // if (span.length > 0){
-    //     console.log("i want to remove the span")
-    //     p.remove(".workouts_added_text");
-    // }
-    p.after(text);
+    var workout_name = li.children(".item_name");
+    workout_name.children(".workouts_added_text").remove();
+    workout_name.append(text);
 }
 
 function add_measurement() {
