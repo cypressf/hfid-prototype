@@ -6,8 +6,11 @@
     <a href="/client/{{ client.id }}/workouts/edit" id="edit_workouts" class="ios-button">Edit</a>
 </header>
 <div class="summary">
+
+{% if todays_workouts %}
+<h1> Today </h1>
+
 <ul id="todays_workouts">
-    <h1> Today </h1>
     {% for w in todays_workouts %}
         <li>
         <p class="workout_name">{{ w.name }}</p>
@@ -29,10 +32,13 @@
         </li>
     {% endfor %}
 </ul>
+{% endif %}
 
-<ul id="yeserdays_workouts">
-    <h1> Yesterday </h1>
-    {% for w in yestedays_workouts %}
+{% if yesterdays_workouts %}
+<h1> Yesterday </h1>
+
+<ul id="yesterdays_workouts">
+    {% for w in yesterdays_workouts %}
         <li>
         <p class="name">{{ w.name }}</p>
         {% if w.__class__.__name__ == "Time_Length_Workout" %}
@@ -53,6 +59,8 @@
         </li>
     {% endfor %}
 </ul>
+{% endif %}
+
 
 {% for key, val in other_workouts.iteritems() %}
 <h1>{{ key.strftime("%m/%d") }} </h1>

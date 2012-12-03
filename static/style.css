@@ -180,6 +180,24 @@ border-radius: 15px;
 /*******************
 workout list and form
 ********************/
+.list_wrapper {
+    margin: 50px 0;
+}
+.list_wrapper h1{
+    font-size:1.4em;
+    font-weight:normal;
+    padding:1em;
+}
+
+.list_wrapper h1 a{
+    font-size:60%;
+    float:right;
+}
+
+.list_wrapper h1 img{
+    margin-bottom:-7px;
+}
+
 #measurements {
     margin:50px 0;
 }
@@ -239,6 +257,11 @@ workout list and form
 .list li {
     position:relative;
 }
+
+.list li:last-child {
+    border-bottom:1px solid #c7c7c7;
+}
+
 .list li:after {
     content:">";
     display:block;

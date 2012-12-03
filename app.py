@@ -47,8 +47,8 @@ def goals(id):
 
 
 
-@app.route("/client/<id>/workouts/edit")
-def workouts(id):
+@app.route("/client/<id>/workouts/add")
+def workouts_add(id):
     client = Client.query.filter_by(id=id).first()
     client_workouts = client.workouts()
     todays_workouts = [w for w in client_workouts if w.date.date() == datetime.now().date()]
@@ -58,6 +58,28 @@ def workouts(id):
     all_workouts_edited = [w for w in all_workouts if w[0] not in todays_workouts_names and w[0] not in top_workouts_names]
     return render_template("workouts.html",client=client, top_workouts=top_workouts, all_workouts=all_workouts_edited, todays_workouts = todays_workouts)
 
+@app.route("/client/<id>/workouts/edit")
+def workouts_edit(id):
+    owner_id = int(id)
+    client = Client.query.filter_by(id=owner_id).first()
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+    time_length_workouts = Time_Length_Workout.query.filter_by(owner_id=owner_id).all()
+    rep_set_workouts = Rep_Set_Workout.query.filter_by(owner_id=owner_id).all()
+    workouts = time_length_workouts + rep_set_workouts
+    todays_workouts = [w for w in workouts if w.date.date() == today]
+    yesterdays_workouts = [w for w in workouts if w.date.date() == yesterday]
+
+    all_other_dates = get_all_other_workout_dates(owner_id)
+    date_dict = {}
+    other_workouts = [w for w in workouts if w.date.date() != yesterday and w.date.date() != today]
+    for date in all_other_dates:
+        date_dict[date] = []
+    for workout in other_workouts:
+        date_dict[workout.date.date()].append(workout)
+    return render_template("workouts_edit.html", client=client, todays_workouts = todays_workouts, yesterdays_workouts=yesterdays_workouts, other_workouts = date_dict )
+
+   
    
 @app.route("/client/<id>/measurements/<edit>")
 def measurements(id, edit):
