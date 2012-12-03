@@ -1,5 +1,15 @@
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 
+String.prototype.format = function() {
+  var args = arguments;
+  return this.replace(/{(\d+)}/g, function(match, number) { 
+    return typeof args[number] != 'undefined'
+      ? args[number]
+      : match
+    ;
+  });
+};
+
 // Hide the address bar in mobile safari
 window.addEventListener("load",function() {
   setTimeout(function(){
@@ -10,9 +20,9 @@ window.addEventListener("load",function() {
 // event listeners
 $(".workout_name").click(expand_collapse);
 $(".measurement_name").click(expand_measurement);
-$(".workouts form").submit(done_clicked);
+$("#workouts form").submit(done_clicked);
 $(".add_set").click(add_set);
-$(".workouts form").click(remove_set);
+$("#workouts form").click(remove_set);
 $("#measurements form").submit(add_measurement);
 $("#search input").focus(searchfocus);
 if ($("#search input").length > 0) {
@@ -27,7 +37,8 @@ var checks = false;
 var notification = false;
 
 var workout_inputs = $("input[type=tel]");
-for (var i = 0; i < workout_inputs.length; i++) {
+for (var i = 0; i
+< workout_inputs.length; i++) {
     console.log(workout_inputs[i]);
     workout_inputs[i].addEventListener("keyup", check_for_submit);
 }
@@ -208,11 +219,14 @@ function move_to_top(li) {
 // submit a workout to the database
 function submit_workout(form, validation) {
     // submit the data via post
+    var num_reps_or_wo_length = count_reps(form[0]);
+    var wotype = form[0].getAttribute("class");
     $.post('/api/add_workout', form.serialize(), function(data) {
         console.log(data);
         spinner_off(form);
         if (data.submitted === true ) {
             var li = form.closest("li");
+            add_submit_text(li,num_reps_or_wo_length,wotype);
             move_to_top(li);
             if(notification && validation.notification) {
                 $(document.getElementById("wo_saved_notif_div")).slideToggle();
@@ -225,6 +239,28 @@ function submit_workout(form, validation) {
             }
         }
     });
+}
+
+function add_submit_text(li,num_reps_or_wo_length,wotype){
+    if (wotype === "Rep_Set_Workout"){
+        var text = "<span class=\"workouts_added_text\"> {0} sets added </span>".format(num_reps_or_wo_length);
+    }
+    else {
+        var text = "<span class=\"workouts_added_text\"> {0} min workout added </span>".format(num_reps_or_wo_length);
+    }
+    li.children(".workouts_added_text").remove();
+    p = li.children(".workout_name");
+    // console.log("this is the span");
+    // console.log(span);
+    // console.log("this is the span length");
+    // console.log(span.length);
+    // console.log("this is the first item in the span");
+    // console.log(span[0])
+    // if (span.length > 0){
+    //     console.log("i want to remove the span")
+    //     p.remove(".workouts_added_text");
+    // }
+    p.after(text);
 }
 
 function add_measurement() {
@@ -301,6 +337,32 @@ function set_checks(bool) {
 
 function set_notification(bool) {
     notification = bool;
+}
+
+function count_reps(form){
+    console.log(form);
+    if (form.getAttribute("class")==="Rep_Set_Workout") {
+        console.log("this is a rep set workout");
+        var num_reps = 0;
+        var inputs = form.getElementsByTagName("input");
+        for (var i=0;i<inputs.length; ++i){
+            var item = inputs[i];
+            if (item.name==="reps") {
+                ++num_reps;
+            };
+        }
+        return num_reps;
+    }
+    else {
+        console.log("this is a time length workout");
+        var inputs = form.getElementsByTagName("input");
+        for (var i=0;i<inputs.length; ++i){
+            var item = inputs[i];
+            if (item.name==="workout_time"){
+                return item.value;
+            }
+        }
+    }
 }
 
 done_button(false);
