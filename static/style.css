@@ -231,6 +231,7 @@ workout list and form
     background-image:url('/static/img/delete.png');
     background-repeat:no-repeat;
     background-size:25px auto;
+    margin-top:2px;
 }
 .list li.hidden {
     display:none;
@@ -240,6 +241,7 @@ workout list and form
 }
 .list li:after {
     content:">";
+    display:block;
     position:absolute;
     right:1em;
     top:1em;
@@ -249,6 +251,7 @@ workout list and form
 }
 .list li.add:after {
     -webkit-transform:rotate(90deg);
+    transform: rotate(90deg);
 }
 
 .list form input[type=submit] {
@@ -262,8 +265,15 @@ workout list and form
 }
 
 .list form .set input, #measurements form input {
+    padding:0 0.1em;
     width:4em;
     font-size:1em;
+    line-height:25px;
+    border:1px solid #c3c3c3;
+    border-radius:0.3em;
+}
+.list form .set label {
+    color:#7e7e7e;
 }
 .list form .set label:last-child {
     margin-left:1em;
@@ -281,7 +291,12 @@ workout list and form
 .list .set.saved {
     background-image:url('/static/img/check_mark.png');
     background-repeat:no-repeat;
-    background-position:100% 0;
+    background-position:100% 2px;
+}
+
+/* hack to center spinner */
+.list .set .spinner {
+    top:13px!important;
 }
 
 .list .list-header {
