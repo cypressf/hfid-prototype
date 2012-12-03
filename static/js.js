@@ -93,6 +93,12 @@ function searchblur(){
     $("header").removeClass("hidden");
 }
 
+function clear_search() {
+    $("#search input")[0].value = "";
+    filter("");
+    $("#search").removeClass("focus");
+    $("header").removeClass("hidden");
+}
 
 // show the workout form for a workout
 function expand_collapse(){
@@ -101,6 +107,7 @@ function expand_collapse(){
         collapse_and_submit(li);
     }
     else {
+        clear_search();
         li.addClass("add");
         var sets = li[0].querySelectorAll(".set");
         var last_set = sets[sets.length -1];
