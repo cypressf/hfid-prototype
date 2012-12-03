@@ -266,9 +266,12 @@ function add_set() {
 
 // remove a set
 function remove_set(e) {
-    var el = $(e.target);
-    if( el.hasClass("remove_set") ) {
-        el.parent().remove();
+    var element = $(e.target);
+    if( element.hasClass("remove_set") ) {
+        var set = element.parent();
+        set.remove();
+        var form = set.closest("form");
+        submit_workout(form, {notification: true});
     }
     // $(this).parent().remove();
 }
