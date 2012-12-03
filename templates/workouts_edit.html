@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header>
+    <a href="/" class="ios-arrow-left ios-button">All clients</a> <h1>Edit {{ client.firstname }}'s workouts</h1>
+    <a href="/client/{{ client.id }}/workouts/list" id="done_workouts" class="ios-button">Done</a>
+</header>
+
+<div class="list_wrapper">
+<h1> Today <a href="/client/{{ client.id }}/workouts/add"><img height="25px" width="25px" src="{{ url_for('static',filename='img/add.png')}}"></img> add workouts</a> </h1>
+{% if todays_workouts %}
+<ul class="list">
+ {% for w in todays_workouts %}
+     <li class="today" id="{{ w.name }}">
+         <p class="workout_name item_name">{{ w.name }}</p>
+         <form id="{{ w.name }}" class="{{ w.__class__.__name__ }}">
+             <input type="hidden" name="workout_name" value="{{ w.name }}">
+             <input type="hidden" name="client_id" value="{{ client.id }}">
+             <input type="hidden" name="workout_type" value="{{ w.__class__.__name__ }}">
+             {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+             {% for i in range(w.sets) %}
+                 <div class="set">
+                 <a class="remove_set"></a>
+                 <label>
+                     <input type="tel" name="reps" value="{{ w.reps[i] }}">
+                     reps
+                 </label>
+                 <label>
+                     <input type="tel" name="weight" value="{{ w.weights[i] }}">
+                     lbs
+                 </label>          
+             </div>
+             {% endfor %}
+             {% else %}
+             <div class="set">
+                 <a class="remove_set"></a>
+                 <label class="workout_time">
+                     <input type="tel" name="workout_time" value="{{ w.time.seconds//60 }}">
+                     min
+                 </label>
+                 <label class="workout_length">
+                     <input type="tel" name="workout_length" value="{{ w.length }}">
+                     mi
+                 </label>
+             </div>
+             {% endif %}
+             {% if w.type == "Rep_Set_Workout" %}
+             <div class="set">
+                 <a class="remove_set"></a>
+                 <label>
+                     <input type="tel" name="reps">
+                     reps
+                 </label>
+                 <label>
+                     <input type="tel" name="weight">
+                     lbs
+                 </label>
+             </div>
+             {% endif %}
+             
+             {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+             <a class="add_set">Add set</a>
+             {% endif %}
+             <input type="submit" value="Done" class="ios-button">
+         </form>
+     </li>
+ {% endfor %}
+</ul>
+{% endif %}
+
+
+
+{% if yesterdays_workouts %}
+<h1> Yesterday  <a href="/client/{{ client.id }}/workouts/add"><img height="25px" width="25px" src="{{ url_for('static',filename='img/add.png')}}"></img> add workouts</a> </h1>
+<ul class="list">
+ {% for w in yesterdays_workouts %}
+     <li class="yesterday" id="{{ w.name }}">
+         <p class="workout_name item_name">{{ w.name }}</p>
+         <form id="{{ w.name }}" class="{{ w.__class__.__name__ }}">
+             <input type="hidden" name="workout_name" value="{{ w.name }}">
+             <input type="hidden" name="client_id" value="{{ client.id }}">
+             <input type="hidden" name="workout_type" value="{{ w.__class__.__name__ }}">
+             {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+             {% for i in range(w.sets) %}
+                 <div class="set">
+                 <a class="remove_set"></a>
+                 <label>
+                     <input type="tel" name="reps" value="{{ w.reps[i] }}">
+                     reps
+                 </label>
+                 <label>
+                     <input type="tel" name="weight" value="{{ w.weights[i] }}">
+                     lbs
+                 </label>          
+             </div>
+             {% endfor %}
+             {% else %}
+             <div class="set">
+                 <a class="remove_set"></a>
+                 <label class="workout_time">
+                     <input type="tel" name="workout_time" value="{{ w.time.seconds//60 }}">
+                     min
+                 </label>
+                 <label class="workout_length">
+                     <input type="tel" name="workout_length" value="{{ w.length }}">
+                     mi
+                 </label>
+             </div>
+             {% endif %}
+             {% if w.type == "Rep_Set_Workout" %}
+             <div class="set">
+                 <a class="remove_set"></a>
+                 <label>
+                     <input type="tel" name="reps">
+                     reps
+                 </label>
+                 <label>
+                     <input type="tel" name="weight">
+                     lbs
+                 </label>
+             </div>
+             {% endif %}
+             
+             {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+             <a class="add_set">Add set</a>
+             {% endif %}
+             <input type="submit" value="Done" class="ios-button">
+         </form>
+     </li>
+ {% endfor %}
+</ul>
+{% endif %}
+
+
+{% for key, val in other_workouts.iteritems() %}
+<h1>{{ key.strftime("%m/%d") }}  <a href="/client/{{ client.id }}/workouts/add"><img height="25px" width="25px" src="{{ url_for('static',filename='img/add.png')}}"></img> add workouts</a> </h1>
+<ul class="list">
+ {% for w in val %}
+     <li id="{{ w.name }}">
+         <p class="workout_name item_name">{{ w.name }}</p>
+         <form id="{{ w.name }}" class="{{ w.__class__.__name__ }}">
+             <input type="hidden" name="workout_name" value="{{ w.name }}">
+             <input type="hidden" name="client_id" value="{{ client.id }}">
+             <input type="hidden" name="workout_type" value="{{ w.__class__.__name__ }}">
+             {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+             {% for i in range(w.sets) %}
+                 <div class="set">
+                 <a class="remove_set"></a>
+                 <label>
+                     <input type="tel" name="reps" value="{{ w.reps[i] }}">
+                     reps
+                 </label>
+                 <label>
+                     <input type="tel" name="weight" value="{{ w.weights[i] }}">
+                     lbs
+                 </label>          
+             </div>
+             {% endfor %}
+             {% else %}
+             <div class="set">
+                 <a class="remove_set"></a>
+                 <label class="workout_time">
+                     <input type="tel" name="workout_time" value="{{ w.time.seconds//60 }}">
+                     min
+                 </label>
+                 <label class="workout_length">
+                     <input type="tel" name="workout_length" value="{{ w.length }}">
+                     mi
+                 </label>
+             </div>
+             {% endif %}
+             {% if w.type == "Rep_Set_Workout" %}
+             <div class="set">
+                 <a class="remove_set"></a>
+                 <label>
+                     <input type="tel" name="reps">
+                     reps
+                 </label>
+                 <label>
+                     <input type="tel" name="weight">
+                     lbs
+                 </label>
+             </div>
+             {% endif %}
+             
+             {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+             <a class="add_set">Add set</a>
+             {% endif %}
+             <input type="submit" value="Done" class="ios-button">
+         </form>
+     </li>
+ {% endfor %}
+</ul>
+{% endfor %}
+</div>
+
+
+<nav>
+    <ul>
+        <li><a href="/client/{{ client.id }}/measurements/list" id="measure"><p>Measure</p></a></li>
+        <li><a href="/client/{{ client.id }}/workouts/list" id="workout" class="active"><p>Workout</p></a></li>
+        <li><a href="/client/{{ client.id }}/progress" id="progress"><p>Progress</p></a></li>
+        <li><a href="/client/{{ client.id }}/goals" id="goals"><p>Goals</p></a></li>
+    </ul>
+</nav>
+{% endblock %}
