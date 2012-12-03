@@ -243,7 +243,12 @@ function submit_workout(form, validation) {
 
 function add_submit_text(li,num_reps_or_wo_length,wotype){
     if (wotype === "Rep_Set_Workout"){
-        var text = "<span class=\"workouts_added_text\"> {0} sets added </span>".format(num_reps_or_wo_length);
+        if (num_reps_or_wo_length > 1) {
+            var text = "<span class=\"workouts_added_text\"> {0} sets added </span>".format(num_reps_or_wo_length);
+        }
+        else {
+            var text = "<span class=\"workouts_added_text\"> {0} set added </span>".format(num_reps_or_wo_length);
+        };
     }
     else {
         var text = "<span class=\"workouts_added_text\"> {0} min workout added </span>".format(num_reps_or_wo_length);

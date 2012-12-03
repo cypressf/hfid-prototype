@@ -18,6 +18,15 @@
     {% for w in todays_workouts %}
         <li class="today" id="{{ w.name }}">
             <p class="workout_name item_name">{{ w.name }}</p>
+            {% if w.__class__.__name__ == "Rep_Set_Workout" %}
+                {% if w.sets > 1 %}
+                <span class="workouts_added_text"> {{ w.sets }} sets added </span>
+                {% else %}
+                <span class="workouts_added_text"> {{ w.sets }} set added </span>
+                {% endif %}
+            {% else %}
+            <span class="workouts_added_text"> {{ w.time.seconds//60 }} min workout added </span>
+            {% endif %}
             <form id="{{ w.name }}" class="{{ w.__class__.__name__ }}">
                 <input type="hidden" name="workout_name" value="{{ w.name }}">
                 <input type="hidden" name="client_id" value="{{ client.id }}">
