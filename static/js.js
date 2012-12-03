@@ -37,8 +37,7 @@ var checks = false;
 var notification = false;
 
 var workout_inputs = $("input[type=tel]");
-for (var i = 0; i
-< workout_inputs.length; i++) {
+for (var i = 0; i < workout_inputs.length; i++) {
     console.log(workout_inputs[i]);
     workout_inputs[i].addEventListener("keyup", check_for_submit);
 }
@@ -106,10 +105,12 @@ function searchblur(){
 
 // clear the search input and show all the workouts
 function clear_search() {
-    $("#search input")[0].value = "";
-    filter("");
-    $("#search").removeClass("focus");
-    $("header").removeClass("hidden");
+    if ($("#search input").length > 0) {
+        $("#search input")[0].value = "";
+        filter("");
+        $("#search").removeClass("focus");
+        $("header").removeClass("hidden");
+    }
 }
 
 // show the workout form for a workout

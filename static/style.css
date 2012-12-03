@@ -219,10 +219,12 @@ workout list and form
 }
 
 .list .workouts_added_text {
-    color:#e5e5e5;
-    text-shadow: -1px 0px 0 rgba(50,50,50,.3);
+    color:rgb(158, 158, 158);
     float:right;
-    margin-right:2em;
+    margin-right:1.5em;
+    white-space:nowrap;
+    font-size: 0.75em;
+    line-height: 1.533333em;
 }
 
 .list li form {
