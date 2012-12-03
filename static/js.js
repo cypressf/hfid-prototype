@@ -198,7 +198,9 @@ function move_to_top(li) {
 // submit a workout to the database
 function submit_workout(form, validation) {
     // submit the data via post
-    $.post('/api/add_workout', form.serialize(), function(data) {
+    var data_to_post = form.serialize();
+    console.log(data_to_post);
+    $.post('/api/add_workout', data_to_post function(data) {
         console.log(data);
         spinner_off(form);
         if (data.submitted === true ) {
