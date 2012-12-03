@@ -20,9 +20,9 @@ window.addEventListener("load",function() {
 // event listeners
 $(".workout_name").click(expand_collapse);
 $(".measurement_name").click(expand_measurement);
-$("#workouts form").submit(done_clicked);
+$(".workouts form").submit(done_clicked);
 $(".add_set").click(add_set);
-$("#workouts form").click(remove_set);
+$(".workouts form").click(remove_set);
 $("#measurements form").submit(add_measurement);
 $("#search input").focus(searchfocus);
 if ($("#search input").length > 0) {
@@ -311,8 +311,8 @@ function remove_set(e) {
     var element = $(e.target);
     if( element.hasClass("remove_set") ) {
         var set = element.parent();
-        set.remove();
         var form = set.closest("form");
+        set.remove();
         submit_workout(form, {notification: true});
     }
     // $(this).parent().remove();
