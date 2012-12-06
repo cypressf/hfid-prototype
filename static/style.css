@@ -320,10 +320,10 @@ workout list and form
     padding-bottom:0;
 }
 
-.list .set.saved {
-    background-image:url('/static/img/check_mark.png');
-    background-repeat:no-repeat;
-    background-position:100% 2px;
+.list .set.saved:after {
+    content:" \2713";
+    color:rgb(150, 238, 145);
+    padding-left:0.7em;
 }
 
 /* hack to center spinner */
