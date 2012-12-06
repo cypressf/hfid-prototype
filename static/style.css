@@ -225,6 +225,12 @@ workout list and form
     white-space:nowrap;
     font-size: 0.75em;
     line-height: 1.533333em;
+    -webkit-transition:color 1.5s;
+}
+
+.list .workouts_added_text.green {
+    color:#4fc648;
+    -webkit-transition:color 1.5s;
 }
 
 .list li form {

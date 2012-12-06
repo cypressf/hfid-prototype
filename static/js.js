@@ -245,18 +245,23 @@ function submit_workout(form, validation) {
 function add_submit_text(li, num_reps_or_wo_length, wotype){
     if (wotype === "Rep_Set_Workout"){
         if (num_reps_or_wo_length > 1) {
-            var text = "<span class=\"workouts_added_text\"> {0} sets </span>".format(num_reps_or_wo_length);
+            var text = "<span class=\"workouts_added_text\"> {0} sets saved</span>".format(num_reps_or_wo_length);
         }
         else {
-            var text = "<span class=\"workouts_added_text\"> {0} set </span>".format(num_reps_or_wo_length);
+            var text = "<span class=\"workouts_added_text\"> {0} set saved</span>".format(num_reps_or_wo_length);
         };
     }
     else {
-        var text = "<span class=\"workouts_added_text\"> {0} min workout</span>".format(num_reps_or_wo_length);
+        var text = "<span class=\"workouts_added_text\"> {0} min workout saved</span>".format(num_reps_or_wo_length);
     }
+
     var workout_name = li.children(".item_name");
+
     workout_name.children(".workouts_added_text").remove();
     workout_name.append(text);
+    var notification =  workout_name.children(".workouts_added_text");
+    notification.addClass("green");
+    setTimeout(function(){notification.removeClass("green");}, 1000);
 }
 
 function add_measurement() {
