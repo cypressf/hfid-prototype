@@ -368,7 +368,7 @@ function count_reps(form){
 
 done_button(false);
 set_checks(true);
-set_notification(true);
+set_notification(false);
 
 function spinner_off(form) {
     $(".spinner", $(form)).remove();
